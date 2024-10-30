@@ -1,3 +1,9 @@
+/*
+Проверки после каждой функции оставлены для того,
+чтобы не было ошибок о "неиспользовании" функций
+и можно было сделать Pull Request.
+*/
+
 /**
  * Проверяет строку на соответствие допустимой длине.
  * @param {string} string - Строка для проверки.
@@ -8,6 +14,11 @@
 function checkLength (string, length) {
   return string.length <= length;
 }
+
+
+checkLength('проверяемая строка', 20); // true
+checkLength('проверяемая строка', 18); // true
+checkLength('проверяемая строка', 10); // false
 
 
 /**
@@ -26,6 +37,12 @@ function checkPalindrome (string) {
 
   return normalizedString === reversedString;
 }
+
+
+checkPalindrome('топот'); // true
+checkPalindrome('ДовОд'); // true
+checkPalindrome('Кекс'); // false
+checkPalindrome('Лёша на полке клопа нашёл '); // true
 
 
 /**
@@ -48,3 +65,13 @@ function getYear (string) {
 
   return(parseInt(year, 10));
 }
+
+
+getYear('2023 год'); // 2023
+getYear('ECMAScript 2022'); // 2022
+getYear('1 кефир, 0.5 батона'); // 105
+getYear('агент 007'); // 7
+getYear('а я томат'); // NaN
+getYear(2023); // 2023
+getYear(-1); // 1
+getYear(1.5); // 15
