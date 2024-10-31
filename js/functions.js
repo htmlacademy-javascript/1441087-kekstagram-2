@@ -11,14 +11,17 @@
  * @returns {boolean} Прошла ли строка проверку.
  * @author FortySixAnd2
  */
-function checkLength (string, length) {
+function checkLength (string = '', length = 1) {
   return string.length <= length;
 }
 
 
-checkLength('проверяемая строка', 20); // true
-checkLength('проверяемая строка', 18); // true
-checkLength('проверяемая строка', 10); // false
+/*
+console.log(checkLength()); // true
+console.log(checkLength('проверяемая строка', 20)); // true
+console.log(checkLength('проверяемая строка', 18)); // true
+console.log(checkLength('проверяемая строка', 10)); // false
+*/
 
 
 /**
@@ -27,7 +30,7 @@ checkLength('проверяемая строка', 10); // false
  * @returns {boolean} Является ли строка палиндромом.
  * @author FortySixAnd2
  */
-function checkPalindrome (string) {
+function checkPalindrome (string = '') {
   const normalizedString = string.replaceAll(' ', '').toLowerCase();
   let reversedString = '';
 
@@ -38,12 +41,13 @@ function checkPalindrome (string) {
   return normalizedString === reversedString;
 }
 
-
-checkPalindrome('топот'); // true
-checkPalindrome('ДовОд'); // true
-checkPalindrome('Кекс'); // false
-checkPalindrome('Лёша на полке клопа нашёл '); // true
-
+/*
+console.log(checkPalindrome()); // true
+console.log(checkPalindrome('топот')); // true
+console.log(checkPalindrome('ДовОд')); // true
+console.log(checkPalindrome('Кекс')); // false
+console.log(checkPalindrome('Лёша на полке клопа нашёл ')); // true
+*/
 
 /**
  * Принимает строку, извлекает содержащиеся в ней цифры от 0 до 9
@@ -53,7 +57,7 @@ checkPalindrome('Лёша на полке клопа нашёл '); // true
  * @returns {number} Целое число, состоящее из цифр в строке.
  * @author FortySixAnd2
  */
-function getYear (string) {
+function getYear (string = '') {
   let year = '';
   string = string.toString(); // Преобразуем входной атрибут в строку, чтобы функция обрабатывала и числа.
 
@@ -63,15 +67,18 @@ function getYear (string) {
     year = (isNumber) ? year += parseLetter : year;
   }
 
-  return(parseInt(year, 10));
+  return (parseInt(year, 10));
 }
 
 
-getYear('2023 год'); // 2023
-getYear('ECMAScript 2022'); // 2022
-getYear('1 кефир, 0.5 батона'); // 105
-getYear('агент 007'); // 7
-getYear('а я томат'); // NaN
-getYear(2023); // 2023
-getYear(-1); // 1
-getYear(1.5); // 15
+/*
+console.log(getYear()); // NaN
+console.log(getYear('2023 год')); // 2023
+console.log(getYear('ECMAScript 2022')); // 2022
+console.log(getYear('1 кефир, 0.5 батона')); // 105
+console.log(getYear('агент 007')); // 7
+console.log(getYear('а я томат')); // NaN
+console.log(getYear(2023)); // 2023
+console.log(getYear(-1)); // 1
+console.log(getYear(1.5)); // 15
+*/
