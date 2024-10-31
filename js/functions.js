@@ -16,6 +16,7 @@ function checkLength (string = '', length = 1) {
 }
 
 
+checkLength();
 /*
 console.log(checkLength()); // true
 console.log(checkLength('проверяемая строка', 20)); // true
@@ -41,6 +42,8 @@ function checkPalindrome (string = '') {
   return normalizedString === reversedString;
 }
 
+
+checkPalindrome();
 /*
 console.log(checkPalindrome()); // true
 console.log(checkPalindrome('топот')); // true
@@ -48,6 +51,7 @@ console.log(checkPalindrome('ДовОд')); // true
 console.log(checkPalindrome('Кекс')); // false
 console.log(checkPalindrome('Лёша на полке клопа нашёл ')); // true
 */
+
 
 /**
  * Принимает строку, извлекает содержащиеся в ней цифры от 0 до 9
@@ -70,7 +74,7 @@ function getYear (string = '') {
   return (parseInt(year, 10));
 }
 
-
+getYear();
 /*
 console.log(getYear()); // NaN
 console.log(getYear('2023 год')); // 2023
