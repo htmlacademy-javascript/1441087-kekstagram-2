@@ -59,6 +59,11 @@ const COMMENT_MESSAGES = [
 ];
 
 const PHOTO_COUNT = 25;
+const LIKES_MIN = 15;
+const LIKES_MAX = 200;
+const AVATARS_COUNT = 6;
+const COMMENTS_MAX = 30;
+const COMMENTS_MAX_ID = 10000;
 
 
 /**
@@ -85,8 +90,8 @@ const getRandomArreyElement = (elements) => elements[getRandomInteger(0, element
 
 
 /**
- * Создаёт генератор уникальных ID. Каждый генератор принимает диапазон значений,
- * из которых он будет случайным образом выбирать ID. Когда значения в диапазоне
+ * Создаёт генератор случайных ID. Генератор принимает диапазон значений,
+ * из которого он будет выбирать значения случайным образом. Когда значения в диапазоне
  * закончатся — будет возвращаться null.
  * @param {number} min - минимальное значение.
  * @param {number} max - максимальное значение.
@@ -109,8 +114,27 @@ const createRandomIdFromRangeGenerator = (min, max) => {
 };
 
 
-const generatePhotoId = createRandomIdFromRangeGenerator(1, PHOTO_COUNT);
-const generateCommentId = createRandomIdFromRangeGenerator(1, 10000);
+/**
+ * Создаёт генератор ID по порядку от 1 до заданного значения.
+ * Когда значения в диапазоне закончатся — будет возвращаться null.
+ * @param {number} max - максимальное значение.
+ * @returns {number} очередной ID по порядку.
+ */
+const createIdGenerator = (max) => {
+  let currentValue = 0;
+
+  return function () {
+    if (currentValue >= max) {
+      return null;
+    }
+    currentValue += 1;
+    return currentValue;
+  };
+};
+
+
+const generatePhotoId = createIdGenerator(PHOTO_COUNT);
+const generateCommentId = createRandomIdFromRangeGenerator(1, COMMENTS_MAX_ID);
 
 
 /**
@@ -119,7 +143,7 @@ const generateCommentId = createRandomIdFromRangeGenerator(1, 10000);
  */
 const createComment = () => ({
   id: generateCommentId(),
-  avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
+  avatar: `img/avatar-${getRandomInteger(1, AVATARS_COUNT)}.svg`,
   message: getRandomArreyElement(COMMENT_MESSAGES),
   name: getRandomArreyElement(NAMES)
 });
@@ -135,13 +159,12 @@ const createPhoto = () => {
     id: photoId,
     url: `photos/${photoId}.jpg`,
     description: getRandomArreyElement(PHOTO_DESCRIPTIONS),
-    likes: getRandomInteger(15, 200),
-    comments: Array.from({length: getRandomInteger(0, 30)}, createComment)
+    likes: getRandomInteger(LIKES_MIN, LIKES_MAX),
+    comments: Array.from({length: getRandomInteger(0, COMMENTS_MAX)}, createComment)
   };
 
   return photo;
 };
 
 const photos = Array.from({length: PHOTO_COUNT}, createPhoto);
-
 photos();
