@@ -3,7 +3,7 @@
  * @param {string} timeString Строка со временем вида '08:30'.
  * @returns {number} Время в минутах.
  */
-const convertTimeStringToMinutes = (timeString) => {
+const convertTimeStringToMinutes = (timeString = '') => {
   const timeParts = timeString.split(':');
   const timeMinutes = (timeParts[0] * 60) + +timeParts[1];
   return timeMinutes;
