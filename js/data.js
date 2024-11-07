@@ -67,10 +67,12 @@ const COMMENT_MESSAGES = [
 
 const PHOTO_COUNT = 25;
 const PHOTO_COMMENTS_MAX = 30;
-const LIKES_MIN = 15;
-const LIKES_MAX = 200;
-const AVATARS_COUNT = 6;
+const PHOTO_LIKES = {
+  MIN: 15,
+  MAX: 200
+};
 const COMMENTS_MAX_ID = 10000;
+const AVATARS_COUNT = 6;
 
 
 const generateCommentId = createRandomIdFromRangeGenerator(1, COMMENTS_MAX_ID);
@@ -97,7 +99,7 @@ const createPhoto = () => {
     id: photoId,
     url: `photos/${photoId}.jpg`,
     description: getRandomArreyElement(PHOTO_DESCRIPTIONS),
-    likes: getRandomInteger(LIKES_MIN, LIKES_MAX),
+    likes: getRandomInteger(PHOTO_LIKES.MIN, PHOTO_LIKES.MAX),
     comments: Array.from({length: getRandomInteger(0, PHOTO_COMMENTS_MAX)}, createComment)
   };
 
