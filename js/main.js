@@ -1,3 +1,3 @@
-import {createPhotosArray} from './data.js';
+import {createPhotos} from './data.js';
 
-createPhotosArray();
+createPhotos();
