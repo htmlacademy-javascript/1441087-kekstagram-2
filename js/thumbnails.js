@@ -24,18 +24,19 @@ const createThumbnail = (photo) => {
 };
 
 /**
- * Создаёт список превью фотографий.
+ * Вставляет превью фотографий на страницу.
  * @param {object} photos Список фотографий.
  */
-const createThumbnailList = (photos) => {
+const insertThumbnails = (photos) => {
   const pictures = document.querySelector('.pictures');
-  const thumbnailListFragment = document.createDocumentFragment();
+  const thumbnailsFragment = document.createDocumentFragment();
 
-  for (let i = 0; i < photos.length; i++) {
-    const thumbnail = createThumbnail(photos[i]);
-    thumbnailListFragment.append(thumbnail);
-  }
-  pictures.append(thumbnailListFragment);
+  photos.forEach((photo) => {
+    const thumbnail = createThumbnail(photo);
+    thumbnailsFragment.append(thumbnail);
+  });
+
+  pictures.append(thumbnailsFragment);
 };
 
-createThumbnailList(generatedPhotos);
+insertThumbnails(generatedPhotos);
