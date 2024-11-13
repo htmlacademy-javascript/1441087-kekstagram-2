@@ -29,11 +29,13 @@ const createThumbnail = (photo) => {
  */
 const createThumbnailList = (photos) => {
   const pictures = document.querySelector('.pictures');
+  const thumbnailListFragment = document.createDocumentFragment();
 
   for (let i = 0; i < photos.length; i++) {
     const thumbnail = createThumbnail(photos[i]);
-    pictures.append(thumbnail);
+    thumbnailListFragment.append(thumbnail);
   }
+  pictures.append(thumbnailListFragment);
 };
 
 createThumbnailList(generatedPhotos);
