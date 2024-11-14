@@ -1,4 +1,4 @@
-import { getMockData } from './data.js';
+import { getMockData } from './mock-data.js';
 import {
   getRandomInteger,
   getRandomArreyElement,

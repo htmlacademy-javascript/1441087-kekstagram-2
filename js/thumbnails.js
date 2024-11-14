@@ -1,4 +1,4 @@
-import {generatedPhotos} from './create-photos.js';
+import {generatedPhotos} from './generate-photos.js';
 
 const thumbnailTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
