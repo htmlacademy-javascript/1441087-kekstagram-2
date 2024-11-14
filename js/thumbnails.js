@@ -1,6 +1,30 @@
-import {generatedPhotos} from './generate-photos.js';
+import { generatedPhotos } from './generate-photos.js';
+import { fullPhotoNodes, bodyNode } from './big-photo.js';
+
 
 const thumbnailTemplate = document.querySelector('#picture').content.querySelector('.picture');
+
+/**
+ * Открывает фотографию на весь экран.
+ * @param {Node} thumbnail Миниатюра фотографии.
+ */
+const openPhoto = (photo) => {
+  fullPhotoNodes.bigPictureImg.src = photo.url;
+  fullPhotoNodes.bigPictureImg.alt = photo.description;
+  fullPhotoNodes.socialCaption.textContent = photo.description;
+  fullPhotoNodes.likesCount.textContent = photo.likes;
+  fullPhotoNodes.bigPicture.classList.remove('hidden');
+  bodyNode.classList.add('modal-open');
+};
+
+/**
+ * Обрабатывает событие нажатия на миниатюру фотографии.
+ * @param {object} evt
+ */
+const onThumbnailClick = (evt, photo) => {
+  evt.preventDefault();
+  openPhoto(photo);
+};
 
 /**
  * Создаёт превью фотографии по шаблону.
@@ -19,6 +43,10 @@ const createThumbnail = (photo) => {
 
   const thumbnailLikesCount = thumbnail.querySelector('.picture__likes');
   thumbnailLikesCount.textContent = photo.likes;
+
+  thumbnail.addEventListener('click', (evt) => {
+    onThumbnailClick(evt, photo);
+  });
 
   return thumbnail;
 };
