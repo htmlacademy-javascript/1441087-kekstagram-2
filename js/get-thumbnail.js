@@ -13,24 +13,24 @@ const onThumbnailClick = (evt, photo) => {
 
 /**
  * Создаёт превью фотографии по шаблону.
- * @param {object} photo Фотография.
+ * @param {object} photoData Фотография.
  * @returns
  */
-const getThumbnail = (photo) => {
+const getThumbnail = (photoData) => {
   const thumbnail = thumbnailTemplate.cloneNode(true);
 
   const thumbnailPicture = thumbnail.querySelector('.picture__img');
-  thumbnailPicture.src = photo.url;
-  thumbnailPicture.alt = photo.description;
+  thumbnailPicture.src = photoData.url;
+  thumbnailPicture.alt = photoData.description;
 
   const thumbnailCommentsCount = thumbnail.querySelector('.picture__comments');
-  thumbnailCommentsCount.textContent = photo.comments.length;
+  thumbnailCommentsCount.textContent = photoData.comments.length;
 
   const thumbnailLikesCount = thumbnail.querySelector('.picture__likes');
-  thumbnailLikesCount.textContent = photo.likes;
+  thumbnailLikesCount.textContent = photoData.likes;
 
   thumbnail.addEventListener('click', (evt) => {
-    onThumbnailClick(evt, photo);
+    onThumbnailClick(evt, photoData);
   });
 
   return thumbnail;

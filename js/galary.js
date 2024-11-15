@@ -9,8 +9,8 @@ const insertThumbnails = (photos) => {
   const pictures = document.querySelector('.pictures');
   const thumbnailsFragment = document.createDocumentFragment();
 
-  photos.forEach((photo) => {
-    const thumbnail = getThumbnail(photo);
+  photos.forEach((photoData) => {
+    const thumbnail = getThumbnail(photoData);
     thumbnailsFragment.append(thumbnail);
   });
 

@@ -1,3 +1,4 @@
+import { insertCommentList } from './get-comment-list.js';
 import { isEscapeKey } from './util.js';
 
 const bigPicture = document.querySelector('.big-picture');
@@ -42,13 +43,14 @@ function closePhoto () {
 
 /**
  * Открывает фотографию на весь экран.
- * @param {object} photo Фотография.
+ * @param {object} photoData Данные фотографии.
  */
-function openPhoto (photo) {
-  bigPictureImg.src = photo.url;
-  bigPictureImg.alt = photo.description;
-  socialCaption.textContent = photo.description;
-  likesCount.textContent = photo.likes;
+function openPhoto (photoData) {
+  bigPictureImg.src = photoData.url;
+  bigPictureImg.alt = photoData.description;
+  socialCaption.textContent = photoData.description;
+  likesCount.textContent = photoData.likes;
+  insertCommentList(photoData);
   bigPicture.classList.remove('hidden');
   bodyNode.classList.add('modal-open');
   bigPictureCancel.addEventListener('click', onPhotoCloseClick);
