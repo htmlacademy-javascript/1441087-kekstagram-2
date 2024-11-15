@@ -3,7 +3,7 @@ import {
   getRandomInteger,
   getRandomArreyElement,
   getRandomIdFromRangeGenerator,
-  createIdGenerator
+  getIdGenerator
 } from './util.js';
 
 
@@ -31,7 +31,7 @@ const createComment = () => ({
 });
 
 
-const generatePhotoId = createIdGenerator(PHOTO_COUNT);
+const generatePhotoId = getIdGenerator(PHOTO_COUNT);
 /**
  * Создаёт фото со случайным набором свойств.
  * @returns {object} Фото.

@@ -10,13 +10,19 @@ const socialComments = bigPicture.querySelector('.social__comments');
 const socialCaption = bigPicture.querySelector('.social__caption');
 const bodyNode = document.querySelector('body');
 
-
+/**
+ * Обрабатывает событие закрытия фотографии через иконку.
+ * @param {object} evt Событие.
+ */
 const onPhotoCloseClick = (evt) => {
   evt.preventDefault();
   closePhoto();
 };
 
-
+/**
+ * Обрабатывает событие закрытия фотографии через Escape.
+ * @param {object} evt Событие.
+ */
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
@@ -24,7 +30,9 @@ const onDocumentKeydown = (evt) => {
   }
 };
 
-
+/**
+ * Закрывает полноэкранную фотографию.
+ */
 function closePhoto () {
   bigPicture.classList.add('hidden');
   bodyNode.classList.remove('modal-open');
@@ -32,10 +40,9 @@ function closePhoto () {
   document.removeEventListener('keydown', onDocumentKeydown);
 }
 
-
 /**
  * Открывает фотографию на весь экран.
- * @param {Node} thumbnail Миниатюра фотографии.
+ * @param {object} photo Фотография.
  */
 function openPhoto (photo) {
   bigPictureImg.src = photo.url;
@@ -47,6 +54,5 @@ function openPhoto (photo) {
   bigPictureCancel.addEventListener('click', onPhotoCloseClick);
   document.addEventListener('keydown', onDocumentKeydown);
 }
-
 
 export { openPhoto };

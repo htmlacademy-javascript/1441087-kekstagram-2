@@ -1,5 +1,5 @@
 import { generatedPhotos } from './generate-photos.js';
-import { getThumbnail } from './thumbnails.js';
+import { getThumbnail } from './get-thumbnail.js';
 
 /**
  * Вставляет превью фотографий на страницу.

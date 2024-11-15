@@ -1,8 +1,6 @@
 import { openPhoto } from './open-photo.js';
 
-
 const thumbnailTemplate = document.querySelector('#picture').content.querySelector('.picture');
-
 
 /**
  * Обрабатывает событие нажатия на миниатюру фотографии.
