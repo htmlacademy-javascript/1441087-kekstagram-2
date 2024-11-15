@@ -48,7 +48,7 @@ const createIdGenerator = (max) => {
  * @param {number} max - максимальное значение.
  * @returns {number} уникальный ID из диапазона.
  */
-const createRandomIdFromRangeGenerator = (min, max) => {
+const getRandomIdFromRangeGenerator = (min, max) => {
   const previousValues = [];
 
   return function () {
@@ -65,9 +65,13 @@ const createRandomIdFromRangeGenerator = (min, max) => {
 };
 
 
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
+
 export {
   getRandomInteger,
   getRandomArreyElement,
+  getRandomIdFromRangeGenerator,
   createIdGenerator,
-  createRandomIdFromRangeGenerator
+  isEscapeKey
 };

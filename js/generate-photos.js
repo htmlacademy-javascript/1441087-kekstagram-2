@@ -2,8 +2,8 @@ import { getMockData } from './mock-data.js';
 import {
   getRandomInteger,
   getRandomArreyElement,
-  createIdGenerator,
-  createRandomIdFromRangeGenerator
+  getRandomIdFromRangeGenerator,
+  createIdGenerator
 } from './util.js';
 
 
@@ -18,7 +18,7 @@ const AVATARS_COUNT = 6;
 const {NAMES, PHOTO_DESCRIPTIONS, COMMENT_MESSAGES} = getMockData();
 
 
-const generateCommentId = createRandomIdFromRangeGenerator(1, COMMENTS_MAX_ID);
+const generateCommentId = getRandomIdFromRangeGenerator(1, COMMENTS_MAX_ID);
 /**
  * Создаёт комментарий со случайным набором свойств.
  * @returns {object} Комментарий.
@@ -51,4 +51,4 @@ const createPhoto = () => {
 
 const generatedPhotos = Array.from({length: PHOTO_COUNT}, createPhoto);
 
-export {generatedPhotos};
+export { generatedPhotos };

@@ -1,21 +1,8 @@
-import { generatedPhotos } from './generate-photos.js';
-import { fullPhotoNodes, bodyNode } from './big-photo.js';
+import { openPhoto } from './open-photo.js';
 
 
 const thumbnailTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
-/**
- * Открывает фотографию на весь экран.
- * @param {Node} thumbnail Миниатюра фотографии.
- */
-const openPhoto = (photo) => {
-  fullPhotoNodes.bigPictureImg.src = photo.url;
-  fullPhotoNodes.bigPictureImg.alt = photo.description;
-  fullPhotoNodes.socialCaption.textContent = photo.description;
-  fullPhotoNodes.likesCount.textContent = photo.likes;
-  fullPhotoNodes.bigPicture.classList.remove('hidden');
-  bodyNode.classList.add('modal-open');
-};
 
 /**
  * Обрабатывает событие нажатия на миниатюру фотографии.
@@ -31,7 +18,7 @@ const onThumbnailClick = (evt, photo) => {
  * @param {object} photo Фотография.
  * @returns
  */
-const createThumbnail = (photo) => {
+const getThumbnail = (photo) => {
   const thumbnail = thumbnailTemplate.cloneNode(true);
 
   const thumbnailPicture = thumbnail.querySelector('.picture__img');
@@ -51,20 +38,4 @@ const createThumbnail = (photo) => {
   return thumbnail;
 };
 
-/**
- * Вставляет превью фотографий на страницу.
- * @param {object} photos Список фотографий.
- */
-const insertThumbnails = (photos) => {
-  const pictures = document.querySelector('.pictures');
-  const thumbnailsFragment = document.createDocumentFragment();
-
-  photos.forEach((photo) => {
-    const thumbnail = createThumbnail(photo);
-    thumbnailsFragment.append(thumbnail);
-  });
-
-  pictures.append(thumbnailsFragment);
-};
-
-insertThumbnails(generatedPhotos);
+export { getThumbnail };
