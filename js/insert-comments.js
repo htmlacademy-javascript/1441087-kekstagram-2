@@ -7,7 +7,7 @@ const socialCommentsFragment = document.createDocumentFragment();
  * Вставляет на страницу комментарии для переданной фотографии.
  * @param {object} photoData Данные фотографии.
  */
-const insertCommentList = (photoData) => {
+const insertComments = (photoData) => {
   // Очищаем разметку от комментариев, которые есть в вёрстке.
   while (socialComments.firstChild) {
     socialComments.removeChild(socialComments.firstChild);
@@ -20,4 +20,4 @@ const insertCommentList = (photoData) => {
   socialComments.append(socialCommentsFragment);
 };
 
-export { insertCommentList };
+export { insertComments };

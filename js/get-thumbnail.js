@@ -6,9 +6,9 @@ const thumbnailTemplate = document.querySelector('#picture').content.querySelect
  * Обрабатывает событие нажатия на миниатюру фотографии.
  * @param {object} evt
  */
-const onThumbnailClick = (evt, photo) => {
+const onThumbnailClick = (evt, photoData) => {
   evt.preventDefault();
-  openPhoto(photo);
+  openPhoto(photoData);
 };
 
 /**
