@@ -27,7 +27,7 @@ const getRandomArreyElement = (elements) => elements[getRandomInteger(0, element
  * @param {number} max - максимальное значение.
  * @returns {number} очередной ID по порядку.
  */
-const createIdGenerator = (max) => {
+const getIdGenerator = (max) => {
   let currentValue = 0;
 
   return function () {
@@ -48,7 +48,7 @@ const createIdGenerator = (max) => {
  * @param {number} max - максимальное значение.
  * @returns {number} уникальный ID из диапазона.
  */
-const createRandomIdFromRangeGenerator = (min, max) => {
+const getRandomIdFromRangeGenerator = (min, max) => {
   const previousValues = [];
 
   return function () {
@@ -65,9 +65,18 @@ const createRandomIdFromRangeGenerator = (min, max) => {
 };
 
 
+/**
+ * Является ли нажатая в событии клавиша клавишей Escape.
+ * @param {object} evt Событие.
+ * @returns
+ */
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
+
 export {
   getRandomInteger,
   getRandomArreyElement,
-  createIdGenerator,
-  createRandomIdFromRangeGenerator
+  getRandomIdFromRangeGenerator,
+  getIdGenerator,
+  isEscapeKey
 };
