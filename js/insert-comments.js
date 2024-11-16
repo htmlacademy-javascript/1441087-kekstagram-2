@@ -1,6 +1,5 @@
 import { getComment } from './get-comment.js';
 
-
 const socialComments = document.querySelector('.social__comments');
 const socialCommentsFragment = document.createDocumentFragment();
 
@@ -9,13 +8,10 @@ const socialCommentsFragment = document.createDocumentFragment();
  * Вставляет на страницу комментарии для переданной фотографии.
  * @param {object} photoData Данные фотографии.
  */
-const insertComments = (photoData) => {
-  // Очищаем разметку от комментариев, которые есть в вёрстке.
-  while (socialComments.firstChild) {
-    socialComments.removeChild(socialComments.firstChild);
-  }
+const insertComments = (photoData, commentsFrom, commentsTo) => {
+  const commentsToDisplay = photoData.comments.slice(commentsFrom, commentsTo);
 
-  photoData.comments.forEach((commentData) => {
+  commentsToDisplay.forEach((commentData) => {
     socialCommentsFragment.append(getComment(commentData));
   });
 

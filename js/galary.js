@@ -1,4 +1,4 @@
-import { generatedPhotos } from './generate-photos.js';
+import { mockPhotos } from './mock-photos.js';
 import { getThumbnail } from './get-thumbnail.js';
 
 
@@ -18,4 +18,4 @@ const insertThumbnails = (photos) => {
   pictures.append(thumbnailsFragment);
 };
 
-insertThumbnails(generatedPhotos);
+insertThumbnails(mockPhotos);

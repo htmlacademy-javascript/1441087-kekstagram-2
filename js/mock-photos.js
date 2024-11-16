@@ -49,6 +49,6 @@ const createPhoto = () => {
   return photo;
 };
 
-const generatedPhotos = Array.from({length: PHOTO_COUNT}, createPhoto);
+const mockPhotos = Array.from({length: PHOTO_COUNT}, createPhoto);
 
-export { generatedPhotos };
+export { mockPhotos };

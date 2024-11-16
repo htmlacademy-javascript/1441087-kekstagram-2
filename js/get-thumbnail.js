@@ -21,6 +21,7 @@ const onThumbnailClick = (evt, photoData) => {
  */
 const getThumbnail = (photoData) => {
   const thumbnail = thumbnailTemplate.cloneNode(true);
+  thumbnail.dataset.id = photoData.id;
 
   const thumbnailPicture = thumbnail.querySelector('.picture__img');
   thumbnailPicture.src = photoData.url;
