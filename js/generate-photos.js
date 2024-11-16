@@ -40,7 +40,7 @@ const createPhoto = () => {
   const photoId = generatePhotoId();
   const photo = {
     id: photoId,
-    url: `photos/${photoId}.jpg`,
+    url: `./photos/${photoId}.jpg`,
     description: getRandomArreyElement(PHOTO_DESCRIPTIONS),
     likes: getRandomInteger(PHOTO_LIKES.MIN, PHOTO_LIKES.MAX),
     comments: Array.from({length: getRandomInteger(0, PHOTO_COMMENTS_MAX)}, createComment)
