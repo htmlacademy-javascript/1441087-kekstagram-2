@@ -1,5 +1,19 @@
 import { mockPhotos } from './mock-photos.js';
 import { getThumbnail } from './get-thumbnail.js';
+import { openPhoto } from './big-photo.js';
+
+
+const picturesContainer = document.querySelector('.pictures');
+
+
+picturesContainer.addEventListener('click', (evt) => {
+  const currentPhoto = evt.target.closest('.picture');
+
+  if (currentPhoto) {
+    evt.preventDefault();
+    openPhoto(mockPhotos[currentPhoto.dataset.photoId]);
+  }
+});
 
 
 /**

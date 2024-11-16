@@ -11,7 +11,7 @@ const getComment = (commentData) => {
   const commentImg = comment.querySelector('img');
   const commentMessage = comment.querySelector('p');
 
-  comment.dataset.id = commentData.id;
+  comment.dataset.commentId = commentData.id;
   commentImg.src = commentData.avatar;
   commentImg.alt = commentData.name;
   commentMessage.textContent = commentData.message;
