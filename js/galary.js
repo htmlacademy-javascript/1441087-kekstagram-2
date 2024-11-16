@@ -1,17 +1,17 @@
 import { mockPhotos } from './mock-photos.js';
 import { getThumbnail } from './get-thumbnail.js';
-import { openPhoto } from './big-photo.js';
+import { openPhoto } from './big-picture.js';
 
 
 const picturesContainer = document.querySelector('.pictures');
 
-
+// Отслеживает нажатие на миниатюру фотографии.
 picturesContainer.addEventListener('click', (evt) => {
   const currentPhoto = evt.target.closest('.picture');
 
   if (currentPhoto) {
     evt.preventDefault();
-    openPhoto(mockPhotos[currentPhoto.dataset.photoId]);
+    openPhoto(mockPhotos.find((photo) => photo.id === Number(currentPhoto.dataset.photoId)));
   }
 });
 

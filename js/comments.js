@@ -8,56 +8,52 @@ const commentsLoader = bigPicture.querySelector('.comments-loader');
 
 
 const COMMENTS_SHOW_STEP = 5;
-const socialCommentsFragment = document.createDocumentFragment();
-const showComments = {
+let showComments = {
   from: 0,
   to: COMMENTS_SHOW_STEP
 };
+let comments = [];
 
 
+const showMoreComments = () => {
+  const commentsToDisplay = comments.slice(showComments.from, showComments.to);
 
+  commentsToDisplay.forEach((commentData) => {
+    socialComments.append(getComment(commentData));
+  });
 
+  showComments = {
+    from: showComments.from += COMMENTS_SHOW_STEP,
+    to: showComments.to += COMMENTS_SHOW_STEP
+  };
 
+  const CommentShownCount = socialComments.children.length;
+  socialCommentShownCount.textContent = CommentShownCount;
 
-commentsLoader.addEventListener('click', onCommentsLoaderClick);
-
-socialCommentTotalCount.textContent = photoData.comments.length;
-socialCommentShownCount.textContent = COMMENTS_SHOW_STEP;
-
-commentsLoader.addEventListener('click', () => {
-  showMoreComments (photoData, showComments);
-});
-
+  if (CommentShownCount === comments.length) {
+    commentsLoader.classList.add('hidden');
+  }
+};
 
 
 /**
  * Вставляет на страницу комментарии для переданной фотографии.
  * @param {object} photoData Данные фотографии.
  */
-const insertComments = (photoData, commentsFrom, commentsTo) => {
-  const commentsToDisplay = photoData.comments.slice(commentsFrom, commentsTo);
+const insertComments = (photoData) => {
+  comments = photoData.comments;
 
-  commentsToDisplay.forEach((commentData) => {
-    socialCommentsFragment.append(getComment(commentData));
-  });
-
-  socialComments.append(socialCommentsFragment);
+  socialCommentTotalCount.textContent = photoData.comments.length;
+  showMoreComments();
 };
 
 
 const cleanComments = () => {
   socialComments.insertAdjacentHTML = '';
-  socialCommentsFragment.insertAdjacentHTML = '';
   socialCommentTotalCount.textContent = '';
   socialCommentShownCount.textContent = '';
   commentsLoader.classList.remove('hidden');
-  commentsLoader.removeEventListener('click', insertComments);
 };
 
 
-function onCommentsLoaderClick (evt) {
-  evt.preventDefault();
-  showMoreComments (this.photoData, this.showComments);
-}
-
-export { insertComments, cleanComments };
+export { insertComments, showMoreComments, cleanComments };

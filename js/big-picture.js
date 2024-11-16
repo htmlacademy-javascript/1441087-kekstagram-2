@@ -1,5 +1,9 @@
 import { isEscapeKey } from './util.js';
-import { insertComments, cleanComments } from './comments.js';
+import {
+  insertComments,
+  showMoreComments,
+  cleanComments
+} from './comments.js';
 
 
 const bigPicture = document.querySelector('.big-picture');
@@ -7,11 +11,12 @@ const bigPictureImg = bigPicture.querySelector('.big-picture__img img');
 const bigPictureCancel = bigPicture.querySelector('.big-picture__cancel');
 const likesCount = bigPicture.querySelector('.likes-count');
 const socialCaption = bigPicture.querySelector('.social__caption');
+const commentsLoader = bigPicture.querySelector('.comments-loader');
 const bodyNode = document.querySelector('body');
 
 
 /**
- * Обрабатывает событие закрытия фотографии через иконку.
+ * Обрабатывает закрытие фотографии через иконку.
  * @param {object} evt Событие.
  */
 const onPhotoCloseClick = (evt) => {
@@ -21,7 +26,7 @@ const onPhotoCloseClick = (evt) => {
 
 
 /**
- * Обрабатывает событие закрытия фотографии через Escape.
+ * Обрабатывает закрытие фотографии через Escape.
  * @param {object} evt Событие.
  */
 const onDocumentKeydown = (evt) => {
@@ -29,6 +34,16 @@ const onDocumentKeydown = (evt) => {
     evt.preventDefault();
     closePhoto();
   }
+};
+
+
+/**
+ * Обрабатывает прогрузку очередных комментариев.
+ * @param {object} evt
+ */
+const onCommentsLoaderClick = (evt) => {
+  evt.preventDefault();
+  showMoreComments();
 };
 
 
@@ -47,6 +62,7 @@ function closePhoto () {
   bodyNode.classList.remove('modal-open');
 
   bigPictureCancel.removeEventListener('click', onPhotoCloseClick);
+  commentsLoader.removeEventListener('click', onCommentsLoaderClick);
   document.removeEventListener('keydown', onDocumentKeydown);
 }
 
@@ -67,6 +83,7 @@ function openPhoto (photoData) {
   bodyNode.classList.add('modal-open');
 
   bigPictureCancel.addEventListener('click', onPhotoCloseClick);
+  commentsLoader.addEventListener('click', onCommentsLoaderClick);
   document.addEventListener('keydown', onDocumentKeydown);
 }
 
