@@ -38,7 +38,7 @@ const onDocumentKeydown = (evt) => {
 
 /**
  * Обрабатывает прогрузку очередных комментариев.
- * @param {object} evt
+ * @param {object} evt Событие.
  */
 const onCommentsLoaderClick = (evt) => {
   evt.preventDefault();

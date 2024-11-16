@@ -1,5 +1,6 @@
 import { getComment } from './get-comment.js';
 
+
 const bigPicture = document.querySelector('.big-picture');
 const socialComments = bigPicture.querySelector('.social__comments');
 const socialCommentTotalCount = bigPicture.querySelector('.social__comment-total-count');
@@ -8,24 +9,18 @@ const commentsLoader = bigPicture.querySelector('.comments-loader');
 
 
 const COMMENTS_SHOW_STEP = 5;
-let showComments = {
-  from: 0,
-  to: COMMENTS_SHOW_STEP
-};
+let commentsLimitCurrent = COMMENTS_SHOW_STEP;
 let comments = [];
 
 
 const showMoreComments = () => {
-  const commentsToDisplay = comments.slice(showComments.from, showComments.to);
+  const commentsToDisplay = comments.slice(commentsLimitCurrent - COMMENTS_SHOW_STEP, commentsLimitCurrent);
 
   commentsToDisplay.forEach((commentData) => {
     socialComments.append(getComment(commentData));
   });
 
-  showComments = {
-    from: showComments.from += COMMENTS_SHOW_STEP,
-    to: showComments.to += COMMENTS_SHOW_STEP
-  };
+  commentsLimitCurrent += COMMENTS_SHOW_STEP;
 
   const CommentShownCount = socialComments.children.length;
   socialCommentShownCount.textContent = CommentShownCount;
@@ -49,10 +44,7 @@ const insertComments = (photoData) => {
 
 
 const cleanComments = () => {
-  showComments = {
-    from: 0,
-    to: COMMENTS_SHOW_STEP
-  };
+  commentsLimitCurrent = COMMENTS_SHOW_STEP;
   comments = [];
   while (socialComments.firstChild) {
     socialComments.removeChild(socialComments.firstChild);
