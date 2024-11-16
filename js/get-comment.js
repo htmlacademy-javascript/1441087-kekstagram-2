@@ -1,5 +1,11 @@
 const commentTemplate = document.querySelector('#comment').content.querySelector('.social__comment');
 
+
+/**
+ * Создаёт разметку комментария.
+ * @param {object} commentData Данные комментария.
+ * @returns {object} Комментарий.
+ */
 const getComment = (commentData) => {
   const comment = commentTemplate.cloneNode(true);
   const commentImg = comment.querySelector('img');

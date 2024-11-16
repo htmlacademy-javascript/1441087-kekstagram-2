@@ -1,6 +1,7 @@
 import { insertComments } from './insert-comments.js';
 import { isEscapeKey } from './util.js';
 
+
 const bigPicture = document.querySelector('.big-picture');
 const bigPictureImg = bigPicture.querySelector('.big-picture__img img');
 const bigPictureCancel = bigPicture.querySelector('.big-picture__cancel');
@@ -8,8 +9,13 @@ const likesCount = bigPicture.querySelector('.likes-count');
 const socialCommentTotalCount = bigPicture.querySelector('.social__comment-total-count');
 const socialCommentShownCount = bigPicture.querySelector('.social__comment-shown-count');
 const socialComments = bigPicture.querySelector('.social__comments');
+const commentsLoader = bigPicture.querySelector('.comments-loader');
 const socialCaption = bigPicture.querySelector('.social__caption');
 const bodyNode = document.querySelector('body');
+
+// Прячем блоки для другого ДЗ.
+commentsLoader.classList.add('hidden');
+
 
 /**
  * Обрабатывает событие закрытия фотографии через иконку.
@@ -19,6 +25,7 @@ const onPhotoCloseClick = (evt) => {
   evt.preventDefault();
   closePhoto();
 };
+
 
 /**
  * Обрабатывает событие закрытия фотографии через Escape.
@@ -30,6 +37,7 @@ const onDocumentKeydown = (evt) => {
     closePhoto();
   }
 };
+
 
 /**
  * Закрывает полноэкранную фотографию.
@@ -53,6 +61,7 @@ function closePhoto () {
   document.removeEventListener('keydown', onDocumentKeydown);
 }
 
+
 /**
  * Открывает фотографию на весь экран.
  * @param {object} photoData Данные фотографии.
@@ -63,8 +72,7 @@ function openPhoto (photoData) {
   socialCaption.textContent = photoData.description;
   likesCount.textContent = photoData.likes;
   socialCommentTotalCount.textContent = photoData.comments.length;
-  socialCommentShownCount.textContent = '';
-
+  socialCommentShownCount.textContent = photoData.comments.length;
 
   insertComments(photoData);
 

@@ -64,6 +64,7 @@ const getRandomIdFromRangeGenerator = (min, max) => {
   };
 };
 
+
 /**
  * Является ли нажатая в событии клавиша клавишей Escape.
  * @param {object} evt Событие.

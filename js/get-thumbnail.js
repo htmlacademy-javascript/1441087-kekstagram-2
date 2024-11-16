@@ -1,9 +1,11 @@
-import { openPhoto } from './open-photo.js';
+import { openPhoto } from './big-photo.js';
+
 
 const thumbnailTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
+
 /**
- * Обрабатывает событие нажатия на миниатюру фотографии.
+ * Обрабатывает событие нажатия на превью фотографии.
  * @param {object} evt
  */
 const onThumbnailClick = (evt, photoData) => {
@@ -11,10 +13,11 @@ const onThumbnailClick = (evt, photoData) => {
   openPhoto(photoData);
 };
 
+
 /**
- * Создаёт превью фотографии по шаблону.
+ * Создаёт разметку превью фотографии.
  * @param {object} photoData Фотография.
- * @returns
+ * @returns {object} Превью фотографии.
  */
 const getThumbnail = (photoData) => {
   const thumbnail = thumbnailTemplate.cloneNode(true);

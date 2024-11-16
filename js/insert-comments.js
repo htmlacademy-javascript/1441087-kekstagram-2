@@ -1,7 +1,9 @@
 import { getComment } from './get-comment';
 
+
 const socialComments = document.querySelector('.social__comments');
 const socialCommentsFragment = document.createDocumentFragment();
+
 
 /**
  * Вставляет на страницу комментарии для переданной фотографии.

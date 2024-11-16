@@ -1,6 +1,7 @@
 import { generatedPhotos } from './generate-photos.js';
 import { getThumbnail } from './get-thumbnail.js';
 
+
 /**
  * Вставляет превью фотографий на страницу.
  * @param {object} photos Список фотографий.
