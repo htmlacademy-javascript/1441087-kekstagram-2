@@ -1,4 +1,4 @@
-import { getComment } from './get-comment';
+import { getComment } from './get-comment.js';
 
 
 const socialComments = document.querySelector('.social__comments');
