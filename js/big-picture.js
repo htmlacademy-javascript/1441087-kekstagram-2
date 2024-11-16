@@ -12,7 +12,6 @@ const bigPictureCancel = bigPicture.querySelector('.big-picture__cancel');
 const likesCount = bigPicture.querySelector('.likes-count');
 const socialCaption = bigPicture.querySelector('.social__caption');
 const commentsLoader = bigPicture.querySelector('.comments-loader');
-const bodyNode = document.querySelector('body');
 
 
 /**
@@ -59,7 +58,7 @@ function closePhoto () {
   cleanComments();
 
   bigPicture.classList.add('hidden');
-  bodyNode.classList.remove('modal-open');
+  document.body.classList.remove('modal-open');
 
   bigPictureCancel.removeEventListener('click', onPhotoCloseClick);
   commentsLoader.removeEventListener('click', onCommentsLoaderClick);
@@ -80,7 +79,7 @@ function openPhoto (photoData) {
   insertComments(photoData);
 
   bigPicture.classList.remove('hidden');
-  bodyNode.classList.add('modal-open');
+  document.body.classList.add('modal-open');
 
   bigPictureCancel.addEventListener('click', onPhotoCloseClick);
   commentsLoader.addEventListener('click', onCommentsLoaderClick);

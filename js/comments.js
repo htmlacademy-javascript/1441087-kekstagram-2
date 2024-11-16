@@ -49,7 +49,14 @@ const insertComments = (photoData) => {
 
 
 const cleanComments = () => {
-  socialComments.insertAdjacentHTML = '';
+  showComments = {
+    from: 0,
+    to: COMMENTS_SHOW_STEP
+  };
+  comments = [];
+  while (socialComments.firstChild) {
+    socialComments.removeChild(socialComments.firstChild);
+  }
   socialCommentTotalCount.textContent = '';
   socialCommentShownCount.textContent = '';
   commentsLoader.classList.remove('hidden');
