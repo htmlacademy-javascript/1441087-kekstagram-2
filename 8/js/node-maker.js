@@ -1,10 +1,10 @@
-const commentTemplate = document.querySelector('#comment').content.querySelector('.social__comment');
 /**
  * Создаёт разметку комментария.
  * @param {object} commentData Данные комментария.
  * @returns {object} Комментарий.
- */
+*/
 const getComment = (commentData) => {
+  const commentTemplate = document.querySelector('#comment').content.querySelector('.social__comment');
   const comment = commentTemplate.cloneNode(true);
   const commentImg = comment.querySelector('img');
   const commentMessage = comment.querySelector('p');
@@ -18,13 +18,13 @@ const getComment = (commentData) => {
 };
 
 
-const thumbnailTemplate = document.querySelector('#picture').content.querySelector('.picture');
 /**
  * Создаёт разметку превью фотографии.
  * @param {object} photoData Данные фотографии.
  * @returns {object} Превью фотографии.
- */
+*/
 const getThumbnail = (photoData) => {
+  const thumbnailTemplate = document.querySelector('#picture').content.querySelector('.picture');
   const thumbnail = thumbnailTemplate.cloneNode(true);
   thumbnail.dataset.photoId = photoData.id;
 
