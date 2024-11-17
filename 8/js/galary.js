@@ -1,5 +1,5 @@
 import { mockPhotos } from './mock-photos.js';
-import { getThumbnail } from './get-thumbnail.js';
+import { getThumbnail } from './node-maker.js';
 import { openPhoto } from './big-picture.js';
 
 

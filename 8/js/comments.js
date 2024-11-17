@@ -1,4 +1,4 @@
-import { getComment } from './get-comment.js';
+import { getComment } from './node-maker.js';
 
 
 const bigPicture = document.querySelector('.big-picture');
