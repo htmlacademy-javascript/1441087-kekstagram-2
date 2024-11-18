@@ -1,24 +1,21 @@
-import { insertComments } from './insert-comments.js';
 import { isEscapeKey } from './util.js';
+import {
+  insertComments,
+  showMoreComments,
+  cleanComments
+} from './comments.js';
 
 
 const bigPicture = document.querySelector('.big-picture');
 const bigPictureImg = bigPicture.querySelector('.big-picture__img img');
 const bigPictureCancel = bigPicture.querySelector('.big-picture__cancel');
 const likesCount = bigPicture.querySelector('.likes-count');
-const socialCommentTotalCount = bigPicture.querySelector('.social__comment-total-count');
-const socialCommentShownCount = bigPicture.querySelector('.social__comment-shown-count');
-const socialComments = bigPicture.querySelector('.social__comments');
-const commentsLoader = bigPicture.querySelector('.comments-loader');
 const socialCaption = bigPicture.querySelector('.social__caption');
-const bodyNode = document.querySelector('body');
-
-// Прячем блоки для другого ДЗ.
-commentsLoader.classList.add('hidden');
+const commentsLoader = bigPicture.querySelector('.comments-loader');
 
 
 /**
- * Обрабатывает событие закрытия фотографии через иконку.
+ * Обрабатывает закрытие фотографии через иконку.
  * @param {object} evt Событие.
  */
 const onPhotoCloseClick = (evt) => {
@@ -28,7 +25,7 @@ const onPhotoCloseClick = (evt) => {
 
 
 /**
- * Обрабатывает событие закрытия фотографии через Escape.
+ * Обрабатывает закрытие фотографии через Escape.
  * @param {object} evt Событие.
  */
 const onDocumentKeydown = (evt) => {
@@ -40,30 +37,37 @@ const onDocumentKeydown = (evt) => {
 
 
 /**
- * Закрывает полноэкранную фотографию.
+ * Обрабатывает прогрузку очередных комментариев.
+ * @param {object} evt Событие.
+ */
+const onCommentsLoaderClick = (evt) => {
+  evt.preventDefault();
+  showMoreComments();
+};
+
+
+/**
+ * Закрывает окно с фотографией.
  */
 function closePhoto () {
   bigPictureImg.src = '';
   bigPictureImg.alt = '';
   socialCaption.textContent = '';
   likesCount.textContent = '';
-  socialCommentTotalCount.textContent = '';
-  socialCommentShownCount.textContent = '';
 
-  while (socialComments.firstChild) {
-    socialComments.removeChild(socialComments.firstChild);
-  }
+  cleanComments();
 
   bigPicture.classList.add('hidden');
-  bodyNode.classList.remove('modal-open');
+  document.body.classList.remove('modal-open');
 
   bigPictureCancel.removeEventListener('click', onPhotoCloseClick);
+  commentsLoader.removeEventListener('click', onCommentsLoaderClick);
   document.removeEventListener('keydown', onDocumentKeydown);
 }
 
 
 /**
- * Открывает фотографию на весь экран.
+ * Открывает окно с фотографией.
  * @param {object} photoData Данные фотографии.
  */
 function openPhoto (photoData) {
@@ -71,16 +75,16 @@ function openPhoto (photoData) {
   bigPictureImg.alt = photoData.description;
   socialCaption.textContent = photoData.description;
   likesCount.textContent = photoData.likes;
-  socialCommentTotalCount.textContent = photoData.comments.length;
-  socialCommentShownCount.textContent = photoData.comments.length;
 
   insertComments(photoData);
 
   bigPicture.classList.remove('hidden');
-  bodyNode.classList.add('modal-open');
+  document.body.classList.add('modal-open');
 
   bigPictureCancel.addEventListener('click', onPhotoCloseClick);
+  commentsLoader.addEventListener('click', onCommentsLoaderClick);
   document.addEventListener('keydown', onDocumentKeydown);
 }
+
 
 export { openPhoto };
