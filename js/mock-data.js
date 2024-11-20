@@ -3,7 +3,7 @@
  * NAMES — имена.
  * PHOTO_DESCRIPTIONS — описания фотографий.
  * COMMENT_MESSAGES — сообщения комментариев.
- * @returns {Array} Массивы с моковыми данными.
+ * @returns {Array} Объект массивов с моковыми данными.
  */
 const getMockData = () => {
   const NAMES = [

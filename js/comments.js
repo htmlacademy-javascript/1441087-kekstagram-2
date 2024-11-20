@@ -11,7 +11,9 @@ const commentsLoader = bigPicture.querySelector('.comments-loader');
 let commentsLimitCurrent = COMMENTS_SHOW_STEP;
 let comments = [];
 
-
+/**
+ * Выводит на экран очередную порцию комментариев для открытой фотографии.
+ */
 const showMoreComments = () => {
   const commentsToDisplay = comments.slice(commentsLimitCurrent - COMMENTS_SHOW_STEP, commentsLimitCurrent);
 
@@ -41,7 +43,9 @@ const insertComments = (photoData) => {
   showMoreComments();
 };
 
-
+/**
+ * Очищает блок с комментариями к открытой фотографии.
+ */
 const cleanComments = () => {
   commentsLimitCurrent = COMMENTS_SHOW_STEP;
   comments = [];
