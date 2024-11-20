@@ -49,9 +49,7 @@ const insertComments = (photoData) => {
 const cleanComments = () => {
   commentsLimitCurrent = COMMENTS_SHOW_STEP;
   comments = [];
-  while (socialComments.firstChild) {
-    socialComments.removeChild(socialComments.firstChild);
-  }
+  socialComments.innerHTML = '';
   socialCommentTotalCount.textContent = '';
   socialCommentShownCount.textContent = '';
   commentsLoader.classList.remove('hidden');
