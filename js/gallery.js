@@ -1,6 +1,7 @@
 import { mockPhotos } from './mock-photos.js';
 import { getThumbnail } from './node-maker.js';
 import { openPhoto } from './big-picture.js';
+import './form-img-upload.js';
 
 
 const picturesContainer = document.querySelector('.pictures');
