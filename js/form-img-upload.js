@@ -1,5 +1,9 @@
 import { isEscapeKey } from './util.js';
-import { validateHashtags } from './validate.js';
+import {
+  validateHashtagsCount,
+  validateHashtagsUnique,
+  validateHashtagsRegexp
+} from './validate.js';
 
 
 const form = document.querySelector('.img-upload__form');
@@ -99,27 +103,22 @@ inputImg.addEventListener('change', () => {
 const pristine = new Pristine(form, {
   classTo: 'img-upload__field-wrapper',
   errorClass: 'img-upload__field-wrapper--error',
-  // successClass: 'form__item--valid',
+  successClass: 'test',
   errorTextParent: 'img-upload__field-wrapper',
-  errorTextTag: 'span',
+  errorTextTag: 'div',
   errorTextClass: 'form__error'
 });
 
-pristine.addValidator(
-  inputHashtags,
-  validateHashtags
-);
+pristine.addValidator(inputHashtags, validateHashtagsCount, 'Хэштегов должно быть не больше 5', 1);
+pristine.addValidator(inputHashtags, validateHashtagsUnique, 'Хэштеги должны быть уникальными', 2);
+pristine.addValidator(inputHashtags, validateHashtagsRegexp, 'Есть недопустимые хэштеги', 3);
 
 
 form.addEventListener('submit', (evt) => {
   evt.preventDefault();
 
   const isValid = pristine.validate();
-  if (isValid) {
-    console.log('Валидировано');
-  } else {
-    console.log('Не валидировано');
-  }
+  console.log(isValid);
 });
 
 
