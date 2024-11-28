@@ -5,7 +5,7 @@ let errorMessage = '';
 
 /**
  * Возвращает сообщение об ошибке при валидации описания.
- * @returns Сообщение об ошибке.
+ * @returns {string} Сообщение об ошибке.
  */
 const errorDescription = () => errorMessage;
 

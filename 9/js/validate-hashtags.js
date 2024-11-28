@@ -6,7 +6,7 @@ let errorMessage = '';
 
 /**
  * Возвращает сообщение об ошибке при валидации хэштегов.
- * @returns Сообщение об ошибке.
+ * @returns {string} Сообщение об ошибке.
  */
 const errorHashtags = () => errorMessage;
 
