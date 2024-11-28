@@ -14,13 +14,12 @@ const previewImg = formImgUpload.querySelector('.img-upload__preview img');
 const effectsPreviews = formImgUpload.querySelectorAll('.effects__preview');
 
 
-/**
- * Очищает превью загрузки изображения.
- */
-const cleanPreview = () => {
-  inputImg.value = '';
-  previewImg.src = '';
-};
+// Добавление валидации к форме загрузки изображения.
+const pristine = new Pristine(formImgUpload, {
+  classTo: 'img-upload__field-wrapper',
+  errorTextParent: 'img-upload__field-wrapper',
+  errorTextClass: 'img-upload__field-wrapper--error'
+});
 
 
 /**
@@ -51,7 +50,12 @@ const formImgUploadClose = () => {
   cancel.removeEventListener('click', onCancelClick);
   document.removeEventListener('keydown', onDocumentKeydown);
 
-  cleanPreview();
+  inputImg.value = '';
+  inputHashtags.value = '';
+  inputDescription.value = '';
+  previewImg.src = '';
+  pristine.reset();
+  formImgUpload.reset();
 };
 
 
@@ -68,14 +72,6 @@ const formImgUploadOpen = () => {
   cancel.addEventListener('click', onCancelClick);
   document.addEventListener('keydown', onDocumentKeydown);
 };
-
-
-// Добавление валидации к форме загрузки изображения.
-const pristine = new Pristine(formImgUpload, {
-  classTo: 'img-upload__field-wrapper',
-  errorTextParent: 'img-upload__field-wrapper',
-  errorTextClass: 'img-upload__field-wrapper--error'
-});
 
 
 /**
