@@ -1,26 +1,31 @@
 import { isEscapeKey } from './util.js';
-import {
-  validateHashtagsCount,
-  validateHashtagsUnique,
-  validateHashtagsRegexp
-} from './validate.js';
+import { validateHashtags, errorHashtags } from './validate-hashtags.js';
 
-
-const form = document.querySelector('.img-upload__form');
-const overlay = form.querySelector('.img-upload__overlay');
-const inputImg = form.querySelector('.img-upload__input');
-const inputHashtags = form.querySelector('.text__hashtags');
-const inputDescription = form.querySelector('.text__description');
-const cancel = form.querySelector('.img-upload__cancel');
-const previewImg = form.querySelector('.img-upload__preview img');
-const effectsPreviews = form.querySelectorAll('.effects__preview');
+const formImgUpload = document.querySelector('.img-upload__form');
+const buttonImgUpload = formImgUpload.querySelector('.img-upload__submit');
+const overlay = formImgUpload.querySelector('.img-upload__overlay');
+const inputImg = formImgUpload.querySelector('.img-upload__input');
+const inputHashtags = formImgUpload.querySelector('.text__hashtags');
+// const inputDescription = formImgUpload.querySelector('.text__description');
+const cancel = formImgUpload.querySelector('.img-upload__cancel');
+const previewImg = formImgUpload.querySelector('.img-upload__preview img');
+const effectsPreviews = formImgUpload.querySelectorAll('.effects__preview');
 
 
 /**
- * Показывает превью загрузки изображения.
+ * Очищает превью загрузки изображения.
+ */
+const cleanPreview = () => {
+  inputImg.value = '';
+  previewImg.src = '';
+};
+
+
+/**
+ * Заполняет превью загрузки изображения.
  * @param {object} file
  */
-const previewFile = (file) => {
+const showPreview = (file) => {
   const reader = new FileReader();
 
   reader.onload = (evt) => {
@@ -35,55 +40,9 @@ const previewFile = (file) => {
 
 
 /**
- * Очищает превью загруженного изображения.
- */
-const cleanPreview = () => {
-  inputImg.value = '';
-  previewImg.src = '';
-};
-
-
-/**
- * Обрабатывает закрытие формы загрузки изображения через иконку.
- * @param {object} evt
- */
-const onCancelClick = (evt) => {
-  evt.preventDefault();
-  formImgUploadClose();
-};
-
-
-/**
- * Обрабатывает закрытие формы загрузки изображения через Escape.
- * @param {object} evt Событие.
- */
-const onDocumentKeydown = (evt) => {
-  if (isEscapeKey(evt)) {
-    evt.preventDefault();
-    formImgUploadClose();
-  }
-};
-
-
-/**
- * Открывает форму загрузки изображения.
-*/
-function formImgUploadOpen () {
-  const file = inputImg.files[0];
-  previewFile(file);
-
-  overlay.classList.remove('hidden');
-  document.body.classList.add('modal-open');
-
-  cancel.addEventListener('click', onCancelClick);
-  document.addEventListener('keydown', onDocumentKeydown);
-}
-
-
-/**
  * Закрывает форму загрузки изображения.
 */
-function formImgUploadClose () {
+const formImgUploadClose = () => {
   overlay.classList.add('hidden');
   document.body.classList.remove('modal-open');
 
@@ -91,38 +50,79 @@ function formImgUploadClose () {
   document.removeEventListener('keydown', onDocumentKeydown);
 
   cleanPreview();
-}
+};
 
 
-inputImg.addEventListener('change', () => {
-  formImgUploadOpen();
-});
+/**
+ * Открывает форму загрузки изображения.
+*/
+const formImgUploadOpen = () => {
+  const file = inputImg.files[0];
+  showPreview(file);
+
+  overlay.classList.remove('hidden');
+  document.body.classList.add('modal-open');
+
+  cancel.addEventListener('click', onCancelClick);
+  document.addEventListener('keydown', onDocumentKeydown);
+};
 
 
-// Добавление валидации к форме.
-const pristine = new Pristine(form, {
+// Добавление валидации к форме загрузки изображения.
+const pristine = new Pristine(formImgUpload, {
   classTo: 'img-upload__field-wrapper',
   errorClass: 'img-upload__field-wrapper--error',
-  successClass: 'test',
+  // successClass: '',
   errorTextParent: 'img-upload__field-wrapper',
   errorTextTag: 'div',
   errorTextClass: 'form__error'
 });
-
-pristine.addValidator(inputHashtags, validateHashtagsCount, 'Хэштегов должно быть не больше 5', 1);
-pristine.addValidator(inputHashtags, validateHashtagsUnique, 'Хэштеги должны быть уникальными', 2);
-pristine.addValidator(inputHashtags, validateHashtagsRegexp, 'Есть недопустимые хэштеги', 3);
+pristine.addValidator(inputHashtags, validateHashtags, errorHashtags, 2, false);
+inputHashtags.addEventListener('input', onInputHashtagsInput);
 
 
-form.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-
-  const isValid = pristine.validate();
-  console.log(isValid);
+// Событие загрузки изображения.
+inputImg.addEventListener('input', () => {
+  formImgUploadOpen();
 });
 
 
-export {
-  formImgUploadOpen,
-  formImgUploadClose
-};
+// Событие отправки загруженного изображения.
+formImgUpload.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+});
+
+
+/**
+ * Обрабатывает закрытие формы загрузки изображения через иконку.
+ * @param {object} evt Событие.
+*/
+function onCancelClick (evt) {
+  evt.preventDefault();
+  formImgUploadClose();
+}
+
+
+/**
+ * Обрабатывает закрытие формы загрузки изображения через Escape.
+ * @param {object} evt Событие.
+*/
+function onDocumentKeydown (evt) {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    formImgUploadClose();
+  }
+}
+
+
+/**
+ * Обрабатывает ввод в инпут для хэштегов.
+ * @param {object} evt Событие.
+ */
+function onInputHashtagsInput () {
+  if (pristine.validate()) {
+    buttonImgUpload.disabled = false;
+  } else {
+    buttonImgUpload.disabled = true;
+  }
+}
