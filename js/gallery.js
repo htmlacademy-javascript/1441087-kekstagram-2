@@ -1,7 +1,6 @@
 import { mockPhotos } from './mock-photos.js';
 import { getThumbnail } from './node-maker.js';
 import { openPhoto } from './big-picture.js';
-import './form-img-upload.js';
 
 
 const picturesContainer = document.querySelector('.pictures');
@@ -23,9 +22,6 @@ const insertThumbnails = (photos) => {
 };
 
 
-insertThumbnails(mockPhotos);
-
-
 // Отслеживает нажатие на миниатюру фотографии.
 picturesContainer.addEventListener('click', (evt) => {
   const currentPhoto = evt.target.closest('.picture');
@@ -35,3 +31,5 @@ picturesContainer.addEventListener('click', (evt) => {
     openPhoto(mockPhotos.find((photo) => photo.id === Number(currentPhoto.dataset.photoId)));
   }
 });
+
+insertThumbnails(mockPhotos);

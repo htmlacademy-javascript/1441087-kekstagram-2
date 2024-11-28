@@ -1,12 +1,14 @@
 import { isEscapeKey } from './util.js';
 import { validateHashtags, errorHashtags } from './validate-hashtags.js';
+import { validateDescription, errorDescription } from './validate-description.js';
+
 
 const formImgUpload = document.querySelector('.img-upload__form');
 const buttonImgUpload = formImgUpload.querySelector('.img-upload__submit');
 const overlay = formImgUpload.querySelector('.img-upload__overlay');
 const inputImg = formImgUpload.querySelector('.img-upload__input');
 const inputHashtags = formImgUpload.querySelector('.text__hashtags');
-// const inputDescription = formImgUpload.querySelector('.text__description');
+const inputDescription = formImgUpload.querySelector('.text__description');
 const cancel = formImgUpload.querySelector('.img-upload__cancel');
 const previewImg = formImgUpload.querySelector('.img-upload__preview img');
 const effectsPreviews = formImgUpload.querySelectorAll('.effects__preview');
@@ -71,25 +73,8 @@ const formImgUploadOpen = () => {
 // Добавление валидации к форме загрузки изображения.
 const pristine = new Pristine(formImgUpload, {
   classTo: 'img-upload__field-wrapper',
-  errorClass: 'img-upload__field-wrapper--error',
-  // successClass: '',
   errorTextParent: 'img-upload__field-wrapper',
-  errorTextTag: 'div',
-  errorTextClass: 'form__error'
-});
-pristine.addValidator(inputHashtags, validateHashtags, errorHashtags, 2, false);
-inputHashtags.addEventListener('input', onInputHashtagsInput);
-
-
-// Событие загрузки изображения.
-inputImg.addEventListener('input', () => {
-  formImgUploadOpen();
-});
-
-
-// Событие отправки загруженного изображения.
-formImgUpload.addEventListener('submit', (evt) => {
-  evt.preventDefault();
+  errorTextClass: 'img-upload__field-wrapper--error'
 });
 
 
@@ -110,7 +95,12 @@ function onCancelClick (evt) {
 function onDocumentKeydown (evt) {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
-    formImgUploadClose();
+
+    if (document.activeElement === inputHashtags || document.activeElement === inputDescription) {
+      evt.stopPrepagation();
+    } else {
+      formImgUploadClose();
+    }
   }
 }
 
@@ -126,3 +116,34 @@ function onInputHashtagsInput () {
     buttonImgUpload.disabled = true;
   }
 }
+
+
+/**
+ * Обрабатывает ввод в инпут для описания.
+ * @param {object} evt Событие.
+ */
+function onInputDescriptionInput () {
+  if (pristine.validate()) {
+    buttonImgUpload.disabled = false;
+  } else {
+    buttonImgUpload.disabled = true;
+  }
+}
+
+
+pristine.addValidator(inputHashtags, validateHashtags, errorHashtags, 1, false);
+inputHashtags.addEventListener('input', onInputHashtagsInput);
+
+pristine.addValidator(inputDescription, validateDescription, errorDescription, 2, false);
+inputDescription.addEventListener('input', onInputDescriptionInput);
+
+// Событие загрузки изображения.
+inputImg.addEventListener('input', () => {
+  formImgUploadOpen();
+});
+
+
+// Событие отправки загруженного изображения.
+formImgUpload.addEventListener('submit', () => {
+  // evt.preventDefault();
+});
