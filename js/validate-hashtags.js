@@ -29,12 +29,16 @@ const validateHashtags = (value) => {
 
   const rules = [
     {
-      check: inputArray.some((item) => item.indexOf('#', 1) >= 1),
-      error: 'Хэштеги разделяются пробелами.'
-    },
-    {
       check: inputArray.some((item) => item[0] !== '#'),
       error: 'Хэштег должен начинаться с символа "#".',
+    },
+    {
+      check: inputArray.some((item) => item === '#'),
+      error: 'Хэштег не может состоять только из символа "#".',
+    },
+    {
+      check: inputArray.some((item) => item.indexOf('#', 1) >= 1),
+      error: 'Хэштеги разделяются пробелами.'
     },
     {
       check: inputArray.some((item, num, arr) => arr.includes(item, num + 1)),
