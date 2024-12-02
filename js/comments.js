@@ -1,5 +1,6 @@
 import { getComment } from './node-maker.js';
 
+const COMMENTS_SHOW_STEP = 5;
 
 const bigPicture = document.querySelector('.big-picture');
 const socialComments = bigPicture.querySelector('.social__comments');
@@ -7,12 +8,12 @@ const socialCommentTotalCount = bigPicture.querySelector('.social__comment-total
 const socialCommentShownCount = bigPicture.querySelector('.social__comment-shown-count');
 const commentsLoader = bigPicture.querySelector('.comments-loader');
 
-
-const COMMENTS_SHOW_STEP = 5;
 let commentsLimitCurrent = COMMENTS_SHOW_STEP;
 let comments = [];
 
-
+/**
+ * Выводит на экран очередную порцию комментариев для открытой фотографии.
+ */
 const showMoreComments = () => {
   const commentsToDisplay = comments.slice(commentsLimitCurrent - COMMENTS_SHOW_STEP, commentsLimitCurrent);
 
@@ -42,13 +43,13 @@ const insertComments = (photoData) => {
   showMoreComments();
 };
 
-
+/**
+ * Очищает блок с комментариями к открытой фотографии.
+ */
 const cleanComments = () => {
   commentsLimitCurrent = COMMENTS_SHOW_STEP;
   comments = [];
-  while (socialComments.firstChild) {
-    socialComments.removeChild(socialComments.firstChild);
-  }
+  socialComments.innerHTML = '';
   socialCommentTotalCount.textContent = '';
   socialCommentShownCount.textContent = '';
   commentsLoader.classList.remove('hidden');
