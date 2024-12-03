@@ -1,4 +1,4 @@
-import { isEscapeKey } from './util.js';
+import { isEscapeKey } from '../util.js';
 import { validateHashtags, errorHashtags } from './validate-hashtags.js';
 import { validateDescription, errorDescription } from './validate-description.js';
 
@@ -12,6 +12,9 @@ const inputDescription = formImgUpload.querySelector('.text__description');
 const cancel = formImgUpload.querySelector('.img-upload__cancel');
 const previewImg = formImgUpload.querySelector('.img-upload__preview img');
 const effectsPreviews = formImgUpload.querySelectorAll('.effects__preview');
+const scaleControlSmaller = formImgUpload.querySelector('.scale__control--smaller');
+const scaleControlBigger = formImgUpload.querySelector('.scale__control--bigger');
+const scaleControlValue = formImgUpload.querySelector('.scale__control--value');
 
 
 // Добавление валидации к форме загрузки изображения.

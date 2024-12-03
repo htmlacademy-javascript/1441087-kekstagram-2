@@ -4,7 +4,7 @@ import {
   getRandomArreyElement,
   getRandomIdFromRangeGenerator,
   getIdGenerator
-} from './util.js';
+} from '../util.js';
 
 
 const PHOTO_COUNT = 25;
