@@ -1,6 +1,6 @@
 import { mockPhotos } from './mock-photos.js';
 import { getThumbnail } from './node-maker.js';
-import { openPhoto } from './big-picture.js';
+import { openPicture } from './big-picture.js';
 
 
 const picturesContainer = document.querySelector('.pictures');
@@ -28,7 +28,7 @@ picturesContainer.addEventListener('click', (evt) => {
 
   if (currentPhoto) {
     evt.preventDefault();
-    openPhoto(mockPhotos.find((photo) => photo.id === Number(currentPhoto.dataset.photoId)));
+    openPicture(mockPhotos.find((photo) => photo.id === Number(currentPhoto.dataset.photoId)));
   }
 });
 

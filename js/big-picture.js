@@ -15,41 +15,9 @@ const commentsLoader = bigPicture.querySelector('.comments-loader');
 
 
 /**
- * Обрабатывает закрытие фотографии через иконку.
- * @param {object} evt Событие.
+ * Закрывает изображение.
  */
-const onPhotoCloseClick = (evt) => {
-  evt.preventDefault();
-  closePhoto();
-};
-
-
-/**
- * Обрабатывает закрытие фотографии через Escape.
- * @param {object} evt Событие.
- */
-const onDocumentKeydown = (evt) => {
-  if (isEscapeKey(evt)) {
-    evt.preventDefault();
-    closePhoto();
-  }
-};
-
-
-/**
- * Обрабатывает прогрузку очередных комментариев.
- * @param {object} evt Событие.
- */
-const onCommentsLoaderClick = (evt) => {
-  evt.preventDefault();
-  showMoreComments();
-};
-
-
-/**
- * Закрывает окно с фотографией.
- */
-function closePhoto () {
+const closePicture = () => {
   bigPictureImg.src = '';
   bigPictureImg.alt = '';
   socialCaption.textContent = '';
@@ -60,31 +28,63 @@ function closePhoto () {
   bigPicture.classList.add('hidden');
   document.body.classList.remove('modal-open');
 
-  bigPictureCancel.removeEventListener('click', onPhotoCloseClick);
-  commentsLoader.removeEventListener('click', onCommentsLoaderClick);
   document.removeEventListener('keydown', onDocumentKeydown);
-}
+};
 
 
 /**
- * Открывает окно с фотографией.
- * @param {object} photoData Данные фотографии.
+ * Открывает изображение.
+ * @param {object} pictureData Объект изображения.
  */
-function openPhoto (photoData) {
-  bigPictureImg.src = photoData.url;
-  bigPictureImg.alt = photoData.description;
-  socialCaption.textContent = photoData.description;
-  likesCount.textContent = photoData.likes;
+const openPicture = (pictureData) => {
+  bigPictureImg.src = pictureData.url;
+  bigPictureImg.alt = pictureData.description;
+  socialCaption.textContent = pictureData.description;
+  likesCount.textContent = pictureData.likes;
 
-  insertComments(photoData);
+  insertComments(pictureData);
 
   bigPicture.classList.remove('hidden');
   document.body.classList.add('modal-open');
 
-  bigPictureCancel.addEventListener('click', onPhotoCloseClick);
-  commentsLoader.addEventListener('click', onCommentsLoaderClick);
   document.addEventListener('keydown', onDocumentKeydown);
+};
+
+
+/**
+ * Обрабатывает закрытие изображения через иконку.
+ * @param {object} evt Событие.
+ */
+function onPictureCloseClick (evt) {
+  evt.preventDefault();
+  closePicture();
 }
 
 
-export { openPhoto };
+/**
+ * Обрабатывает закрытие изображения через Escape.
+ * @param {object} evt Событие.
+ */
+function onDocumentKeydown (evt) {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    closePicture();
+  }
+}
+
+
+/**
+ * Обрабатывает прогрузку очередных комментариев.
+ * @param {object} evt Событие.
+ */
+function onCommentsLoaderClick (evt) {
+  evt.preventDefault();
+  showMoreComments();
+}
+
+
+bigPictureCancel.addEventListener('click', onPictureCloseClick);
+commentsLoader.addEventListener('click', onCommentsLoaderClick);
+
+
+export { openPicture };
