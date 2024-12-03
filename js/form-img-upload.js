@@ -106,11 +106,7 @@ function onDocumentKeydown (evt) {
  * @param {object} evt Событие.
  */
 function onInputHashtagsInput () {
-  if (pristine.validate()) {
-    buttonImgUpload.disabled = false;
-  } else {
-    buttonImgUpload.disabled = true;
-  }
+  buttonImgUpload.disabled = !pristine.validate();
 }
 
 
@@ -119,11 +115,7 @@ function onInputHashtagsInput () {
  * @param {object} evt Событие.
  */
 function onInputDescriptionInput () {
-  if (pristine.validate()) {
-    buttonImgUpload.disabled = false;
-  } else {
-    buttonImgUpload.disabled = true;
-  }
+  buttonImgUpload.disabled = !pristine.validate();
 }
 
 
