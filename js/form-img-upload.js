@@ -47,8 +47,9 @@ const formImgUploadClose = () => {
   overlay.classList.add('hidden');
   document.body.classList.remove('modal-open');
 
-  cancel.removeEventListener('click', onCancelClick);
   document.removeEventListener('keydown', onDocumentKeydown);
+
+  buttonImgUpload.disabled = false;
 
   inputImg.value = '';
   inputHashtags.value = '';
@@ -69,7 +70,6 @@ const formImgUploadOpen = () => {
   overlay.classList.remove('hidden');
   document.body.classList.add('modal-open');
 
-  cancel.addEventListener('click', onCancelClick);
   document.addEventListener('keydown', onDocumentKeydown);
 };
 
@@ -130,16 +130,20 @@ function onInputDescriptionInput () {
 pristine.addValidator(inputHashtags, validateHashtags, errorHashtags, 1, false);
 inputHashtags.addEventListener('input', onInputHashtagsInput);
 
+
 pristine.addValidator(inputDescription, validateDescription, errorDescription, 2, false);
 inputDescription.addEventListener('input', onInputDescriptionInput);
 
-// Событие загрузки изображения.
+
+// Закрытие формы загрузки изображения через иконку.
+cancel.addEventListener('click', onCancelClick);
+
+
+// Загрузка изображения в инпут.
 inputImg.addEventListener('input', () => {
   formImgUploadOpen();
 });
 
 
-// Событие отправки загруженного изображения.
-formImgUpload.addEventListener('submit', () => {
-  // evt.preventDefault();
-});
+// Отправка изображения на сервер.
+formImgUpload.addEventListener('submit', () => {});
