@@ -12,12 +12,12 @@ const inputDescription = formImgUpload.querySelector('.text__description');
 const cancel = formImgUpload.querySelector('.img-upload__cancel');
 const previewImg = formImgUpload.querySelector('.img-upload__preview img');
 const effectsPreviews = formImgUpload.querySelectorAll('.effects__preview');
+
 const scaleControlSmaller = formImgUpload.querySelector('.scale__control--smaller');
 const scaleControlBigger = formImgUpload.querySelector('.scale__control--bigger');
 const scaleControlValue = formImgUpload.querySelector('.scale__control--value');
 
-
-// Добавление валидации к форме загрузки изображения.
+// Создание экземпляра валидатора для формы загрузки изображения.
 const pristine = new Pristine(formImgUpload, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
@@ -44,6 +44,55 @@ const showPreview = (file) => {
 
 
 /**
+ * Изменяет масштаб для загружаемого изображения.
+ * @param {number} factor
+ */
+const scaleUpdate = (factor = 1) => {
+  const ScaleSettings = {
+    MIN: 25,
+    MAX: 100,
+    STEP: 25
+  };
+
+  const currentScale = parseInt(scaleControlValue.value, 10);
+  const newScale = currentScale + ScaleSettings.STEP * factor;
+
+  if (newScale >= ScaleSettings.MIN && newScale <= ScaleSettings.MAX) {
+    scaleControlValue.value = `${newScale.toString()}%`;
+    previewImg.style.transform = `scale(${newScale / 100})`;
+  }
+
+  scaleControlSmaller.disabled = newScale <= ScaleSettings.MIN;
+  scaleControlBigger.disabled = newScale >= ScaleSettings.MAX;
+};
+
+
+/**
+ * Сбрасывает масштаб для загружаемого изображения.
+ */
+const scaleReset = () => {
+  scaleControlValue.value = '100%';
+  previewImg.style.transform = 'scale(1)';
+  scaleControlSmaller.disabled = false;
+  scaleControlBigger.disabled = false;
+};
+
+
+/**
+ * Открывает форму загрузки изображения.
+*/
+const formImgUploadOpen = () => {
+  const file = inputImg.files[0];
+  showPreview(file);
+
+  overlay.classList.remove('hidden');
+  document.body.classList.add('modal-open');
+
+  document.addEventListener('keydown', onDocumentKeydown);
+};
+
+
+/**
  * Закрывает форму загрузки изображения.
 */
 const formImgUploadClose = () => {
@@ -60,20 +109,8 @@ const formImgUploadClose = () => {
   previewImg.src = '';
   pristine.reset();
   formImgUpload.reset();
-};
 
-
-/**
- * Открывает форму загрузки изображения.
-*/
-const formImgUploadOpen = () => {
-  const file = inputImg.files[0];
-  showPreview(file);
-
-  overlay.classList.remove('hidden');
-  document.body.classList.add('modal-open');
-
-  document.addEventListener('keydown', onDocumentKeydown);
+  scaleReset();
 };
 
 
@@ -95,11 +132,19 @@ function onDocumentKeydown (evt) {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
 
-    if (document.activeElement === inputHashtags || document.activeElement === inputDescription) {
-      evt.stopPrepagation();
+    if (evt.target.classList.contains('text__hashtags') ||
+        evt.target.classList.contains('text__description')) {
+      evt.stopPropagation();
     } else {
       formImgUploadClose();
     }
+
+    // if (document.activeElement === inputHashtags ||
+    //     document.activeElement === inputDescription) {
+    //   evt.stopPropagation();
+    // } else {
+    //   formImgUploadClose();
+    // }
   }
 }
 
@@ -122,23 +167,29 @@ function onInputDescriptionInput () {
 }
 
 
-pristine.addValidator(inputHashtags, validateHashtags, errorHashtags, 1, false);
-inputHashtags.addEventListener('input', onInputHashtagsInput);
-
-
-pristine.addValidator(inputDescription, validateDescription, errorDescription, 2, false);
-inputDescription.addEventListener('input', onInputDescriptionInput);
-
-
-// Закрытие формы загрузки изображения через иконку.
-cancel.addEventListener('click', onCancelClick);
-
-
 // Загрузка изображения в инпут.
 inputImg.addEventListener('input', () => {
   formImgUploadOpen();
 });
 
+// Изменение масштаба загружаемого изображения.
+scaleControlSmaller.addEventListener('click', () => {
+  scaleUpdate(-1);
+});
+scaleControlBigger.addEventListener('click', () => {
+  scaleUpdate(1);
+});
+
+// Добавление валидации хэштегов.
+pristine.addValidator(inputHashtags, validateHashtags, errorHashtags, 1, false);
+inputHashtags.addEventListener('input', onInputHashtagsInput);
+
+// Добавление валидации описания.
+pristine.addValidator(inputDescription, validateDescription, errorDescription, 2, false);
+inputDescription.addEventListener('input', onInputDescriptionInput);
+
+// Закрытие формы загрузки изображения через иконку.
+cancel.addEventListener('click', onCancelClick);
 
 // Отправка изображения на сервер.
 formImgUpload.addEventListener('submit', () => {});

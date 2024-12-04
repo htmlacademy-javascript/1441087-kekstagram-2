@@ -9,7 +9,7 @@ import {
 
 const PHOTO_COUNT = 25;
 const PHOTO_COMMENTS_MAX = 30;
-const PHOTO_LIKES = {
+const PhotoLikes = {
   MIN: 15,
   MAX: 200
 };
@@ -42,7 +42,7 @@ const createPhoto = () => {
     id: photoId,
     url: `./photos/${photoId}.jpg`,
     description: getRandomArreyElement(PHOTO_DESCRIPTIONS),
-    likes: getRandomInteger(PHOTO_LIKES.MIN, PHOTO_LIKES.MAX),
+    likes: getRandomInteger(PhotoLikes.MIN, PhotoLikes.MAX),
     comments: Array.from({length: getRandomInteger(0, PHOTO_COMMENTS_MAX)}, createComment)
   };
 
