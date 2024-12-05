@@ -14,19 +14,22 @@ const socialCaption = bigPicture.querySelector('.social__caption');
 const commentsLoader = bigPicture.querySelector('.comments-loader');
 
 
+const bigPictureToogle = () => {
+  bigPicture.classList.toggle('hidden');
+  document.body.classList.toggle('modal-open');
+};
+
 /**
  * Закрывает изображение.
  */
 const closePicture = () => {
+  bigPictureToogle();
+  cleanComments();
+
   bigPictureImg.src = '';
   bigPictureImg.alt = '';
   socialCaption.textContent = '';
   likesCount.textContent = '';
-
-  cleanComments();
-
-  bigPicture.classList.add('hidden');
-  document.body.classList.remove('modal-open');
 
   document.removeEventListener('keydown', onDocumentKeydown);
 };
@@ -43,9 +46,7 @@ const openPicture = (pictureData) => {
   likesCount.textContent = pictureData.likes;
 
   insertComments(pictureData);
-
-  bigPicture.classList.remove('hidden');
-  document.body.classList.add('modal-open');
+  bigPictureToogle();
 
   document.addEventListener('keydown', onDocumentKeydown);
 };
