@@ -30,6 +30,15 @@ const pristine = new Pristine(formImgUpload, {
 
 
 /**
+ * Переключает видимость окна загрузки изображения.
+ */
+const formImgUploadToogle = () => {
+  overlay.classList.toggle('hidden');
+  document.body.classList.toggle('modal-open');
+};
+
+
+/**
  * Заполняет превью загрузки изображения.
  * @param {object} file
  */
@@ -53,11 +62,7 @@ const showPreview = (file) => {
  * Открывает форму загрузки изображения.
 */
 const formImgUploadOpen = () => {
-  const file = inputImg.files[0];
-  showPreview(file);
-
-  overlay.classList.remove('hidden');
-  document.body.classList.add('modal-open');
+  formImgUploadToogle();
 
   document.addEventListener('keydown', onDocumentKeydown);
 };
@@ -67,22 +72,19 @@ const formImgUploadOpen = () => {
  * Закрывает форму загрузки изображения.
 */
 const formImgUploadClose = () => {
-  overlay.classList.add('hidden');
-  document.body.classList.remove('modal-open');
-
-  document.removeEventListener('keydown', onDocumentKeydown);
-
-  imgUploadSubmit.disabled = false;
+  formImgUploadToogle();
+  scaleReset();
+  effectReset();
+  pristine.reset();
+  formImgUpload.reset();
 
   inputImg.value = '';
   inputHashtags.value = '';
   inputDescription.value = '';
   previewImg.src = '';
-  pristine.reset();
-  formImgUpload.reset();
+  imgUploadSubmit.disabled = false;
 
-  scaleReset();
-  effectReset();
+  document.removeEventListener('keydown', onDocumentKeydown);
 };
 
 
@@ -90,6 +92,9 @@ const formImgUploadClose = () => {
  * Обрабатывает загрузку изображения в инпут.
  */
 const onInputImgInput = () => {
+  const file = inputImg.files[0];
+
+  showPreview(file);
   formImgUploadOpen();
 };
 
