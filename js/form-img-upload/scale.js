@@ -23,6 +23,7 @@ const scaleUpdate = (factor = 1) => {
   if (newScale >= Scale.MIN && newScale <= Scale.MAX) {
     scaleControlValue.value = `${newScale.toString()}%`;
     previewImg.style.transform = `scale(${newScale / 100})`;
+
     scaleControlSmaller.disabled = newScale <= Scale.MIN;
     scaleControlBigger.disabled = newScale >= Scale.MAX;
   }

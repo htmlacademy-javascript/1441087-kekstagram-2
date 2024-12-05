@@ -1,6 +1,6 @@
 import { isEscapeKey } from '../util.js';
 import { scaleUpdate, scaleReset } from './scale.js';
-import { effectUpdate, sliderReset, onEffectsListClick, onSliderUpdate } from './effects.js';
+import { effectReset, onEffectsListClick, onSliderUpdate } from './effects.js';
 import { validateHashtags, errorHashtags } from './validate-hashtags.js';
 import { validateDescription, errorDescription } from './validate-description.js';
 
@@ -17,7 +17,7 @@ const scaleControlSmaller = formImgUpload.querySelector('.scale__control--smalle
 const scaleControlBigger = formImgUpload.querySelector('.scale__control--bigger');
 
 const effectsList = formImgUpload.querySelector('.effects__list');
-const effectsItems = effectsList.querySelectorAll('.effects__item');
+const effectsItems = formImgUpload.querySelectorAll('.effects__item');
 const slider = formImgUpload.querySelector('.effect-level__slider');
 
 
@@ -60,9 +60,6 @@ const formImgUploadOpen = () => {
   document.body.classList.add('modal-open');
 
   document.addEventListener('keydown', onDocumentKeydown);
-
-  scaleReset();
-  sliderReset();
 };
 
 
@@ -85,8 +82,7 @@ const formImgUploadClose = () => {
   formImgUpload.reset();
 
   scaleReset();
-  sliderReset();
-  effectUpdate('none');
+  effectReset();
 };
 
 

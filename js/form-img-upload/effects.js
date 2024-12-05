@@ -1,12 +1,14 @@
 const EFFECT_RADIX = 10; // Система счисления.
-const EFFECTS_STEP = 0.1;
+const EFFECT_STEP = 0.01;
 const MAX_BLUR_VALUE = 3;
 const MAX_BRIGHTNESS = 3;
+const DEFAULT_EFFECT = 'none';
+const DEFAULT_EFFECT_LEVEL = 100;
+
 const SliderDefault = {
   MIN: 0,
   MAX: 100,
-  STEP: 1,
-  START: 100
+  STEP: 1
 };
 
 const formImgUpload = document.querySelector('.img-upload__form');
@@ -15,7 +17,7 @@ const inputEffectLevel = formImgUpload.querySelector('.effect-level__value');
 const slider = formImgUpload.querySelector('.effect-level__slider');
 const previewImg = formImgUpload.querySelector('.img-upload__preview img');
 
-let currentEffect = 'none';
+let currentEffect = DEFAULT_EFFECT;
 
 
 // Создание экземпляра слайдера.
@@ -25,7 +27,7 @@ noUiSlider.create(slider, {
     max: SliderDefault.MAX,
   },
   step: SliderDefault.STEP,
-  start: SliderDefault.START,
+  start: DEFAULT_EFFECT_LEVEL,
   connect: 'lower',
 });
 
@@ -35,11 +37,11 @@ noUiSlider.create(slider, {
  */
 const effects = {
   none: () => 'none',
-  chrome: () => `grayscale(${parseInt(inputEffectLevel.value, EFFECT_RADIX) * EFFECTS_STEP})`,
-  sepia: () => `sepia(${parseInt(inputEffectLevel.value, EFFECT_RADIX) * EFFECTS_STEP})`,
+  chrome: () => `grayscale(${parseInt(inputEffectLevel.value, EFFECT_RADIX) * EFFECT_STEP})`,
+  sepia: () => `sepia(${parseInt(inputEffectLevel.value, EFFECT_RADIX) * EFFECT_STEP})`,
   marvin: () => `invert(${Math.floor(inputEffectLevel.value)}%)`,
-  phobos: () => `blur(${(parseInt(inputEffectLevel.value, EFFECT_RADIX) * MAX_BLUR_VALUE) * EFFECTS_STEP}px)`,
-  heat: () => `brightness(${(parseInt(inputEffectLevel.value, EFFECT_RADIX) * MAX_BRIGHTNESS) * EFFECTS_STEP})`
+  phobos: () => `blur(${(parseInt(inputEffectLevel.value, EFFECT_RADIX) * MAX_BLUR_VALUE) * EFFECT_STEP}px)`,
+  heat: () => `brightness(${(parseInt(inputEffectLevel.value, EFFECT_RADIX) * MAX_BRIGHTNESS) * EFFECT_STEP})`
 };
 
 
@@ -47,22 +49,32 @@ const effects = {
  * Устанавливает слайдер в изначальное положение.
  */
 const sliderReset = () => {
-  slider.noUiSlider.set(SliderDefault.START);
-  inputEffectLevel.value = SliderDefault.START;
-};
+  slider.noUiSlider.set(DEFAULT_EFFECT_LEVEL);
+  inputEffectLevel.value = DEFAULT_EFFECT_LEVEL;
 
-
-/**
- * Применяет новый эффект.
- * @param {string} effect Эффект.
- */
-const effectUpdate = (effect) => {
-  if (effect === 'none') {
+  if (currentEffect === DEFAULT_EFFECT) {
     effectLevel.classList.add('hidden');
   } else {
     effectLevel.classList.remove('hidden');
   }
-  previewImg.style.filter = effects[effect]();
+};
+
+
+/**
+ * Обновляет текущий эффект на изображении.
+ */
+const effectUpdate = () => {
+  previewImg.style.filter = effects[currentEffect]();
+};
+
+
+/**
+ * Устанавливает эффект по-умолчанию.
+ */
+const effectReset = () => {
+  currentEffect = DEFAULT_EFFECT;
+  sliderReset();
+  effectUpdate();
 };
 
 
@@ -70,6 +82,8 @@ const effectUpdate = (effect) => {
  * Обрабатывает нажатие на список эффектов.
  */
 const onEffectsListClick = (evt) => {
+  sliderReset();
+
   let target = evt.target;
 
   if (target.classList.contains('effects__label')) {
@@ -77,9 +91,8 @@ const onEffectsListClick = (evt) => {
   }
 
   if (target.classList.contains('effects__preview')) {
-    sliderReset();
     currentEffect = target.classList[1].replace('effects__preview--', '');
-    effectUpdate(currentEffect);
+    effectUpdate();
   }
 };
 
@@ -89,8 +102,8 @@ const onEffectsListClick = (evt) => {
  */
 const onSliderUpdate = () => {
   inputEffectLevel.value = slider.noUiSlider.get();
-  effectUpdate(currentEffect);
+  effectUpdate();
 };
 
 
-export { effectUpdate, sliderReset, onEffectsListClick, onSliderUpdate };
+export { effectReset, onEffectsListClick, onSliderUpdate };
