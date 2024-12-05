@@ -55,10 +55,20 @@ const openPicture = (pictureData) => {
  * Обрабатывает закрытие изображения через иконку.
  * @param {object} evt Событие.
  */
-function onPictureCloseClick (evt) {
+const onPictureCloseClick = (evt) => {
   evt.preventDefault();
   closePicture();
-}
+};
+
+
+/**
+ * Обрабатывает прогрузку очередных комментариев.
+ * @param {object} evt Событие.
+ */
+const onCommentsLoaderClick = (evt) => {
+  evt.preventDefault();
+  showMoreComments();
+};
 
 
 /**
@@ -70,16 +80,6 @@ function onDocumentKeydown (evt) {
     evt.preventDefault();
     closePicture();
   }
-}
-
-
-/**
- * Обрабатывает прогрузку очередных комментариев.
- * @param {object} evt Событие.
- */
-function onCommentsLoaderClick (evt) {
-  evt.preventDefault();
-  showMoreComments();
 }
 
 

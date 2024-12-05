@@ -89,19 +89,19 @@ const formImgUploadClose = () => {
 /**
  * Обрабатывает загрузку изображения в инпут.
  */
-function onInputImgInput () {
+const onInputImgInput = () => {
   formImgUploadOpen();
-}
+};
 
 
 /**
  * Обрабатывает закрытие формы загрузки изображения через иконку.
  * @param {object} evt Событие.
 */
-function onCancelClick (evt) {
+const onCancelClick = (evt) => {
   evt.preventDefault();
   formImgUploadClose();
-}
+};
 
 
 /**
@@ -112,19 +112,12 @@ function onDocumentKeydown (evt) {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
 
-    if (evt.target.classList.contains('text__hashtags') ||
-        evt.target.classList.contains('text__description')) {
+    if (document.activeElement === inputHashtags ||
+        document.activeElement === inputDescription) {
       evt.stopPropagation();
     } else {
       formImgUploadClose();
     }
-
-    // if (document.activeElement === inputHashtags ||
-    //     document.activeElement === inputDescription) {
-    //   evt.stopPropagation();
-    // } else {
-    //   formImgUploadClose();
-    // }
   }
 }
 
@@ -132,47 +125,47 @@ function onDocumentKeydown (evt) {
 /**
  * Обрабатывает уменьшение масштаба изображения.
  */
-function onScaleControlSmallerClick () {
+const onScaleControlSmallerClick = () => {
   scaleUpdate(-1);
-}
+};
 
 
 /**
  * Обрабатывает увеличение масштаба изображения.
  */
-function onScaleControlBiggerClick () {
+const onScaleControlBiggerClick = () => {
   scaleUpdate(1);
-}
+};
 
 
 /**
  * Обрабатывает ввод в инпут для хэштегов.
  */
-function onInputHashtagsInput () {
+const onInputHashtagsInput = () => {
   imgUploadSubmit.disabled = !pristine.validate();
-}
+};
 
 
 /**
  * Обрабатывает ввод в инпут для описания.
  */
-function onInputDescriptionInput () {
+const onInputDescriptionInput = () => {
   imgUploadSubmit.disabled = !pristine.validate();
-}
+};
 
 
 /**
  * Обрабатывает отправку формы с изображением.
  * @param {object} evt Событие.
  */
-function onFormImgUploadSubmit (evt) {
+const onFormImgUploadSubmit = (evt) => {
   evt.preventDefault();
 
   if (pristine.validate()) {
     inputHashtags.value = inputHashtags.value.trim().replaceAll(/\s+/g, ' ');
     formImgUpload.submit();
   }
-}
+};
 
 
 // Загрузка изображения в инпут.
