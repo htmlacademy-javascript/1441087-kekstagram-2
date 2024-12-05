@@ -5,7 +5,7 @@ const MAX_BRIGHTNESS = 3;
 const DEFAULT_EFFECT = 'none';
 const DEFAULT_EFFECT_LEVEL = 100;
 
-const SliderDefault = {
+const SliderSettings = {
   MIN: 0,
   MAX: 100,
   STEP: 1
@@ -23,10 +23,10 @@ let currentEffect = DEFAULT_EFFECT;
 // Создание экземпляра слайдера.
 noUiSlider.create(slider, {
   range: {
-    min: SliderDefault.MIN,
-    max: SliderDefault.MAX,
+    min: SliderSettings.MIN,
+    max: SliderSettings.MAX,
   },
-  step: SliderDefault.STEP,
+  step: SliderSettings.STEP,
   start: DEFAULT_EFFECT_LEVEL,
   connect: 'lower',
 });
