@@ -1,7 +1,6 @@
-import { getComment } from './node-maker.js';
-
 const COMMENTS_SHOW_STEP = 5;
 
+const commentTemplate = document.querySelector('#comment').content.querySelector('.social__comment');
 const bigPicture = document.querySelector('.big-picture');
 const socialComments = bigPicture.querySelector('.social__comments');
 const socialCommentTotalCount = bigPicture.querySelector('.social__comment-total-count');
@@ -11,8 +10,28 @@ const commentsLoader = bigPicture.querySelector('.comments-loader');
 let commentsLimitCurrent = COMMENTS_SHOW_STEP;
 let comments = [];
 
+
 /**
- * Выводит на экран очередную порцию комментариев для открытой фотографии.
+ * Создаёт разметку комментария.
+ * @param {object} commentData Данные комментария.
+ * @returns {object} Комментарий.
+*/
+const getComment = (commentData) => {
+  const comment = commentTemplate.cloneNode(true);
+  const commentImg = comment.querySelector('img');
+  const commentMessage = comment.querySelector('p');
+
+  comment.dataset.commentId = commentData.id;
+  commentImg.src = commentData.avatar;
+  commentImg.alt = commentData.name;
+  commentMessage.textContent = commentData.message;
+
+  return comment;
+};
+
+
+/**
+ * Выводит на экран очередную порцию комментариев для открытого изображения.
  */
 const showMoreComments = () => {
   const commentsToDisplay = comments.slice(commentsLimitCurrent - COMMENTS_SHOW_STEP, commentsLimitCurrent);
@@ -33,18 +52,19 @@ const showMoreComments = () => {
 
 
 /**
- * Вставляет на страницу комментарии для переданной фотографии.
- * @param {object} photoData Данные фотографии.
+ * Вставляет на страницу комментарии для переданного изображения.
+ * @param {object} pictureData Данные изображения.
  */
-const insertComments = (photoData) => {
-  comments = photoData.comments;
+const insertComments = (pictureData) => {
+  comments = pictureData.comments;
 
-  socialCommentTotalCount.textContent = photoData.comments.length;
+  socialCommentTotalCount.textContent = pictureData.comments.length;
   showMoreComments();
 };
 
+
 /**
- * Очищает блок с комментариями к открытой фотографии.
+ * Очищает блок с комментариями для открытого изображения.
  */
 const cleanComments = () => {
   commentsLimitCurrent = COMMENTS_SHOW_STEP;

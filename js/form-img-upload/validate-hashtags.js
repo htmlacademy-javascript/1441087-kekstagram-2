@@ -67,4 +67,5 @@ const validateHashtags = (value) => {
   });
 };
 
+
 export { validateHashtags, errorHashtags };
