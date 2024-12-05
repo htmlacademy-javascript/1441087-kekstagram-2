@@ -1,21 +1,25 @@
 import { isEscapeKey } from '../util.js';
+import { scaleUpdate, scaleReset } from './scale.js';
+import { effectUpdate, sliderReset, onEffectsListClick, onSliderUpdate } from './effects.js';
 import { validateHashtags, errorHashtags } from './validate-hashtags.js';
 import { validateDescription, errorDescription } from './validate-description.js';
 
-
 const formImgUpload = document.querySelector('.img-upload__form');
-const buttonImgUpload = formImgUpload.querySelector('.img-upload__submit');
+const imgUploadSubmit = formImgUpload.querySelector('.img-upload__submit');
+const imgUploadCancel = formImgUpload.querySelector('.img-upload__cancel');
 const overlay = formImgUpload.querySelector('.img-upload__overlay');
 const inputImg = formImgUpload.querySelector('.img-upload__input');
 const inputHashtags = formImgUpload.querySelector('.text__hashtags');
 const inputDescription = formImgUpload.querySelector('.text__description');
-const cancel = formImgUpload.querySelector('.img-upload__cancel');
 const previewImg = formImgUpload.querySelector('.img-upload__preview img');
-const effectsPreviews = formImgUpload.querySelectorAll('.effects__preview');
 
 const scaleControlSmaller = formImgUpload.querySelector('.scale__control--smaller');
 const scaleControlBigger = formImgUpload.querySelector('.scale__control--bigger');
-const scaleControlValue = formImgUpload.querySelector('.scale__control--value');
+
+const effectsList = formImgUpload.querySelector('.effects__list');
+const effectsItems = effectsList.querySelectorAll('.effects__item');
+const slider = formImgUpload.querySelector('.effect-level__slider');
+
 
 // Создание экземпляра валидатора для формы загрузки изображения.
 const pristine = new Pristine(formImgUpload, {
@@ -35,46 +39,13 @@ const showPreview = (file) => {
   reader.onload = (evt) => {
     previewImg.src = evt.target.result;
 
-    for (const effectsPreview of effectsPreviews) {
-      effectsPreview.style.backgroundImage = `url(${evt.target.result})`;
-    }
+    effectsItems.forEach((effectItem) => {
+      const effectImg = effectItem.querySelector('span');
+      effectImg.style.backgroundImage = `url(${evt.target.result})`;
+    });
   };
+
   reader.readAsDataURL(file);
-};
-
-
-/**
- * Изменяет масштаб для загружаемого изображения.
- * @param {number} factor
- */
-const scaleUpdate = (factor = 1) => {
-  const ScaleSettings = {
-    MIN: 25,
-    MAX: 100,
-    STEP: 25
-  };
-
-  const currentScale = parseInt(scaleControlValue.value, 10);
-  const newScale = currentScale + ScaleSettings.STEP * factor;
-
-  if (newScale >= ScaleSettings.MIN && newScale <= ScaleSettings.MAX) {
-    scaleControlValue.value = `${newScale.toString()}%`;
-    previewImg.style.transform = `scale(${newScale / 100})`;
-  }
-
-  scaleControlSmaller.disabled = newScale <= ScaleSettings.MIN;
-  scaleControlBigger.disabled = newScale >= ScaleSettings.MAX;
-};
-
-
-/**
- * Сбрасывает масштаб для загружаемого изображения.
- */
-const scaleReset = () => {
-  scaleControlValue.value = '100%';
-  previewImg.style.transform = 'scale(1)';
-  scaleControlSmaller.disabled = false;
-  scaleControlBigger.disabled = false;
 };
 
 
@@ -89,6 +60,9 @@ const formImgUploadOpen = () => {
   document.body.classList.add('modal-open');
 
   document.addEventListener('keydown', onDocumentKeydown);
+
+  scaleReset();
+  sliderReset();
 };
 
 
@@ -101,7 +75,7 @@ const formImgUploadClose = () => {
 
   document.removeEventListener('keydown', onDocumentKeydown);
 
-  buttonImgUpload.disabled = false;
+  imgUploadSubmit.disabled = false;
 
   inputImg.value = '';
   inputHashtags.value = '';
@@ -111,7 +85,17 @@ const formImgUploadClose = () => {
   formImgUpload.reset();
 
   scaleReset();
+  sliderReset();
+  effectUpdate('none');
 };
+
+
+/**
+ * Обрабатывает загрузку изображения в инпут.
+ */
+function onInputImgInput () {
+  formImgUploadOpen();
+}
 
 
 /**
@@ -150,46 +134,74 @@ function onDocumentKeydown (evt) {
 
 
 /**
+ * Обрабатывает уменьшение масштаба изображения.
+ */
+function onScaleControlSmallerClick () {
+  scaleUpdate(-1);
+}
+
+
+/**
+ * Обрабатывает увеличение масштаба изображения.
+ */
+function onScaleControlBiggerClick () {
+  scaleUpdate(1);
+}
+
+
+/**
  * Обрабатывает ввод в инпут для хэштегов.
- * @param {object} evt Событие.
  */
 function onInputHashtagsInput () {
-  buttonImgUpload.disabled = !pristine.validate();
+  imgUploadSubmit.disabled = !pristine.validate();
 }
 
 
 /**
  * Обрабатывает ввод в инпут для описания.
- * @param {object} evt Событие.
  */
 function onInputDescriptionInput () {
-  buttonImgUpload.disabled = !pristine.validate();
+  imgUploadSubmit.disabled = !pristine.validate();
+}
+
+
+/**
+ * Обрабатывает отправку формы с изображением.
+ * @param {object} evt Событие.
+ */
+function onFormImgUploadSubmit (evt) {
+  evt.preventDefault();
+
+  if (pristine.validate()) {
+    inputHashtags.value = inputHashtags.value.trim().replaceAll(/\s+/g, ' ');
+    formImgUpload.submit();
+  }
 }
 
 
 // Загрузка изображения в инпут.
-inputImg.addEventListener('input', () => {
-  formImgUploadOpen();
-});
+inputImg.addEventListener('input', onInputImgInput);
 
 // Изменение масштаба загружаемого изображения.
-scaleControlSmaller.addEventListener('click', () => {
-  scaleUpdate(-1);
-});
-scaleControlBigger.addEventListener('click', () => {
-  scaleUpdate(1);
-});
+scaleControlSmaller.addEventListener('click', onScaleControlSmallerClick);
+scaleControlBigger.addEventListener('click', onScaleControlBiggerClick);
 
-// Добавление валидации хэштегов.
+// Применение эффектов.
+effectsList.addEventListener('click', onEffectsListClick);
+
+// Изменение интенсивности эффектов.
+slider.noUiSlider.on('update', onSliderUpdate);
+
+// Валидация хэштегов.
 pristine.addValidator(inputHashtags, validateHashtags, errorHashtags, 1, false);
 inputHashtags.addEventListener('input', onInputHashtagsInput);
 
-// Добавление валидации описания.
+// Валидация описания.
 pristine.addValidator(inputDescription, validateDescription, errorDescription, 2, false);
 inputDescription.addEventListener('input', onInputDescriptionInput);
 
 // Закрытие формы загрузки изображения через иконку.
-cancel.addEventListener('click', onCancelClick);
+imgUploadCancel.addEventListener('click', onCancelClick);
 
-// Отправка изображения на сервер.
-formImgUpload.addEventListener('submit', () => {});
+// Отправка формы с изображением.
+formImgUpload.addEventListener('submit', onFormImgUploadSubmit);
