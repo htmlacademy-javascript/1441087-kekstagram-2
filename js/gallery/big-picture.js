@@ -14,10 +14,14 @@ const socialCaption = bigPicture.querySelector('.social__caption');
 const commentsLoader = bigPicture.querySelector('.comments-loader');
 
 
+/**
+ * Переключает видимость окна с изображением.
+ */
 const bigPictureToogle = () => {
   bigPicture.classList.toggle('hidden');
   document.body.classList.toggle('modal-open');
 };
+
 
 /**
  * Закрывает изображение.
