@@ -82,8 +82,6 @@ const effectReset = () => {
  * Обрабатывает нажатие на список эффектов.
  */
 const onEffectsListClick = (evt) => {
-  sliderReset();
-
   let target = evt.target;
 
   if (target.classList.contains('effects__label')) {
@@ -92,6 +90,7 @@ const onEffectsListClick = (evt) => {
 
   if (target.classList.contains('effects__preview')) {
     currentEffect = target.classList[1].replace('effects__preview--', '');
+    sliderReset();
     effectUpdate();
   }
 };
