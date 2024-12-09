@@ -4,6 +4,7 @@ import { effectReset, onEffectsListClick, onSliderUpdate } from './effects.js';
 import { validateHashtags, errorHashtags } from './validate-hashtags.js';
 import { validateDescription, errorDescription } from './validate-description.js';
 import { sendData } from '../api.js';
+import { showAlert } from '../alerts.js';
 
 const formImgUpload = document.querySelector('.img-upload__form');
 const imgUploadSubmit = formImgUpload.querySelector('.img-upload__submit');
@@ -171,7 +172,13 @@ const onFormImgUploadSubmit = (evt) => {
     inputHashtags.value = inputHashtags.value.trim().replaceAll(/\s+/g, ' ');
     const formData = new FormData(formImgUpload);
 
-    sendData(formData);
+    sendData(formData)
+      .then(() => {
+        showAlert('sendSuccess');
+      })
+      .catch(() => {
+        showAlert('sendError');
+      });
     // formImgUpload.submit();
   }
 };
