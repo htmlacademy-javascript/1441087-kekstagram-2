@@ -52,4 +52,4 @@ const insertThumbnails = (pictures) => {
 
 getData()
   .then((pictures) => insertThumbnails(pictures))
-  .catch((err) => showNotify('danger', err.message));
+  .catch((err) => showNotify('error', err.message));

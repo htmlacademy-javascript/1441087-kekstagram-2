@@ -1,20 +1,19 @@
 const notifyTemplate = document.querySelector('#notify').content;
 
 const notifyTypes = {
-  danger: {
+  error: {
     sectionClass: 'data-error',
     h2Class: 'data-error__title',
-    h2Text: 'Не удалось загрузить данные',
   }
 };
 
 
-const hideNotify = () => {
+const removeNotify = () => {
   document.querySelector('#notify-current').remove();
 };
 
 
-const showNotify = (type, text) => {
+const showNotify = (type, message) => {
   const notify = notifyTemplate.cloneNode(true);
   const notifyType = notifyTypes[type];
 
@@ -23,11 +22,11 @@ const showNotify = (type, text) => {
 
   const notifyTitle = notify.querySelector('h2');
   notifyTitle.classList.add(notifyType.h2Class);
-  notifyTitle.textContent = text;
+  notifyTitle.textContent = message;
 
   document.body.append(notify);
 
-  setTimeout(hideNotify, 5000);
+  setTimeout(removeNotify, 5000);
 };
 
 export { showNotify };
