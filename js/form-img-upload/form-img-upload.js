@@ -177,6 +177,7 @@ const onFormImgUploadSubmit = (evt) => {
     sendData(formData)
       .then(() => {
         showAlert('success', SUCCESS_UPLOAD_MESSAGE);
+        formImgUploadClose();
       })
       .catch((err) => {
         showAlert('error', err.message);

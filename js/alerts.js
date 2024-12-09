@@ -50,7 +50,7 @@ const showAlert = (type, message) => {
 
   const alertButton = alert.querySelector('button');
   alertButton.classList.add(alertType.buttonClass);
-  alertButton.textConetnt = alertType.buttonText;
+  alertButton.textContent = alertType.buttonText;
 
   alertButton.addEventListener('click', (evt) => {
     evt.preventDefault();
