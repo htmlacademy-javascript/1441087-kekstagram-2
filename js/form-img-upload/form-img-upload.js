@@ -6,6 +6,8 @@ import { validateDescription, errorDescription } from './validate-description.js
 import { sendData } from '../api.js';
 import { showAlert } from '../alerts.js';
 
+const SUCCESS_UPLOAD_MESSAGE = 'Изображение успешно загружено';
+
 const formImgUpload = document.querySelector('.img-upload__form');
 const imgUploadSubmit = formImgUpload.querySelector('.img-upload__submit');
 const imgUploadCancel = formImgUpload.querySelector('.img-upload__cancel');
@@ -174,12 +176,11 @@ const onFormImgUploadSubmit = (evt) => {
 
     sendData(formData)
       .then(() => {
-        showAlert('sendSuccess');
+        showAlert('success', SUCCESS_UPLOAD_MESSAGE);
       })
-      .catch(() => {
-        showAlert('sendError');
+      .catch((err) => {
+        showAlert('error', err.message);
       });
-    // formImgUpload.submit();
   }
 };
 

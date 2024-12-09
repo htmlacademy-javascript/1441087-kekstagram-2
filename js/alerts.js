@@ -3,26 +3,24 @@ import { isEscapeKey } from './util';
 const alertTemplate = document.querySelector('#alert').content;
 
 const alertTypes = {
-  sendError: {
+  error: {
     sectionClass: 'error',
     divClass: 'error__inner',
     h2Class: 'error__title',
-    h2Text: 'Ошибка загрузки файла',
     buttonClass: 'error__button',
     buttonText: 'Попробовать ещё раз'
   },
-  sendSuccess: {
+  success: {
     sectionClass: 'success',
     divClass: 'success__inner',
     h2Class: 'success__title',
-    h2Text: 'Изображение успешно загружено',
     buttonClass: 'success__button',
     buttonText: 'Круто!'
   }
 };
 
 
-const hideAlert = () => {
+const removeAlert = () => {
   document.querySelector('#alert-current').remove();
   document.removeEventListener('keydown', onDocumentKeydown);
 };
@@ -31,36 +29,36 @@ const hideAlert = () => {
 function onDocumentKeydown (evt) {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
-    hideAlert();
+    removeAlert();
   }
 }
 
 
-const showAlert = (alertType) => {
+const showAlert = (type, message) => {
   const alert = alertTemplate.cloneNode(true);
-  const currentAlertType = alertTypes[alertType];
+  const alertType = alertTypes[type];
 
   const alertSection = alert.querySelector('section');
-  alertSection.classList.add(currentAlertType.sectionClass);
+  alertSection.classList.add(alertType.sectionClass);
 
   const alertDiv = alert.querySelector('div');
-  alertDiv.classList.add(currentAlertType.divClass);
+  alertDiv.classList.add(alertType.divClass);
 
   const alertTitle = alert.querySelector('h2');
-  alertTitle.classList.add(currentAlertType.h2Class);
-  alertTitle.textContent = currentAlertType.h2Text;
+  alertTitle.classList.add(alertType.h2Class);
+  alertTitle.textContent = message;
 
   const alertButton = alert.querySelector('button');
-  alertButton.classList.add(currentAlertType.buttonClass);
-  alertButton.textConetnt = currentAlertType.buttonText;
+  alertButton.classList.add(alertType.buttonClass);
+  alertButton.textConetnt = alertType.buttonText;
 
   alertButton.addEventListener('click', (evt) => {
     evt.preventDefault();
-    hideAlert();
+    removeAlert();
   });
 
   alertSection.addEventListener('click', () => {
-    hideAlert();
+    removeAlert();
   });
 
   document.addEventListener('keydown', onDocumentKeydown);
