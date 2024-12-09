@@ -3,6 +3,7 @@ import { scaleUpdate, scaleReset } from './scale.js';
 import { effectReset, onEffectsListClick, onSliderUpdate } from './effects.js';
 import { validateHashtags, errorHashtags } from './validate-hashtags.js';
 import { validateDescription, errorDescription } from './validate-description.js';
+import { sendData } from '../api.js';
 
 const formImgUpload = document.querySelector('.img-upload__form');
 const imgUploadSubmit = formImgUpload.querySelector('.img-upload__submit');
@@ -168,7 +169,10 @@ const onFormImgUploadSubmit = (evt) => {
 
   if (pristine.validate()) {
     inputHashtags.value = inputHashtags.value.trim().replaceAll(/\s+/g, ' ');
-    formImgUpload.submit();
+    const formData = new FormData(formImgUpload);
+
+    sendData(formData);
+    // formImgUpload.submit();
   }
 };
 
