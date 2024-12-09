@@ -173,6 +173,7 @@ const onFormImgUploadSubmit = (evt) => {
   evt.preventDefault();
 
   if (pristine.validate()) {
+    imgUploadSubmit.disabled = true;
     inputHashtags.value = inputHashtags.value.trim().replaceAll(/\s+/g, ' ');
     const formData = new FormData(formImgUpload);
 
@@ -183,6 +184,9 @@ const onFormImgUploadSubmit = (evt) => {
       })
       .catch((err) => {
         showAlert('error', err.message);
+      })
+      .finally(() => {
+        imgUploadSubmit.disabled = false;
       });
   }
 };
