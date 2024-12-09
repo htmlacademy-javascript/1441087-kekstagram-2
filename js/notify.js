@@ -1,5 +1,4 @@
 const notifyTemplate = document.querySelector('#notify').content;
-
 const notifyTypes = {
   error: {
     sectionClass: 'data-error',
@@ -7,12 +6,18 @@ const notifyTypes = {
   }
 };
 
-
+/**
+ * Убирает текущее уведомление со тсраницы.
+ */
 const removeNotify = () => {
   document.querySelector('#notify-current').remove();
 };
 
-
+/**
+ * Показывает переданное сообщение в виде уведомления указанного типа.
+ * @param {string} type Тип уведомления.
+ * @param {string} message Сообщение.
+ */
 const showNotify = (type, message) => {
   const notify = notifyTemplate.cloneNode(true);
   const notifyType = notifyTypes[type];

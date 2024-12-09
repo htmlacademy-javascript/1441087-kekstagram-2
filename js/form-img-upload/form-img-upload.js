@@ -93,7 +93,7 @@ const formImgUploadClose = () => {
 
 
 /**
- * Обрабатывает загрузку изображения в инпут.
+ * Обработчик загрузки изображения в инпут.
  */
 const onInputImgInput = () => {
   const file = inputImg.files[0];
@@ -104,7 +104,7 @@ const onInputImgInput = () => {
 
 
 /**
- * Обрабатывает закрытие формы загрузки изображения через иконку.
+ * Обработчик закрытия формы загрузки изображения через иконку.
  * @param {object} evt Событие.
 */
 const onCancelClick = (evt) => {
@@ -114,11 +114,13 @@ const onCancelClick = (evt) => {
 
 
 /**
- * Обрабатывает закрытие формы загрузки изображения через Escape.
+ * Обработчик закрытия формы загрузки изображения через Escape.
  * @param {object} evt Событие.
 */
 function onDocumentKeydown (evt) {
-  if (isEscapeKey(evt)) {
+  const currentAlert = document.querySelector('#alert-current');
+
+  if (isEscapeKey(evt) && !currentAlert) {
     evt.preventDefault();
 
     if (document.activeElement === inputHashtags ||
@@ -132,7 +134,7 @@ function onDocumentKeydown (evt) {
 
 
 /**
- * Обрабатывает уменьшение масштаба изображения.
+ * Обработчик уменьшения масштаба изображения.
  */
 const onScaleControlSmallerClick = () => {
   scaleUpdate(-1);
@@ -140,7 +142,7 @@ const onScaleControlSmallerClick = () => {
 
 
 /**
- * Обрабатывает увеличение масштаба изображения.
+ * Обработчик увеличения масштаба изображения.
  */
 const onScaleControlBiggerClick = () => {
   scaleUpdate(1);
@@ -148,7 +150,7 @@ const onScaleControlBiggerClick = () => {
 
 
 /**
- * Обрабатывает ввод в инпут для хэштегов.
+ * Обработчик ввода в инпут для хэштегов.
  */
 const onInputHashtagsInput = () => {
   imgUploadSubmit.disabled = !pristine.validate();
@@ -156,7 +158,7 @@ const onInputHashtagsInput = () => {
 
 
 /**
- * Обрабатывает ввод в инпут для описания.
+ * Обработчик ввода в инпут для описания.
  */
 const onInputDescriptionInput = () => {
   imgUploadSubmit.disabled = !pristine.validate();
@@ -164,7 +166,7 @@ const onInputDescriptionInput = () => {
 
 
 /**
- * Обрабатывает отправку формы с изображением.
+ * Обработчик отправки формы с изображением.
  * @param {object} evt Событие.
  */
 const onFormImgUploadSubmit = (evt) => {

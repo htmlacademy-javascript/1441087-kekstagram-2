@@ -19,21 +19,33 @@ const alertTypes = {
   }
 };
 
-
-const removeAlert = () => {
-  document.querySelector('#alert-current').remove();
-  document.removeEventListener('keydown', onDocumentKeydown);
+/**
+ * Убирает текущий алёрт со страницы.
+ */
+const removeCurrentAlert = () => {
+  const currentAlert = document.querySelector('#alert-current');
+  if (currentAlert) {
+    document.body.removeChild(currentAlert);
+    document.removeEventListener('keydown', onDocumentKeydown);
+  }
 };
 
-
+/**
+ * Обработчик закрытия алёрта через Esc.
+ * @param {object} evt
+ */
 function onDocumentKeydown (evt) {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
-    removeAlert();
+    removeCurrentAlert();
   }
 }
 
-
+/**
+ * Показывает переданное сообщение в виде алёрта указанного типа.
+ * @param {string} type Тип алёрта.
+ * @param {string} message Сообщение.
+ */
 const showAlert = (type, message) => {
   const alert = alertTemplate.cloneNode(true);
   const alertType = alertTypes[type];
@@ -54,11 +66,11 @@ const showAlert = (type, message) => {
 
   alertButton.addEventListener('click', (evt) => {
     evt.preventDefault();
-    removeAlert();
+    removeCurrentAlert();
   });
 
   alertSection.addEventListener('click', () => {
-    removeAlert();
+    removeCurrentAlert();
   });
 
   document.addEventListener('keydown', onDocumentKeydown);
