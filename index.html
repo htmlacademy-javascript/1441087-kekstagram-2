@@ -224,30 +224,20 @@
     </li>
   </template>
 
-  <!-- Сообщение с ошибкой загрузки изображения -->
-  <template id="error">
-    <section class="error">
-      <div class="error__inner">
-        <h2 class="error__title">Ошибка загрузки файла</h2>
-        <button type="button" class="error__button">Попробовать ещё раз</button>
+  <!-- Шаблон алёрта -->
+  <template id="alert">
+    <section id="alert-current">
+      <div>
+        <h2></h2>
+        <button type="button">Закрыть</button>
       </div>
     </section>
   </template>
 
-  <!-- Сообщение об успешной загрузке изображения -->
-  <template id="success">
-    <section class="success">
-      <div class="success__inner">
-        <h2 class="success__title">Изображение успешно загружено</h2>
-        <button type="button" class="success__button">Круто!</button>
-      </div>
-    </section>
-  </template>
-
-  <!-- Сообщение с ошибкой загрузки изображений от других пользователей -->
-  <template id="data-error">
-    <section class="data-error">
-      <h2 class="data-error__title">Не удалось загрузить данные</h2>
+  <!-- Шаблон уведомления -->
+  <template id="notify">
+    <section id="notify-current">
+      <h2></h2>
     </section>
   </template>
 

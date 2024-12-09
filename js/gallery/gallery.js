@@ -1,4 +1,5 @@
-import { mockPhotos } from './mock-photos.js';
+import { getData } from '../api.js';
+import { showNotify } from '../notify.js';
 import { openPicture } from './big-picture.js';
 
 
@@ -49,4 +50,6 @@ const insertThumbnails = (pictures) => {
 };
 
 
-insertThumbnails(mockPhotos);
+getData()
+  .then((pictures) => insertThumbnails(pictures))
+  .catch((err) => showNotify('error', err.message));
