@@ -7,7 +7,7 @@ const notifyTypes = {
 };
 
 /**
- * Убирает текущее уведомление со тсраницы.
+ * Убирает текущее уведомление со страницы.
  */
 const removeNotify = () => {
   document.querySelector('#notify-current').remove();
