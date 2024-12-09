@@ -8,8 +8,8 @@ const Method = {
   POST: 'POST',
 };
 const ErrorText = {
-  GET_DATA: 'Не удалось загрузить данные. Попробуйте обновить страницу',
-  SEND_DATA: 'Не удалось отправить форму. Попробуйте ещё раз',
+  GET_DATA: 'Не удалось загрузить данные',
+  SEND_DATA: 'Ошибка загрузки файла',
 };
 
 const load = (route, errorText, method = Method.GET, body = null) =>

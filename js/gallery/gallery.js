@@ -1,4 +1,5 @@
 import { getData } from '../api.js';
+import { showNotify } from '../notify.js';
 import { openPicture } from './big-picture.js';
 
 
@@ -49,4 +50,6 @@ const insertThumbnails = (pictures) => {
 };
 
 
-getData().then((pictures) => insertThumbnails(pictures));
+getData()
+  .then((pictures) => insertThumbnails(pictures))
+  .catch((err) => showNotify('danger', err.message));
