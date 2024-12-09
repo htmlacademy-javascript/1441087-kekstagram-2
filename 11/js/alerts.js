@@ -1,4 +1,4 @@
-import { isEscapeKey } from './util';
+import { isEscapeKey } from './util.js';
 
 const alertTemplate = document.querySelector('#alert').content;
 
