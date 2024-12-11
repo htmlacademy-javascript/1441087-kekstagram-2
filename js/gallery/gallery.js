@@ -1,7 +1,7 @@
 import { getData } from '../api.js';
 import { showNotify } from '../notify.js';
 import { openPicture } from './big-picture.js';
-
+import { initializeFilter } from './filter.js';
 
 const picturesContainer = document.querySelector('.pictures');
 const thumbnailTemplate = document.querySelector('#picture').content.querySelector('.picture');
@@ -33,12 +33,19 @@ const getThumbnail = (pictureData) => {
   return thumbnail;
 };
 
+const clearThumbnails = () => {
+  const allPictures = picturesContainer.querySelectorAll('.picture');
+  allPictures.forEach((picture) => picture.remove());
+};
+
 
 /**
  * Вставляет превью изображений на страницу.
  * @param {object} pictures Список изображений.
  */
 const insertThumbnails = (pictures) => {
+  clearThumbnails();
+
   const thumbnailsFragment = document.createDocumentFragment();
 
   pictures.forEach((photoData) => {
@@ -51,5 +58,11 @@ const insertThumbnails = (pictures) => {
 
 
 getData()
-  .then((pictures) => insertThumbnails(pictures))
+  .then((pictures) => {
+    insertThumbnails(pictures);
+    initializeFilter(pictures);
+  })
   .catch((err) => showNotify('error', err.message));
+
+
+export { insertThumbnails };
