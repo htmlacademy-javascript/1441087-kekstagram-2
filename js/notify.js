@@ -1,3 +1,4 @@
+const NOTIFY_DELAY = 500;
 const notifyTemplate = document.querySelector('#notify').content;
 const notifyTypes = {
   error: {
@@ -31,7 +32,7 @@ const showNotify = (type, message) => {
 
   document.body.append(notify);
 
-  setTimeout(removeNotify, 5000);
+  setTimeout(removeNotify, NOTIFY_DELAY);
 };
 
 export { showNotify };
