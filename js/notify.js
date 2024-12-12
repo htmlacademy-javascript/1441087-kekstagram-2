@@ -1,4 +1,4 @@
-const NOTIFY_DELAY = 500;
+const NOTIFY_DELAY = 5000;
 const notifyTemplate = document.querySelector('#notify').content;
 const notifyTypes = {
   error: {
