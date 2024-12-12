@@ -5,8 +5,11 @@ import { validateHashtags, errorHashtags } from './validate-hashtags.js';
 import { validateDescription, errorDescription } from './validate-description.js';
 import { sendData } from '../api.js';
 import { showAlert } from '../alerts.js';
+import { showNotify } from '../notify.js';
 
 const SUCCESS_UPLOAD_MESSAGE = 'Изображение успешно загружено';
+const WRONG_FILE_TYPE_MESSAGE = 'Недопустимый формат файла';
+const ACCEPT_FILE_TYPES = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
 
 const formImgUpload = document.querySelector('.img-upload__form');
 const imgUploadSubmit = formImgUpload.querySelector('.img-upload__submit');
@@ -21,7 +24,7 @@ const scaleControlSmaller = formImgUpload.querySelector('.scale__control--smalle
 const scaleControlBigger = formImgUpload.querySelector('.scale__control--bigger');
 
 const effectsList = formImgUpload.querySelector('.effects__list');
-const effectsItems = formImgUpload.querySelectorAll('.effects__item');
+const effectsPreview = formImgUpload.querySelectorAll('.effects__preview');
 const slider = formImgUpload.querySelector('.effect-level__slider');
 
 
@@ -43,22 +46,30 @@ const formImgUploadToogle = () => {
 
 
 /**
- * Заполняет превью загрузки изображения.
+ * Отображает загруженное изображение в превью и в эффектах.
  * @param {object} file
  */
-const showPreview = (file) => {
-  const reader = new FileReader();
+const previewShow = (file) => {
+  const fileUrl = URL.createObjectURL(file);
 
-  reader.onload = (evt) => {
-    previewImg.src = evt.target.result;
+  previewImg.src = fileUrl;
 
-    effectsItems.forEach((effectItem) => {
-      const effectImg = effectItem.querySelector('span');
-      effectImg.style.backgroundImage = `url(${evt.target.result})`;
-    });
-  };
+  effectsPreview.forEach((preview) => {
+    preview.style.backgroundImage = `url(${fileUrl})`;
+  });
+};
 
-  reader.readAsDataURL(file);
+
+/**
+ * Очищает загруженное изображение в превью и в эффектах.
+ * @param {object} file
+ */
+const previewReset = () => {
+  previewImg.src = '';
+
+  effectsPreview.forEach((preview) => {
+    preview.style.backgroundImage = '';
+  });
 };
 
 
@@ -77,15 +88,12 @@ const formImgUploadOpen = () => {
 */
 const formImgUploadClose = () => {
   formImgUploadToogle();
+  previewReset();
   scaleReset();
   effectReset();
   pristine.reset();
   formImgUpload.reset();
 
-  inputImg.value = '';
-  inputHashtags.value = '';
-  inputDescription.value = '';
-  previewImg.src = '';
   imgUploadSubmit.disabled = false;
 
   document.removeEventListener('keydown', onDocumentKeydown);
@@ -97,9 +105,15 @@ const formImgUploadClose = () => {
  */
 const onInputImgInput = () => {
   const file = inputImg.files[0];
-
-  showPreview(file);
-  formImgUploadOpen();
+  const fileName = file.name.toLowerCase();
+  const fileExtansion = fileName.split('.').pop();
+  const matches = ACCEPT_FILE_TYPES.includes(fileExtansion);
+  if (matches) {
+    previewShow(file);
+    formImgUploadOpen();
+  } else {
+    showNotify('error', WRONG_FILE_TYPE_MESSAGE);
+  }
 };
 
 
