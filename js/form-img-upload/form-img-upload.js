@@ -5,8 +5,10 @@ import { validateHashtags, errorHashtags } from './validate-hashtags.js';
 import { validateDescription, errorDescription } from './validate-description.js';
 import { sendData } from '../api.js';
 import { showAlert } from '../alerts.js';
+import { showNotify } from '../notify.js';
 
 const SUCCESS_UPLOAD_MESSAGE = 'Изображение успешно загружено';
+const WRONG_FILE_TYPE_MESSAGE = 'Недопустимый формат файла';
 const ACCEPT_FILE_TYPES = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
 
 const formImgUpload = document.querySelector('.img-upload__form');
@@ -109,6 +111,8 @@ const onInputImgInput = () => {
   if (matches) {
     previewShow(file);
     formImgUploadOpen();
+  } else {
+    showNotify('error', WRONG_FILE_TYPE_MESSAGE);
   }
 };
 
