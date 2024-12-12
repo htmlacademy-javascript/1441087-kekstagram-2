@@ -66,7 +66,7 @@ const getRandomIdFromRangeGenerator = (min, max) => {
 
 
 /**
- * Перемешивает элементы массива в случайном опрядке.
+ * Перемешивает элементы массива в случайном порядке.
  * @param {array} array Массив.
  * @returns
  */
