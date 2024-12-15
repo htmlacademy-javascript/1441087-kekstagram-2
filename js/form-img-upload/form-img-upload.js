@@ -134,15 +134,12 @@ const onCancelClick = (evt) => {
 function onDocumentKeydown (evt) {
   const currentAlert = document.querySelector('#alert-current');
 
-  if (isEscapeKey(evt) && !currentAlert) {
+  if (isEscapeKey(evt) &&
+      !currentAlert &&
+      document.activeElement !== inputHashtags &&
+      document.activeElement !== inputDescription) {
     evt.preventDefault();
-
-    if (document.activeElement === inputHashtags ||
-        document.activeElement === inputDescription) {
-      evt.stopPropagation();
-    } else {
-      formImgUploadClose();
-    }
+    formImgUploadClose();
   }
 }
 
