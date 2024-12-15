@@ -13,11 +13,6 @@ let commentsLimitCurrent = COMMENTS_SHOW_STEP;
 let comments = [];
 
 
-/**
- * Возвращает HTMLElement комментария.
- * @param {object} commentData Комментарий.
- * @returns {object} HTMLElement Комментария.
-*/
 const getComment = (commentData) => {
   const comment = commentTemplate.cloneNode(true);
   const commentImg = comment.querySelector('img');
@@ -32,9 +27,6 @@ const getComment = (commentData) => {
 };
 
 
-/**
- * Отображает очередную группу комментариев открытого изображения.
- */
 const showMoreComments = () => {
   const commentsToDisplay = comments.slice(commentsLimitCurrent - COMMENTS_SHOW_STEP, commentsLimitCurrent);
 
@@ -53,10 +45,6 @@ const showMoreComments = () => {
 };
 
 
-/**
- * Отображает комментарии открытого изображения.
- * @param {object} pictureData Изображение.
- */
 const showComments = (pictureData) => {
   comments = pictureData.comments;
 
@@ -65,9 +53,6 @@ const showComments = (pictureData) => {
 };
 
 
-/**
- * Убирает комментарии открытого изображения.
- */
 const removeComments = () => {
   commentsLimitCurrent = COMMENTS_SHOW_STEP;
   comments = [];

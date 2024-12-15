@@ -13,15 +13,9 @@ const imgFilterButtons = imgFilters.querySelectorAll('.img-filters__button');
 let picturesFromServer = [];
 
 
-/**
- * Сравнивает изображения по количеству комментариев.
- */
 const compareByComments = (pictureA, pictureB) => pictureB.comments.length - pictureA.comments.length;
 
 
-/**
- * Сортирует изображения выбранным методом.
- */
 const sortPictures = {
   default: (pictures) => pictures,
   random: (pictures) => shuffleArray(pictures).slice(0, RANDOM_PICTURES_COUNT),
@@ -29,18 +23,11 @@ const sortPictures = {
 };
 
 
-/**
- * Отображает фильтр.
- */
 const showFilter = () => {
   imgFilters.classList.remove('img-filters--inactive');
 };
 
-/**
- * Применяет выбранный фильтр для изображений.
- * @param {string} filterType Фильтр.
- * @param {Array} pictures Изображения.
- */
+
 const applyFilter = (filterType = 'default', pictures = []) => {
   let filteredPictures = pictures.slice();
   filteredPictures = sortPictures[filterType](filteredPictures);
@@ -49,10 +36,6 @@ const applyFilter = (filterType = 'default', pictures = []) => {
 };
 
 
-/**
- * Инициализирует фильтр для изображений.
- * @param {Array} pictures Изображения.
- */
 const initializeFilter = (pictures = []) => {
   picturesFromServer = pictures;
 
@@ -62,10 +45,6 @@ const initializeFilter = (pictures = []) => {
 };
 
 
-/**
- * Отображает текущий активный фильтр.
- * @param {object} currentFilterButton Кнопка выбранного фильтра.
- */
 const showCurrentFilter = (currentFilterButton) => {
   imgFilterButtons.forEach((button) => button.classList.remove('img-filters__button--active'));
   currentFilterButton.classList.add('img-filters__button--active');

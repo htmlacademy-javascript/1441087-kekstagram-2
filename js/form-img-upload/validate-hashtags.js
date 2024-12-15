@@ -5,18 +5,9 @@ const HASHTAG_SYMBOLS_MAX = 20;
 let errorMessage = '';
 
 
-/**
- * Возвращает сообщение об ошибке при валидации хэштегов.
- * @returns {string} Сообщение об ошибке.
- */
 const getErrorHashtags = () => errorMessage;
 
 
-/**
- * Проверяет хэштеги на соответствие правилам.
- * @param {string} value Строка с хэштегами.
- * @returns {boolean} Прошла ли строка валидацию.
- */
 const validateHashtags = (value) => {
   errorMessage = '';
 

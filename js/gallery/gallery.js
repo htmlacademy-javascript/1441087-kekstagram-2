@@ -5,11 +5,6 @@ const picturesContainer = document.querySelector('.pictures');
 const thumbnailTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
 
-/**
- * Возвращает HTMLElement миниатюры изображения.
- * @param {object} pictureData Изображение.
- * @returns {object} HTMLElement миниатюры изображения.
-*/
 const getThumbnail = (pictureData) => {
   const thumbnail = thumbnailTemplate.cloneNode(true);
 
@@ -32,19 +27,12 @@ const getThumbnail = (pictureData) => {
 };
 
 
-/**
- * Убирает миниатюры изображений.
- */
 const removeThumbnails = () => {
   const allPictures = picturesContainer.querySelectorAll('.picture');
   allPictures.forEach((picture) => picture.remove());
 };
 
 
-/**
- * Отображает миниатюры изображений.
- * @param {array} pictures Изображения.
- */
 const showThumbnails = (pictures) => {
   removeThumbnails();
 
