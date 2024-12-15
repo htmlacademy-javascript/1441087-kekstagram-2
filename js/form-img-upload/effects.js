@@ -51,11 +51,13 @@ const sliderSettings = {
   },
 };
 
+
 const formImgUpload = document.querySelector('.img-upload__form');
 const effectLevel = formImgUpload.querySelector('.img-upload__effect-level');
 const inputEffectLevel = formImgUpload.querySelector('.effect-level__value');
 const slider = formImgUpload.querySelector('.effect-level__slider');
 const previewImg = formImgUpload.querySelector('.img-upload__preview img');
+
 
 let currentEffect = DEFAULT_EFFECT;
 
@@ -95,7 +97,6 @@ const getEffectCss = {
 
 /**
  * Устанавливает настройки слайдера для текущего эффекта.
- * @param {string} effect Эффект.
  */
 const setSliderSettings = () => {
   slider.noUiSlider.updateOptions(sliderSettings[currentEffect]);
@@ -112,23 +113,23 @@ const setSliderSettings = () => {
 /**
  * Обновляет текущий эффект на изображении.
  */
-const updatePictureEffect = () => {
+const updateEffect = () => {
   previewImg.style.filter = getEffectCss[currentEffect]();
 };
 
 
 /**
- * Устанавливает эффект по-умолчанию.
+ * Сбрасывает эффект на значение по умолчанию.
  */
 const resetEffect = () => {
   currentEffect = DEFAULT_EFFECT;
   setSliderSettings();
-  updatePictureEffect();
+  updateEffect();
 };
 
 
 /**
- * Обрабатывает нажатие на список эффектов.
+ * Обработчик клика на список эффектов.
  */
 const onEffectsListClick = (evt) => {
   let target = evt.target;
@@ -140,17 +141,17 @@ const onEffectsListClick = (evt) => {
   if (target.classList.contains('effects__preview')) {
     currentEffect = target.classList[1].replace('effects__preview--', '');
     setSliderSettings();
-    updatePictureEffect();
+    updateEffect();
   }
 };
 
 
 /**
- * Обрабатывает обновление значений слайдера.
+ * Обработчик обновления значения слайдера.
  */
 const onSliderUpdate = () => {
   inputEffectLevel.value = slider.noUiSlider.get();
-  updatePictureEffect();
+  updateEffect();
 };
 
 
