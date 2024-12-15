@@ -1,6 +1,6 @@
 import { isEscapeKey } from '../util.js';
 import { scaleUpdate, scaleReset } from './scale.js';
-import { effectReset, onEffectsListClick, onSliderUpdate } from './effects.js';
+import { resetEffect, onEffectsListClick, onSliderUpdate } from './effects.js';
 import { validateHashtags, errorHashtags } from './validate-hashtags.js';
 import { validateDescription, errorDescription } from './validate-description.js';
 import { sendData } from '../api.js';
@@ -90,7 +90,7 @@ const formImgUploadClose = () => {
   formImgUploadToogle();
   previewReset();
   scaleReset();
-  effectReset();
+  resetEffect();
   pristine.reset();
   formImgUpload.reset();
 
