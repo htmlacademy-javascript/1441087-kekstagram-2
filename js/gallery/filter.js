@@ -5,8 +5,10 @@ import { showThumbnails } from './gallery.js';
 const RANDOM_PICTURES_COUNT = 10;
 const FILTER_TIMEOUT_DELAY = 500;
 
+
 const imgFilters = document.querySelector('.img-filters');
 const imgFilterButtons = imgFilters.querySelectorAll('.img-filters__button');
+
 
 let picturesFromServer = [];
 

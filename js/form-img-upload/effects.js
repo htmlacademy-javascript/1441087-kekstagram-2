@@ -1,5 +1,6 @@
 const DEFAULT_EFFECT = 'none';
 
+
 const sliderSettings = {
   none: {
     range: {
@@ -120,7 +121,7 @@ const updateEffect = () => {
 
 
 /**
- * Сбрасывает эффект на значение по умолчанию.
+ * Сбрасывает переключатель эффектов на значение по умолчанию.
  */
 const resetEffect = () => {
   currentEffect = DEFAULT_EFFECT;

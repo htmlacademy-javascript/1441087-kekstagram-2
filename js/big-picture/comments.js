@@ -1,11 +1,13 @@
 const COMMENTS_SHOW_STEP = 5;
 
+
 const commentTemplate = document.querySelector('#comment').content.querySelector('.social__comment');
 const bigPicture = document.querySelector('.big-picture');
 const socialComments = bigPicture.querySelector('.social__comments');
 const socialCommentTotalCount = bigPicture.querySelector('.social__comment-total-count');
 const socialCommentShownCount = bigPicture.querySelector('.social__comment-shown-count');
 const commentsLoader = bigPicture.querySelector('.comments-loader');
+
 
 let commentsLimitCurrent = COMMENTS_SHOW_STEP;
 let comments = [];

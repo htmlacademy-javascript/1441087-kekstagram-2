@@ -1,6 +1,7 @@
 const HASHTAGS_MAX = 5;
 const HASHTAG_SYMBOLS_MAX = 20;
 
+
 let errorMessage = '';
 
 

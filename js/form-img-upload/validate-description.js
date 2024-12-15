@@ -1,5 +1,6 @@
 const DESCRIPTION_SYMBOLS_MAX = 140;
 
+
 let errorMessage = '';
 
 
