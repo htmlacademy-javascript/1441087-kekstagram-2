@@ -69,8 +69,11 @@ const showAlert = (type, message) => {
     removeCurrentAlert();
   });
 
-  alertSection.addEventListener('click', () => {
-    removeCurrentAlert();
+  alertSection.addEventListener('click', (evt) => {
+    const target = evt.target;
+    if (target.id === 'alert-current') {
+      removeCurrentAlert();
+    }
   });
 
   document.addEventListener('keydown', onDocumentKeydown);
