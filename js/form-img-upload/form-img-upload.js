@@ -1,8 +1,8 @@
 import { isEscapeKey } from '../util.js';
 import { resetScale } from './scale.js';
 import { resetEffect } from './effects.js';
-import { validateHashtags, errorHashtags } from './validate-hashtags.js';
-import { validateDescription, errorDescription } from './validate-description.js';
+import { validateHashtags, getErrorHashtags } from './validate-hashtags.js';
+import { validateDescription, getErrorDescription } from './validate-description.js';
 import { sendData } from '../api.js';
 import { showAlert } from '../alerts.js';
 import { showNotify } from '../notify.js';
@@ -180,8 +180,8 @@ const onFormImgUploadSubmit = (evt) => {
 };
 
 
-pristine.addValidator(inputHashtags, validateHashtags, errorHashtags, 1, false);
-pristine.addValidator(inputDescription, validateDescription, errorDescription, 2, false);
+pristine.addValidator(inputHashtags, validateHashtags, getErrorHashtags, 1, false);
+pristine.addValidator(inputDescription, validateDescription, getErrorDescription, 2, false);
 
 
 inputImg.addEventListener('input', onInputImgInput);
