@@ -42,17 +42,11 @@ const resetScale = () => {
 };
 
 
-/**
- * Обработчик уменьшения масштаба изображения.
- */
 const onScaleSmallerClick = () => {
   updateScale(-1);
 };
 
 
-/**
- * Обработчик увеличения масштаба изображения.
- */
 const onScaleBiggerClick = () => {
   updateScale(1);
 };

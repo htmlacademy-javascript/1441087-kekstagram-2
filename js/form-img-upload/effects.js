@@ -129,9 +129,6 @@ const resetEffect = () => {
 };
 
 
-/**
- * Обработчик клика на список эффектов.
- */
 const onEffectsListClick = (evt) => {
   let target = evt.target;
 
@@ -147,9 +144,6 @@ const onEffectsListClick = (evt) => {
 };
 
 
-/**
- * Обработчик обновления значения слайдера.
- */
 const onSliderUpdate = () => {
   effectLevelInput.value = slider.noUiSlider.get();
   updateEffect();

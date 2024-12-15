@@ -31,7 +31,7 @@ const getComment = (commentData) => {
 
 
 /**
- * Отображает очередную группу комментариев для открытого изображения.
+ * Отображает очередную группу комментариев открытого изображения.
  */
 const showMoreComments = () => {
   const commentsToDisplay = comments.slice(commentsLimitCurrent - COMMENTS_SHOW_STEP, commentsLimitCurrent);
@@ -52,7 +52,7 @@ const showMoreComments = () => {
 
 
 /**
- * Отображает комментарии для переданного изображения.
+ * Отображает комментарии открытого изображения.
  * @param {object} pictureData Изображение.
  */
 const showComments = (pictureData) => {
@@ -64,9 +64,9 @@ const showComments = (pictureData) => {
 
 
 /**
- * Сбрасывает комментарии для открытого изображения.
+ * Убирает комментарии открытого изображения.
  */
-const resetComments = () => {
+const removeComments = () => {
   commentsLimitCurrent = COMMENTS_SHOW_STEP;
   comments = [];
   socialComments.innerHTML = '';
@@ -84,4 +84,4 @@ const onCommentsLoaderClick = () => {
 commentsLoader.addEventListener('click', onCommentsLoaderClick);
 
 
-export { showComments, resetComments };
+export { showComments, removeComments };

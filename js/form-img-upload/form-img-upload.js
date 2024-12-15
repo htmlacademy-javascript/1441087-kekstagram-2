@@ -32,7 +32,7 @@ const pristine = new Pristine(formImgUpload, {
 
 
 /**
- * Отображает превью загруженного изображения.
+ * Отображает превью загружаемого изображения.
  * @param {object} file
  */
 const showPreview = (file) => {
@@ -47,7 +47,7 @@ const showPreview = (file) => {
 
 
 /**
- * Сбрасывает превью загруженного изображения.
+ * Сбрасывает превью загружаемого изображения.
  */
 const resetPreview = () => {
   previewImg.src = '';
@@ -92,9 +92,6 @@ const closeFormImgUpload = () => {
 };
 
 
-/**
- * Обработчик загрузки изображения в инпут.
- */
 const onInputImgInput = () => {
   const file = inputImg.files[0];
   const fileName = file.name.toLowerCase();
@@ -110,20 +107,12 @@ const onInputImgInput = () => {
 };
 
 
-/**
- * Обработчик закрытия формы загрузки изображения через иконку.
- * @param {object} evt Событие.
-*/
 const onCancelClick = (evt) => {
   evt.preventDefault();
   closeFormImgUpload();
 };
 
 
-/**
- * Обработчик закрытия формы загрузки изображения через Escape.
- * @param {object} evt Событие.
-*/
 function onDocumentKeydown (evt) {
   const currentAlert = document.querySelector('#alert-current');
 
@@ -137,26 +126,16 @@ function onDocumentKeydown (evt) {
 }
 
 
-/**
- * Обработчик ввода в инпут для хэштегов.
- */
 const onInputHashtagsInput = () => {
   imgUploadSubmit.disabled = !pristine.validate();
 };
 
 
-/**
- * Обработчик ввода в инпут для описания.
- */
 const onInputDescriptionInput = () => {
   imgUploadSubmit.disabled = !pristine.validate();
 };
 
 
-/**
- * Обработчик отправки формы с изображением.
- * @param {object} evt Событие.
- */
 const onFormImgUploadSubmit = (evt) => {
   evt.preventDefault();
 

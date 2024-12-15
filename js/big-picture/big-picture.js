@@ -1,5 +1,5 @@
 import { isEscapeKey } from '../util.js';
-import { showComments, resetComments } from './comments.js';
+import { showComments, removeComments } from './comments.js';
 
 
 const bigPicture = document.querySelector('.big-picture');
@@ -23,7 +23,7 @@ const toggleBigPicture = () => {
  */
 const closePicture = () => {
   toggleBigPicture();
-  resetComments();
+  removeComments();
 
   bigPictureImg.src = '';
   bigPictureImg.alt = '';
@@ -36,7 +36,7 @@ const closePicture = () => {
 
 /**
  * Открывает изображение.
- * @param {object} pictureData Объект изображения.
+ * @param {object} pictureData Изображение.
  */
 const openPicture = (pictureData) => {
   bigPictureImg.src = pictureData.url;
@@ -51,20 +51,12 @@ const openPicture = (pictureData) => {
 };
 
 
-/**
- * Обрабатывает закрытие изображения через иконку.
- * @param {object} evt Событие.
- */
 const onPictureCloseClick = (evt) => {
   evt.preventDefault();
   closePicture();
 };
 
 
-/**
- * Обрабатывает закрытие изображения через Escape.
- * @param {object} evt Событие.
- */
 function onDocumentKeydown (evt) {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
