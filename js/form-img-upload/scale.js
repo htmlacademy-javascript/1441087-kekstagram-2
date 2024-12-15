@@ -14,7 +14,7 @@ const scaleValueInput = formImgUpload.querySelector('.scale__control--value');
 
 
 /**
- * Изменяет масштаб загружаемого изображения.
+ * Обновляет масштаб загружаемого изображения.
  * @param {number} factor \-1 для уменьшения, 1 для увеличения масштаба.
  */
 const updateScale = (factor = 1) => {
@@ -32,7 +32,7 @@ const updateScale = (factor = 1) => {
 
 
 /**
- * Сбрасывает масштаб для загружаемого изображения.
+ * Сбрасывает масштаб загружаемого изображения.
  */
 const resetScale = () => {
   scaleValueInput.value = '100%';
