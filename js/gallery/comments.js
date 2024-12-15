@@ -12,9 +12,9 @@ let comments = [];
 
 
 /**
- * Создаёт разметку комментария.
- * @param {object} commentData Данные комментария.
- * @returns {object} Комментарий.
+ * Возвращает HTMLElement комментария.
+ * @param {object} commentData Комментарий.
+ * @returns {object} HTMLElement Комментария.
 */
 const getComment = (commentData) => {
   const comment = commentTemplate.cloneNode(true);
@@ -31,7 +31,7 @@ const getComment = (commentData) => {
 
 
 /**
- * Выводит на экран очередную порцию комментариев для открытого изображения.
+ * Отображает очередную группу комментариев для открытого изображения.
  */
 const showMoreComments = () => {
   const commentsToDisplay = comments.slice(commentsLimitCurrent - COMMENTS_SHOW_STEP, commentsLimitCurrent);
@@ -52,10 +52,10 @@ const showMoreComments = () => {
 
 
 /**
- * Вставляет на страницу комментарии для переданного изображения.
- * @param {object} pictureData Данные изображения.
+ * Отображает комментарии для переданного изображения.
+ * @param {object} pictureData Изображение.
  */
-const insertComments = (pictureData) => {
+const showComments = (pictureData) => {
   comments = pictureData.comments;
 
   socialCommentTotalCount.textContent = pictureData.comments.length;
@@ -64,9 +64,9 @@ const insertComments = (pictureData) => {
 
 
 /**
- * Очищает блок с комментариями для открытого изображения.
+ * Сбрасывает комментарии для открытого изображения.
  */
-const cleanComments = () => {
+const resetComments = () => {
   commentsLimitCurrent = COMMENTS_SHOW_STEP;
   comments = [];
   socialComments.innerHTML = '';
@@ -76,4 +76,12 @@ const cleanComments = () => {
 };
 
 
-export { insertComments, showMoreComments, cleanComments };
+const onCommentsLoaderClick = () => {
+  showMoreComments();
+};
+
+
+commentsLoader.addEventListener('click', onCommentsLoaderClick);
+
+
+export { showComments, resetComments };

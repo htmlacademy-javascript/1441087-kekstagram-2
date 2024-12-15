@@ -1,9 +1,5 @@
 import { isEscapeKey } from '../util.js';
-import {
-  insertComments,
-  showMoreComments,
-  cleanComments
-} from './comments.js';
+import { showComments, resetComments } from './comments.js';
 
 
 const bigPicture = document.querySelector('.big-picture');
@@ -11,7 +7,6 @@ const bigPictureImg = bigPicture.querySelector('.big-picture__img img');
 const bigPictureCancel = bigPicture.querySelector('.big-picture__cancel');
 const likesCount = bigPicture.querySelector('.likes-count');
 const socialCaption = bigPicture.querySelector('.social__caption');
-const commentsLoader = bigPicture.querySelector('.comments-loader');
 
 
 /**
@@ -28,7 +23,7 @@ const toggleBigPicture = () => {
  */
 const closePicture = () => {
   toggleBigPicture();
-  cleanComments();
+  resetComments();
 
   bigPictureImg.src = '';
   bigPictureImg.alt = '';
@@ -49,7 +44,7 @@ const openPicture = (pictureData) => {
   socialCaption.textContent = pictureData.description;
   likesCount.textContent = pictureData.likes;
 
-  insertComments(pictureData);
+  showComments(pictureData);
   toggleBigPicture();
 
   document.addEventListener('keydown', onDocumentKeydown);
@@ -67,16 +62,6 @@ const onPictureCloseClick = (evt) => {
 
 
 /**
- * Обрабатывает прогрузку очередных комментариев.
- * @param {object} evt Событие.
- */
-const onCommentsLoaderClick = (evt) => {
-  evt.preventDefault();
-  showMoreComments();
-};
-
-
-/**
  * Обрабатывает закрытие изображения через Escape.
  * @param {object} evt Событие.
  */
@@ -89,7 +74,6 @@ function onDocumentKeydown (evt) {
 
 
 bigPictureCancel.addEventListener('click', onPictureCloseClick);
-commentsLoader.addEventListener('click', onCommentsLoaderClick);
 
 
 export { openPicture };
