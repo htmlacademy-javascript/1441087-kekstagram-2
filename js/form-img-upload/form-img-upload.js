@@ -1,6 +1,6 @@
 import { isEscapeKey } from '../util.js';
 import { resetScale } from './scale.js';
-import { resetEffect, onEffectsListClick, onSliderUpdate } from './effects.js';
+import { resetEffect } from './effects.js';
 import { validateHashtags, errorHashtags } from './validate-hashtags.js';
 import { validateDescription, errorDescription } from './validate-description.js';
 import { sendData } from '../api.js';
@@ -21,9 +21,7 @@ const inputImg = formImgUpload.querySelector('.img-upload__input');
 const inputHashtags = formImgUpload.querySelector('.text__hashtags');
 const inputDescription = formImgUpload.querySelector('.text__description');
 const previewImg = formImgUpload.querySelector('.img-upload__preview img');
-const effectsList = formImgUpload.querySelector('.effects__list');
 const effectsPreview = formImgUpload.querySelectorAll('.effects__preview');
-const slider = formImgUpload.querySelector('.effect-level__slider');
 
 
 const pristine = new Pristine(formImgUpload, {
@@ -189,8 +187,6 @@ pristine.addValidator(inputDescription, validateDescription, errorDescription, 2
 
 
 inputImg.addEventListener('input', onInputImgInput);
-effectsList.addEventListener('click', onEffectsListClick);
-slider.noUiSlider.on('update', onSliderUpdate);
 inputHashtags.addEventListener('input', onInputHashtagsInput);
 inputDescription.addEventListener('input', onInputDescriptionInput);
 imgUploadCancel.addEventListener('click', onCancelClick);

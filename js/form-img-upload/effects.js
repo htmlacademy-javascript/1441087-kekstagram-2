@@ -53,8 +53,9 @@ const sliderSettings = {
 
 
 const formImgUpload = document.querySelector('.img-upload__form');
+const effectsList = formImgUpload.querySelector('.effects__list');
 const effectLevel = formImgUpload.querySelector('.img-upload__effect-level');
-const inputEffectLevel = formImgUpload.querySelector('.effect-level__value');
+const effectLevelInput = formImgUpload.querySelector('.effect-level__value');
 const slider = formImgUpload.querySelector('.effect-level__slider');
 const previewImg = formImgUpload.querySelector('.img-upload__preview img');
 
@@ -87,11 +88,11 @@ noUiSlider.create(slider, {
  */
 const getEffectCss = {
   none: () => 'none',
-  chrome: () => `grayscale(${inputEffectLevel.value})`,
-  sepia: () => `sepia(${inputEffectLevel.value})`,
-  marvin: () => `invert(${inputEffectLevel.value}%)`,
-  phobos: () => `blur(${inputEffectLevel.value}px)`,
-  heat: () => `brightness(${inputEffectLevel.value})`,
+  chrome: () => `grayscale(${effectLevelInput.value})`,
+  sepia: () => `sepia(${effectLevelInput.value})`,
+  marvin: () => `invert(${effectLevelInput.value}%)`,
+  phobos: () => `blur(${effectLevelInput.value}px)`,
+  heat: () => `brightness(${effectLevelInput.value})`,
 };
 
 
@@ -100,7 +101,7 @@ const getEffectCss = {
  */
 const setSliderSettings = () => {
   slider.noUiSlider.updateOptions(sliderSettings[currentEffect]);
-  inputEffectLevel.value = sliderSettings[currentEffect].start;
+  effectLevelInput.value = sliderSettings[currentEffect].start;
 
   if (currentEffect === DEFAULT_EFFECT) {
     effectLevel.classList.add('hidden');
@@ -150,9 +151,13 @@ const onEffectsListClick = (evt) => {
  * Обработчик обновления значения слайдера.
  */
 const onSliderUpdate = () => {
-  inputEffectLevel.value = slider.noUiSlider.get();
+  effectLevelInput.value = slider.noUiSlider.get();
   updateEffect();
 };
 
 
-export { resetEffect, onEffectsListClick, onSliderUpdate };
+effectsList.addEventListener('click', onEffectsListClick);
+slider.noUiSlider.on('update', onSliderUpdate);
+
+
+export { resetEffect };
