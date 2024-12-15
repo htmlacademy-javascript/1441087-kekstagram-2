@@ -1,6 +1,8 @@
 import { isEscapeKey } from './util.js';
 
+
 const alertTemplate = document.querySelector('#alert').content;
+
 
 const alertTypes = {
   error: {
@@ -19,6 +21,7 @@ const alertTypes = {
   }
 };
 
+
 /**
  * Убирает текущий алёрт.
  */
@@ -30,19 +33,9 @@ const removeCurrentAlert = () => {
   }
 };
 
-/**
- * Обработчик закрытия алёрта через Esc.
- * @param {object} evt
- */
-function onDocumentKeydown (evt) {
-  if (isEscapeKey(evt)) {
-    evt.preventDefault();
-    removeCurrentAlert();
-  }
-}
 
 /**
- * Показывает переданное сообщение в виде алёрта указанного типа.
+ * Отображает переданное сообщение в виде алёрта указанного типа.
  * @param {string} type Тип алёрта.
  * @param {string} message Сообщение.
  */
@@ -79,5 +72,14 @@ const showAlert = (type, message) => {
   document.addEventListener('keydown', onDocumentKeydown);
   document.body.append(alert);
 };
+
+
+function onDocumentKeydown (evt) {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    removeCurrentAlert();
+  }
+}
+
 
 export { showAlert };
