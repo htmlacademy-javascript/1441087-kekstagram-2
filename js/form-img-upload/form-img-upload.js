@@ -1,5 +1,5 @@
 import { isEscapeKey } from '../util.js';
-import { scaleUpdate, scaleReset } from './scale.js';
+import { resetScale } from './scale.js';
 import { resetEffect, onEffectsListClick, onSliderUpdate } from './effects.js';
 import { validateHashtags, errorHashtags } from './validate-hashtags.js';
 import { validateDescription, errorDescription } from './validate-description.js';
@@ -21,8 +21,6 @@ const inputImg = formImgUpload.querySelector('.img-upload__input');
 const inputHashtags = formImgUpload.querySelector('.text__hashtags');
 const inputDescription = formImgUpload.querySelector('.text__description');
 const previewImg = formImgUpload.querySelector('.img-upload__preview img');
-const scaleControlSmaller = formImgUpload.querySelector('.scale__control--smaller');
-const scaleControlBigger = formImgUpload.querySelector('.scale__control--bigger');
 const effectsList = formImgUpload.querySelector('.effects__list');
 const effectsPreview = formImgUpload.querySelectorAll('.effects__preview');
 const slider = formImgUpload.querySelector('.effect-level__slider');
@@ -87,7 +85,7 @@ const openFormImgUpload = () => {
 const closeFormImgUpload = () => {
   toggleFormImgUpload();
   resetPreview();
-  scaleReset();
+  resetScale();
   resetEffect();
   pristine.reset();
   formImgUpload.reset();
@@ -144,22 +142,6 @@ function onDocumentKeydown (evt) {
 
 
 /**
- * Обработчик уменьшения масштаба изображения.
- */
-const onScaleControlSmallerClick = () => {
-  scaleUpdate(-1);
-};
-
-
-/**
- * Обработчик увеличения масштаба изображения.
- */
-const onScaleControlBiggerClick = () => {
-  scaleUpdate(1);
-};
-
-
-/**
  * Обработчик ввода в инпут для хэштегов.
  */
 const onInputHashtagsInput = () => {
@@ -207,8 +189,6 @@ pristine.addValidator(inputDescription, validateDescription, errorDescription, 2
 
 
 inputImg.addEventListener('input', onInputImgInput);
-scaleControlSmaller.addEventListener('click', onScaleControlSmallerClick);
-scaleControlBigger.addEventListener('click', onScaleControlBiggerClick);
 effectsList.addEventListener('click', onEffectsListClick);
 slider.noUiSlider.on('update', onSliderUpdate);
 inputHashtags.addEventListener('input', onInputHashtagsInput);
