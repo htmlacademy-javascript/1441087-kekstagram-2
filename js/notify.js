@@ -1,5 +1,7 @@
 const NOTIFY_DELAY = 5000;
+
 const notifyTemplate = document.querySelector('#notify').content;
+
 const notifyTypes = {
   error: {
     sectionClass: 'data-error',
@@ -7,15 +9,17 @@ const notifyTypes = {
   }
 };
 
+
 /**
- * Убирает текущее уведомление со страницы.
+ * Убирает текущее уведомление.
  */
-const removeNotify = () => {
+const removeCurrentNotify = () => {
   document.querySelector('#notify-current').remove();
 };
 
+
 /**
- * Показывает переданное сообщение в виде уведомления указанного типа.
+ * Отображает переданное сообщение в виде уведомления указанного типа.
  * @param {string} type Тип уведомления.
  * @param {string} message Сообщение.
  */
@@ -32,7 +36,8 @@ const showNotify = (type, message) => {
 
   document.body.append(notify);
 
-  setTimeout(removeNotify, NOTIFY_DELAY);
+  setTimeout(removeCurrentNotify, NOTIFY_DELAY);
 };
+
 
 export { showNotify };
