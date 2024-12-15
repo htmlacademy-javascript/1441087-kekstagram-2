@@ -1,5 +1,5 @@
 import { shuffleArray, debounce } from '../util.js';
-import { insertThumbnails } from './gallery.js';
+import { showThumbnails } from './gallery.js';
 
 const RANDOM_PICTURES_COUNT = 10;
 const FILTER_TIMEOUT_DELAY = 500;
@@ -10,7 +10,7 @@ const imgFilterButtons = imgFilters.querySelectorAll('.img-filters__button');
 
 
 /**
- * Сравнение изображений по количеству комментариев.
+ * Сравнивает изображения по количеству комментариев.
  */
 const compareByComments = (pictureA, pictureB) => pictureB.comments.length - pictureA.comments.length;
 
@@ -31,7 +31,7 @@ const filterPictures = (filterType = 'default', pictures = []) => {
   let filteredPictures = pictures.slice();
   filteredPictures = FilterTypes[filterType](filteredPictures);
 
-  insertThumbnails(filteredPictures);
+  showThumbnails(filteredPictures);
 };
 
 

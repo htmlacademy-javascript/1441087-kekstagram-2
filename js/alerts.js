@@ -20,7 +20,7 @@ const alertTypes = {
 };
 
 /**
- * Убирает текущий алёрт со страницы.
+ * Убирает текущий алёрт.
  */
 const removeCurrentAlert = () => {
   const currentAlert = document.querySelector('#alert-current');
