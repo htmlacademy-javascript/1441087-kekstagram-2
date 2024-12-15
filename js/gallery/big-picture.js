@@ -17,7 +17,7 @@ const commentsLoader = bigPicture.querySelector('.comments-loader');
 /**
  * Переключает видимость окна с изображением.
  */
-const bigPictureToogle = () => {
+const toggleBigPicture = () => {
   bigPicture.classList.toggle('hidden');
   document.body.classList.toggle('modal-open');
 };
@@ -27,7 +27,7 @@ const bigPictureToogle = () => {
  * Закрывает изображение.
  */
 const closePicture = () => {
-  bigPictureToogle();
+  toggleBigPicture();
   cleanComments();
 
   bigPictureImg.src = '';
@@ -50,7 +50,7 @@ const openPicture = (pictureData) => {
   likesCount.textContent = pictureData.likes;
 
   insertComments(pictureData);
-  bigPictureToogle();
+  toggleBigPicture();
 
   document.addEventListener('keydown', onDocumentKeydown);
 };
