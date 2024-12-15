@@ -1,3 +1,6 @@
+const DEFAULT_DEBOUNCE_DELAY = 500;
+
+
 /**
  * Перемешивает элементы массива в случайном порядке.
  * @param {array} array Массив.
@@ -23,7 +26,7 @@ const isEscapeKey = (evt) => evt.key === 'Escape';
  * @param {number} timeoutDelay Задержка перед запуском функции.
  * @returns Экземпляр функции с установленной задержкой запуска.
  */
-const debounce = (callback, timeoutDelay = 500) => {
+const debounce = (callback, timeoutDelay = DEFAULT_DEBOUNCE_DELAY) => {
   let timeoutId;
 
   return (...rest) => {
