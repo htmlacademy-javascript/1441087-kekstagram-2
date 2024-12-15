@@ -1,15 +1,17 @@
 import { isEscapeKey } from '../util.js';
-import { scaleUpdate, scaleReset } from './scale.js';
-import { effectReset, onEffectsListClick, onSliderUpdate } from './effects.js';
-import { validateHashtags, errorHashtags } from './validate-hashtags.js';
-import { validateDescription, errorDescription } from './validate-description.js';
+import { resetScale } from './scale.js';
+import { resetEffect } from './effects.js';
+import { validateHashtags, getErrorHashtags } from './validate-hashtags.js';
+import { validateDescription, getErrorDescription } from './validate-description.js';
 import { sendData } from '../api.js';
 import { showAlert } from '../alerts.js';
 import { showNotify } from '../notify.js';
 
+
 const SUCCESS_UPLOAD_MESSAGE = 'Изображение успешно загружено';
 const WRONG_FILE_TYPE_MESSAGE = 'Недопустимый формат файла';
 const ACCEPT_FILE_TYPES = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
+
 
 const formImgUpload = document.querySelector('.img-upload__form');
 const imgUploadSubmit = formImgUpload.querySelector('.img-upload__submit');
@@ -19,16 +21,9 @@ const inputImg = formImgUpload.querySelector('.img-upload__input');
 const inputHashtags = formImgUpload.querySelector('.text__hashtags');
 const inputDescription = formImgUpload.querySelector('.text__description');
 const previewImg = formImgUpload.querySelector('.img-upload__preview img');
-
-const scaleControlSmaller = formImgUpload.querySelector('.scale__control--smaller');
-const scaleControlBigger = formImgUpload.querySelector('.scale__control--bigger');
-
-const effectsList = formImgUpload.querySelector('.effects__list');
 const effectsPreview = formImgUpload.querySelectorAll('.effects__preview');
-const slider = formImgUpload.querySelector('.effect-level__slider');
 
 
-// Создание экземпляра валидатора для формы загрузки изображения.
 const pristine = new Pristine(formImgUpload, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
@@ -37,19 +32,10 @@ const pristine = new Pristine(formImgUpload, {
 
 
 /**
- * Переключает видимость окна загрузки изображения.
- */
-const formImgUploadToogle = () => {
-  overlay.classList.toggle('hidden');
-  document.body.classList.toggle('modal-open');
-};
-
-
-/**
- * Отображает загруженное изображение в превью и в эффектах.
+ * Отображает превью загружаемого изображения.
  * @param {object} file
  */
-const previewShow = (file) => {
+const showPreview = (file) => {
   const fileUrl = URL.createObjectURL(file);
 
   previewImg.src = fileUrl;
@@ -61,10 +47,9 @@ const previewShow = (file) => {
 
 
 /**
- * Очищает загруженное изображение в превью и в эффектах.
- * @param {object} file
+ * Сбрасывает превью загружаемого изображения.
  */
-const previewReset = () => {
+const resetPreview = () => {
   previewImg.src = '';
 
   effectsPreview.forEach((preview) => {
@@ -74,10 +59,19 @@ const previewReset = () => {
 
 
 /**
+ * Переключает видимость формы загрузки изображения.
+ */
+const toggleFormImgUpload = () => {
+  overlay.classList.toggle('hidden');
+  document.body.classList.toggle('modal-open');
+};
+
+
+/**
  * Открывает форму загрузки изображения.
 */
-const formImgUploadOpen = () => {
-  formImgUploadToogle();
+const openFormImgUpload = () => {
+  toggleFormImgUpload();
 
   document.addEventListener('keydown', onDocumentKeydown);
 };
@@ -86,103 +80,62 @@ const formImgUploadOpen = () => {
 /**
  * Закрывает форму загрузки изображения.
 */
-const formImgUploadClose = () => {
-  formImgUploadToogle();
-  previewReset();
-  scaleReset();
-  effectReset();
+const closeFormImgUpload = () => {
+  toggleFormImgUpload();
+  resetPreview();
+  resetScale();
+  resetEffect();
   pristine.reset();
   formImgUpload.reset();
-
-  imgUploadSubmit.disabled = false;
 
   document.removeEventListener('keydown', onDocumentKeydown);
 };
 
 
-/**
- * Обработчик загрузки изображения в инпут.
- */
 const onInputImgInput = () => {
   const file = inputImg.files[0];
   const fileName = file.name.toLowerCase();
   const fileExtansion = fileName.split('.').pop();
   const matches = ACCEPT_FILE_TYPES.includes(fileExtansion);
+
   if (matches) {
-    previewShow(file);
-    formImgUploadOpen();
+    showPreview(file);
+    openFormImgUpload();
   } else {
     showNotify('error', WRONG_FILE_TYPE_MESSAGE);
   }
 };
 
 
-/**
- * Обработчик закрытия формы загрузки изображения через иконку.
- * @param {object} evt Событие.
-*/
 const onCancelClick = (evt) => {
   evt.preventDefault();
-  formImgUploadClose();
+  closeFormImgUpload();
 };
 
 
-/**
- * Обработчик закрытия формы загрузки изображения через Escape.
- * @param {object} evt Событие.
-*/
 function onDocumentKeydown (evt) {
   const currentAlert = document.querySelector('#alert-current');
 
-  if (isEscapeKey(evt) && !currentAlert) {
+  if (isEscapeKey(evt) &&
+      !currentAlert &&
+      document.activeElement !== inputHashtags &&
+      document.activeElement !== inputDescription) {
     evt.preventDefault();
-
-    if (document.activeElement === inputHashtags ||
-        document.activeElement === inputDescription) {
-      evt.stopPropagation();
-    } else {
-      formImgUploadClose();
-    }
+    closeFormImgUpload();
   }
 }
 
 
-/**
- * Обработчик уменьшения масштаба изображения.
- */
-const onScaleControlSmallerClick = () => {
-  scaleUpdate(-1);
-};
-
-
-/**
- * Обработчик увеличения масштаба изображения.
- */
-const onScaleControlBiggerClick = () => {
-  scaleUpdate(1);
-};
-
-
-/**
- * Обработчик ввода в инпут для хэштегов.
- */
 const onInputHashtagsInput = () => {
   imgUploadSubmit.disabled = !pristine.validate();
 };
 
 
-/**
- * Обработчик ввода в инпут для описания.
- */
 const onInputDescriptionInput = () => {
   imgUploadSubmit.disabled = !pristine.validate();
 };
 
 
-/**
- * Обработчик отправки формы с изображением.
- * @param {object} evt Событие.
- */
 const onFormImgUploadSubmit = (evt) => {
   evt.preventDefault();
 
@@ -194,7 +147,7 @@ const onFormImgUploadSubmit = (evt) => {
     sendData(formData)
       .then(() => {
         showAlert('success', SUCCESS_UPLOAD_MESSAGE);
-        formImgUploadClose();
+        closeFormImgUpload();
       })
       .catch((err) => {
         showAlert('error', err.message);
@@ -206,29 +159,12 @@ const onFormImgUploadSubmit = (evt) => {
 };
 
 
-// Загрузка изображения в инпут.
+pristine.addValidator(inputHashtags, validateHashtags, getErrorHashtags, 1, false);
+pristine.addValidator(inputDescription, validateDescription, getErrorDescription, 2, false);
+
+
 inputImg.addEventListener('input', onInputImgInput);
-
-// Изменение масштаба загружаемого изображения.
-scaleControlSmaller.addEventListener('click', onScaleControlSmallerClick);
-scaleControlBigger.addEventListener('click', onScaleControlBiggerClick);
-
-// Применение эффектов.
-effectsList.addEventListener('click', onEffectsListClick);
-
-// Изменение интенсивности эффектов.
-slider.noUiSlider.on('update', onSliderUpdate);
-
-// Валидация хэштегов.
-pristine.addValidator(inputHashtags, validateHashtags, errorHashtags, 1, false);
 inputHashtags.addEventListener('input', onInputHashtagsInput);
-
-// Валидация описания.
-pristine.addValidator(inputDescription, validateDescription, errorDescription, 2, false);
 inputDescription.addEventListener('input', onInputDescriptionInput);
-
-// Закрытие формы загрузки изображения через иконку.
 imgUploadCancel.addEventListener('click', onCancelClick);
-
-// Отправка формы с изображением.
 formImgUpload.addEventListener('submit', onFormImgUploadSubmit);

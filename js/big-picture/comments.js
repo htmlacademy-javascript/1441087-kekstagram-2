@@ -1,5 +1,6 @@
 const COMMENTS_SHOW_STEP = 5;
 
+
 const commentTemplate = document.querySelector('#comment').content.querySelector('.social__comment');
 const bigPicture = document.querySelector('.big-picture');
 const socialComments = bigPicture.querySelector('.social__comments');
@@ -7,14 +8,15 @@ const socialCommentTotalCount = bigPicture.querySelector('.social__comment-total
 const socialCommentShownCount = bigPicture.querySelector('.social__comment-shown-count');
 const commentsLoader = bigPicture.querySelector('.comments-loader');
 
+
 let commentsLimitCurrent = COMMENTS_SHOW_STEP;
 let comments = [];
 
 
 /**
- * Создаёт разметку комментария.
- * @param {object} commentData Данные комментария.
- * @returns {object} Комментарий.
+ * Возвращает HTMLElement комментария.
+ * @param {object} commentData Комментарий.
+ * @returns {object} HTMLElement Комментария.
 */
 const getComment = (commentData) => {
   const comment = commentTemplate.cloneNode(true);
@@ -31,7 +33,7 @@ const getComment = (commentData) => {
 
 
 /**
- * Выводит на экран очередную порцию комментариев для открытого изображения.
+ * Отображает очередную группу комментариев открытого изображения.
  */
 const showMoreComments = () => {
   const commentsToDisplay = comments.slice(commentsLimitCurrent - COMMENTS_SHOW_STEP, commentsLimitCurrent);
@@ -52,10 +54,10 @@ const showMoreComments = () => {
 
 
 /**
- * Вставляет на страницу комментарии для переданного изображения.
- * @param {object} pictureData Данные изображения.
+ * Отображает комментарии открытого изображения.
+ * @param {object} pictureData Изображение.
  */
-const insertComments = (pictureData) => {
+const showComments = (pictureData) => {
   comments = pictureData.comments;
 
   socialCommentTotalCount.textContent = pictureData.comments.length;
@@ -64,9 +66,9 @@ const insertComments = (pictureData) => {
 
 
 /**
- * Очищает блок с комментариями для открытого изображения.
+ * Убирает комментарии открытого изображения.
  */
-const cleanComments = () => {
+const removeComments = () => {
   commentsLimitCurrent = COMMENTS_SHOW_STEP;
   comments = [];
   socialComments.innerHTML = '';
@@ -76,4 +78,12 @@ const cleanComments = () => {
 };
 
 
-export { insertComments, showMoreComments, cleanComments };
+const onCommentsLoaderClick = () => {
+  showMoreComments();
+};
+
+
+commentsLoader.addEventListener('click', onCommentsLoaderClick);
+
+
+export { showComments, removeComments };

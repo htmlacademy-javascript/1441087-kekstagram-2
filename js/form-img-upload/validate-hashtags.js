@@ -1,5 +1,6 @@
-const HASHTAGS_SYMBOLS_MAX = 20;
 const HASHTAGS_MAX = 5;
+const HASHTAG_SYMBOLS_MAX = 20;
+
 
 let errorMessage = '';
 
@@ -8,7 +9,7 @@ let errorMessage = '';
  * Возвращает сообщение об ошибке при валидации хэштегов.
  * @returns {string} Сообщение об ошибке.
  */
-const errorHashtags = () => errorMessage;
+const getErrorHashtags = () => errorMessage;
 
 
 /**
@@ -45,8 +46,8 @@ const validateHashtags = (value) => {
       error: 'Хэштеги не должны повторяться.'
     },
     {
-      check: inputArray.some((item) => item.length > HASHTAGS_SYMBOLS_MAX),
-      error: `Максимальная длина одного хэштега ${HASHTAGS_SYMBOLS_MAX} символов, включая символ "#".`
+      check: inputArray.some((item) => item.length > HASHTAG_SYMBOLS_MAX),
+      error: `Максимальная длина одного хэштега ${HASHTAG_SYMBOLS_MAX} символов, включая символ "#".`
     },
     {
       check: inputArray.length > HASHTAGS_MAX,
@@ -68,4 +69,4 @@ const validateHashtags = (value) => {
 };
 
 
-export { validateHashtags, errorHashtags };
+export { validateHashtags, getErrorHashtags };

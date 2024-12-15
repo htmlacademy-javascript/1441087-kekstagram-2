@@ -1,16 +1,21 @@
 const BASE_URL = 'https://31.javascript.htmlacademy.pro/kekstagram';
+
+
 const Route = {
   GET_DATA: '/data',
   SEND_DATA: '/',
 };
+
 const Method = {
   GET: 'GET',
   POST: 'POST',
 };
+
 const ErrorText = {
   GET_DATA: 'Не удалось загрузить данные',
   SEND_DATA: 'Ошибка загрузки файла',
 };
+
 
 /**
  * Выполняет вызов с помощью Fetch API.
@@ -32,8 +37,11 @@ const load = (route, errorText, method = Method.GET, body = null) =>
       throw new Error(errorText);
     });
 
+
 const getData = () => load(Route.GET_DATA, ErrorText.GET_DATA);
 
+
 const sendData = (body) => load(Route.SEND_DATA, ErrorText.SEND_DATA, Method.POST, body);
+
 
 export { getData, sendData };

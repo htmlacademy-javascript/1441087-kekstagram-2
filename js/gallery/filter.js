@@ -1,40 +1,58 @@
 import { shuffleArray, debounce } from '../util.js';
-import { insertThumbnails } from './gallery.js';
+import { showThumbnails } from './gallery.js';
+
 
 const RANDOM_PICTURES_COUNT = 10;
 const FILTER_TIMEOUT_DELAY = 500;
-let picturesFromServer = [];
+
 
 const imgFilters = document.querySelector('.img-filters');
 const imgFilterButtons = imgFilters.querySelectorAll('.img-filters__button');
 
 
+let picturesFromServer = [];
+
+
 /**
- * Сравнение изображений по количеству комментариев.
+ * Сравнивает изображения по количеству комментариев.
  */
 const compareByComments = (pictureA, pictureB) => pictureB.comments.length - pictureA.comments.length;
 
 
-const FilterTypes = {
+/**
+ * Сортирует изображения выбранным методом.
+ */
+const sortPictures = {
   default: (pictures) => pictures,
   random: (pictures) => shuffleArray(pictures).slice(0, RANDOM_PICTURES_COUNT),
   discussed: (pictures) => pictures.sort(compareByComments)
 };
 
 
+/**
+ * Отображает фильтр.
+ */
 const showFilter = () => {
   imgFilters.classList.remove('img-filters--inactive');
 };
 
-
-const filterPictures = (filterType = 'default', pictures = []) => {
+/**
+ * Применяет выбранный фильтр для изображений.
+ * @param {string} filterType Фильтр.
+ * @param {Array} pictures Изображения.
+ */
+const applyFilter = (filterType = 'default', pictures = []) => {
   let filteredPictures = pictures.slice();
-  filteredPictures = FilterTypes[filterType](filteredPictures);
+  filteredPictures = sortPictures[filterType](filteredPictures);
 
-  insertThumbnails(filteredPictures);
+  showThumbnails(filteredPictures);
 };
 
 
+/**
+ * Инициализирует фильтр для изображений.
+ * @param {Array} pictures Изображения.
+ */
 const initializeFilter = (pictures = []) => {
   picturesFromServer = pictures;
 
@@ -44,7 +62,11 @@ const initializeFilter = (pictures = []) => {
 };
 
 
-const setCurrentFilterButton = (currentFilterButton) => {
+/**
+ * Отображает текущий активный фильтр.
+ * @param {object} currentFilterButton Кнопка выбранного фильтра.
+ */
+const showCurrentFilter = (currentFilterButton) => {
   imgFilterButtons.forEach((button) => button.classList.remove('img-filters__button--active'));
   currentFilterButton.classList.add('img-filters__button--active');
 };
@@ -55,7 +77,7 @@ const setImgFiltersClick = (cb) => {
     if (evt.target.type === 'button') {
       const currentFilter = evt.target.id.replace('filter-', '');
 
-      setCurrentFilterButton(evt.target);
+      showCurrentFilter(evt.target);
 
       cb(currentFilter);
     }
@@ -64,7 +86,7 @@ const setImgFiltersClick = (cb) => {
 
 
 setImgFiltersClick(
-  debounce((currentFilter) => filterPictures(currentFilter, picturesFromServer), FILTER_TIMEOUT_DELAY)
+  debounce((currentFilter) => applyFilter(currentFilter, picturesFromServer), FILTER_TIMEOUT_DELAY)
 );
 
 

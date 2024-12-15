@@ -1,9 +1,5 @@
 import { isEscapeKey } from '../util.js';
-import {
-  insertComments,
-  showMoreComments,
-  cleanComments
-} from './comments.js';
+import { showComments, removeComments } from './comments.js';
 
 
 const bigPicture = document.querySelector('.big-picture');
@@ -11,13 +7,12 @@ const bigPictureImg = bigPicture.querySelector('.big-picture__img img');
 const bigPictureCancel = bigPicture.querySelector('.big-picture__cancel');
 const likesCount = bigPicture.querySelector('.likes-count');
 const socialCaption = bigPicture.querySelector('.social__caption');
-const commentsLoader = bigPicture.querySelector('.comments-loader');
 
 
 /**
  * Переключает видимость окна с изображением.
  */
-const bigPictureToogle = () => {
+const toggleBigPicture = () => {
   bigPicture.classList.toggle('hidden');
   document.body.classList.toggle('modal-open');
 };
@@ -27,8 +22,8 @@ const bigPictureToogle = () => {
  * Закрывает изображение.
  */
 const closePicture = () => {
-  bigPictureToogle();
-  cleanComments();
+  toggleBigPicture();
+  removeComments();
 
   bigPictureImg.src = '';
   bigPictureImg.alt = '';
@@ -41,7 +36,7 @@ const closePicture = () => {
 
 /**
  * Открывает изображение.
- * @param {object} pictureData Объект изображения.
+ * @param {object} pictureData Изображение.
  */
 const openPicture = (pictureData) => {
   bigPictureImg.src = pictureData.url;
@@ -49,37 +44,19 @@ const openPicture = (pictureData) => {
   socialCaption.textContent = pictureData.description;
   likesCount.textContent = pictureData.likes;
 
-  insertComments(pictureData);
-  bigPictureToogle();
+  showComments(pictureData);
+  toggleBigPicture();
 
   document.addEventListener('keydown', onDocumentKeydown);
 };
 
 
-/**
- * Обрабатывает закрытие изображения через иконку.
- * @param {object} evt Событие.
- */
 const onPictureCloseClick = (evt) => {
   evt.preventDefault();
   closePicture();
 };
 
 
-/**
- * Обрабатывает прогрузку очередных комментариев.
- * @param {object} evt Событие.
- */
-const onCommentsLoaderClick = (evt) => {
-  evt.preventDefault();
-  showMoreComments();
-};
-
-
-/**
- * Обрабатывает закрытие изображения через Escape.
- * @param {object} evt Событие.
- */
 function onDocumentKeydown (evt) {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
@@ -89,7 +66,6 @@ function onDocumentKeydown (evt) {
 
 
 bigPictureCancel.addEventListener('click', onPictureCloseClick);
-commentsLoader.addEventListener('click', onCommentsLoaderClick);
 
 
 export { openPicture };

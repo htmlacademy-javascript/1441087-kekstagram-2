@@ -1,20 +1,17 @@
-import { getData } from '../api.js';
-import { showNotify } from '../notify.js';
-import { openPicture } from './big-picture.js';
-import { initializeFilter } from './filter.js';
+import { openPicture } from '../big-picture/big-picture.js';
+
 
 const picturesContainer = document.querySelector('.pictures');
 const thumbnailTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
 
 /**
- * Создаёт разметку превью изображения.
- * @param {object} pictureData Данные изображения.
- * @returns {object} Превью изображения.
+ * Возвращает HTMLElement миниатюры изображения.
+ * @param {object} pictureData Изображение.
+ * @returns {object} HTMLElement миниатюры изображения.
 */
 const getThumbnail = (pictureData) => {
   const thumbnail = thumbnailTemplate.cloneNode(true);
-  // thumbnail.dataset.photoId = photoData.id;
 
   const thumbnailPicture = thumbnail.querySelector('.picture__img');
   thumbnailPicture.src = pictureData.url;
@@ -26,25 +23,30 @@ const getThumbnail = (pictureData) => {
   const thumbnailLikesCount = thumbnail.querySelector('.picture__likes');
   thumbnailLikesCount.textContent = pictureData.likes;
 
-  thumbnail.addEventListener('click', () => {
+  thumbnail.addEventListener('click', (evt) => {
+    evt.preventDefault();
     openPicture(pictureData);
   });
 
   return thumbnail;
 };
 
-const clearThumbnails = () => {
+
+/**
+ * Убирает миниатюры изображений.
+ */
+const removeThumbnails = () => {
   const allPictures = picturesContainer.querySelectorAll('.picture');
   allPictures.forEach((picture) => picture.remove());
 };
 
 
 /**
- * Вставляет превью изображений на страницу.
- * @param {object} pictures Список изображений.
+ * Отображает миниатюры изображений.
+ * @param {array} pictures Изображения.
  */
-const insertThumbnails = (pictures) => {
-  clearThumbnails();
+const showThumbnails = (pictures) => {
+  removeThumbnails();
 
   const thumbnailsFragment = document.createDocumentFragment();
 
@@ -57,12 +59,4 @@ const insertThumbnails = (pictures) => {
 };
 
 
-getData()
-  .then((pictures) => {
-    insertThumbnails(pictures);
-    initializeFilter(pictures);
-  })
-  .catch((err) => showNotify('error', err.message));
-
-
-export { insertThumbnails };
+export { showThumbnails };

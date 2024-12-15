@@ -1,56 +1,108 @@
-const EFFECT_RADIX = 10; // Система счисления.
-const EFFECT_STEP = 0.01;
-const MAX_BLUR_VALUE = 3;
-const MAX_BRIGHTNESS = 3;
 const DEFAULT_EFFECT = 'none';
-const DEFAULT_EFFECT_LEVEL = 100;
 
-const SliderSettings = {
-  MIN: 0,
-  MAX: 100,
-  STEP: 1
+
+const sliderSettings = {
+  none: {
+    range: {
+      min: 0,
+      max: 0,
+    },
+    step: 0,
+    start: 0,
+  },
+  chrome: {
+    range: {
+      min: 0,
+      max: 1,
+    },
+    step: 0.1,
+    start: 1,
+  },
+  sepia:{
+    range: {
+      min: 0,
+      max: 1,
+    },
+    step: 0.1,
+    start: 1,
+  },
+  marvin:{
+    range: {
+      min: 0,
+      max: 100,
+    },
+    step: 1,
+    start: 100,
+  },
+  phobos:{
+    range: {
+      min: 0,
+      max: 3,
+    },
+    step: 0.1,
+    start: 3,
+  },
+  heat:{
+    range: {
+      min: 1,
+      max: 3,
+    },
+    step: 0.1,
+    start: 3,
+  },
 };
 
+
 const formImgUpload = document.querySelector('.img-upload__form');
+const effectsList = formImgUpload.querySelector('.effects__list');
 const effectLevel = formImgUpload.querySelector('.img-upload__effect-level');
-const inputEffectLevel = formImgUpload.querySelector('.effect-level__value');
+const effectLevelInput = formImgUpload.querySelector('.effect-level__value');
 const slider = formImgUpload.querySelector('.effect-level__slider');
 const previewImg = formImgUpload.querySelector('.img-upload__preview img');
+
 
 let currentEffect = DEFAULT_EFFECT;
 
 
-// Создание экземпляра слайдера.
 noUiSlider.create(slider, {
   range: {
-    min: SliderSettings.MIN,
-    max: SliderSettings.MAX,
+    min: sliderSettings[DEFAULT_EFFECT].range.min,
+    max: sliderSettings[DEFAULT_EFFECT].range.max,
   },
-  step: SliderSettings.STEP,
-  start: DEFAULT_EFFECT_LEVEL,
+  step: sliderSettings[DEFAULT_EFFECT].step,
+  start: sliderSettings[DEFAULT_EFFECT].range.max,
   connect: 'lower',
+  format: {
+    to: (value) => {
+      if (Number.isInteger(value)) {
+        return value.toFixed(0);
+      }
+      return value.toFixed(1);
+    },
+    from: (value) => parseFloat(value)
+  }
 });
 
 
 /**
  * Возвращает значение CSS-свойства для выбранного эффекта.
  */
-const effects = {
+const getEffectCss = {
   none: () => 'none',
-  chrome: () => `grayscale(${parseInt(inputEffectLevel.value, EFFECT_RADIX) * EFFECT_STEP})`,
-  sepia: () => `sepia(${parseInt(inputEffectLevel.value, EFFECT_RADIX) * EFFECT_STEP})`,
-  marvin: () => `invert(${Math.floor(inputEffectLevel.value)}%)`,
-  phobos: () => `blur(${(parseInt(inputEffectLevel.value, EFFECT_RADIX) * MAX_BLUR_VALUE) * EFFECT_STEP}px)`,
-  heat: () => `brightness(${(parseInt(inputEffectLevel.value, EFFECT_RADIX) * MAX_BRIGHTNESS) * EFFECT_STEP})`
+  chrome: () => `grayscale(${effectLevelInput.value})`,
+  sepia: () => `sepia(${effectLevelInput.value})`,
+  marvin: () => `invert(${effectLevelInput.value}%)`,
+  phobos: () => `blur(${effectLevelInput.value}px)`,
+  heat: () => `brightness(${effectLevelInput.value})`,
 };
 
 
 /**
- * Устанавливает слайдер в изначальное положение.
+ * Устанавливает настройки слайдера для текущего эффекта.
  */
-const sliderReset = () => {
-  slider.noUiSlider.set(DEFAULT_EFFECT_LEVEL);
-  inputEffectLevel.value = DEFAULT_EFFECT_LEVEL;
+const setSliderSettings = () => {
+  slider.noUiSlider.updateOptions(sliderSettings[currentEffect]);
+  effectLevelInput.value = sliderSettings[currentEffect].start;
 
   if (currentEffect === DEFAULT_EFFECT) {
     effectLevel.classList.add('hidden');
@@ -63,24 +115,21 @@ const sliderReset = () => {
 /**
  * Обновляет текущий эффект на изображении.
  */
-const effectUpdate = () => {
-  previewImg.style.filter = effects[currentEffect]();
+const updateEffect = () => {
+  previewImg.style.filter = getEffectCss[currentEffect]();
 };
 
 
 /**
- * Устанавливает эффект по-умолчанию.
+ * Сбрасывает переключатель эффектов на значение по умолчанию.
  */
-const effectReset = () => {
+const resetEffect = () => {
   currentEffect = DEFAULT_EFFECT;
-  sliderReset();
-  effectUpdate();
+  setSliderSettings();
+  updateEffect();
 };
 
 
-/**
- * Обрабатывает нажатие на список эффектов.
- */
 const onEffectsListClick = (evt) => {
   let target = evt.target;
 
@@ -90,19 +139,20 @@ const onEffectsListClick = (evt) => {
 
   if (target.classList.contains('effects__preview')) {
     currentEffect = target.classList[1].replace('effects__preview--', '');
-    sliderReset();
-    effectUpdate();
+    setSliderSettings();
+    updateEffect();
   }
 };
 
 
-/**
- * Обрабатывает изменение интенсивности эффекта.
- */
 const onSliderUpdate = () => {
-  inputEffectLevel.value = slider.noUiSlider.get();
-  effectUpdate();
+  effectLevelInput.value = slider.noUiSlider.get();
+  updateEffect();
 };
 
 
-export { effectReset, onEffectsListClick, onSliderUpdate };
+effectsList.addEventListener('click', onEffectsListClick);
+slider.noUiSlider.on('update', onSliderUpdate);
+
+
+export { resetEffect };

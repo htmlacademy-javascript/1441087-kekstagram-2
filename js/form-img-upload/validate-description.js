@@ -1,5 +1,6 @@
 const DESCRIPTION_SYMBOLS_MAX = 140;
 
+
 let errorMessage = '';
 
 
@@ -7,7 +8,7 @@ let errorMessage = '';
  * Возвращает сообщение об ошибке при валидации описания.
  * @returns {string} Сообщение об ошибке.
  */
-const errorDescription = () => errorMessage;
+const getErrorDescription = () => errorMessage;
 
 
 /**
@@ -41,4 +42,4 @@ const validateDescription = (value) => {
 };
 
 
-export { validateDescription, errorDescription };
+export { validateDescription, getErrorDescription };
