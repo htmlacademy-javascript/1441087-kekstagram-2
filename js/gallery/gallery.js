@@ -26,7 +26,8 @@ const getThumbnail = (pictureData) => {
   const thumbnailLikesCount = thumbnail.querySelector('.picture__likes');
   thumbnailLikesCount.textContent = pictureData.likes;
 
-  thumbnail.addEventListener('click', () => {
+  thumbnail.addEventListener('click', (evt) => {
+    evt.preventDefault();
     openPicture(pictureData);
   });
 
