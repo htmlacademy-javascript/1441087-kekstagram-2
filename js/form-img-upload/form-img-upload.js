@@ -88,8 +88,6 @@ const closeFormImgUpload = () => {
   pristine.reset();
   formImgUpload.reset();
 
-  imgUploadSubmit.disabled = false;
-
   document.removeEventListener('keydown', onDocumentKeydown);
 };
 
