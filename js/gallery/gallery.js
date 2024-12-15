@@ -1,7 +1,4 @@
-import { getData } from '../api.js';
-import { showNotify } from '../notify.js';
-import { openPicture } from './big-picture.js';
-import { initializeFilter } from './filter.js';
+import { openPicture } from '../big-picture/big-picture.js';
 
 
 const picturesContainer = document.querySelector('.pictures');
@@ -60,14 +57,6 @@ const showThumbnails = (pictures) => {
 
   picturesContainer.append(thumbnailsFragment);
 };
-
-
-getData()
-  .then((pictures) => {
-    showThumbnails(pictures);
-    initializeFilter(pictures);
-  })
-  .catch((err) => showNotify('error', err.message));
 
 
 export { showThumbnails };
