@@ -22,9 +22,6 @@ const alertTypes = {
 };
 
 
-/**
- * Убирает текущий алёрт.
- */
 const removeCurrentAlert = () => {
   const currentAlert = document.querySelector('#alert-current');
   if (currentAlert) {
@@ -34,11 +31,6 @@ const removeCurrentAlert = () => {
 };
 
 
-/**
- * Отображает переданное сообщение в виде алёрта указанного типа.
- * @param {string} type Тип алёрта.
- * @param {string} message Сообщение.
- */
 const showAlert = (type, message) => {
   const alert = alertTemplate.cloneNode(true);
   const alertType = alertTypes[type];

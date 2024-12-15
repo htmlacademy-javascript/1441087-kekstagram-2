@@ -17,14 +17,6 @@ const ErrorText = {
 };
 
 
-/**
- * Выполняет вызов с помощью Fetch API.
- * @param {string} route Маршрутизация относительно базового URL.
- * @param {string} errorText Сообщение на случай ошибки.
- * @param {string} method Метод HTTP-запроса.
- * @param {object} body Данные для передачи.
- * @returns
- */
 const load = (route, errorText, method = Method.GET, body = null) =>
   fetch(`${BASE_URL}${route}`, {method, body})
     .then((response) => {

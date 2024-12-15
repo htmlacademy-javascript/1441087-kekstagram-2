@@ -31,10 +31,6 @@ const pristine = new Pristine(formImgUpload, {
 });
 
 
-/**
- * Отображает превью загружаемого изображения.
- * @param {object} file
- */
 const showPreview = (file) => {
   const fileUrl = URL.createObjectURL(file);
 
@@ -46,9 +42,6 @@ const showPreview = (file) => {
 };
 
 
-/**
- * Сбрасывает превью загружаемого изображения.
- */
 const resetPreview = () => {
   previewImg.src = '';
 
@@ -58,18 +51,12 @@ const resetPreview = () => {
 };
 
 
-/**
- * Переключает видимость формы загрузки изображения.
- */
 const toggleFormImgUpload = () => {
   overlay.classList.toggle('hidden');
   document.body.classList.toggle('modal-open');
 };
 
 
-/**
- * Открывает форму загрузки изображения.
-*/
 const openFormImgUpload = () => {
   toggleFormImgUpload();
 
@@ -77,9 +64,6 @@ const openFormImgUpload = () => {
 };
 
 
-/**
- * Закрывает форму загрузки изображения.
-*/
 const closeFormImgUpload = () => {
   toggleFormImgUpload();
   resetPreview();

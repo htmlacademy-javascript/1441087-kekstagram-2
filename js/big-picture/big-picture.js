@@ -9,18 +9,12 @@ const likesCount = bigPicture.querySelector('.likes-count');
 const socialCaption = bigPicture.querySelector('.social__caption');
 
 
-/**
- * Переключает видимость окна с изображением.
- */
 const toggleBigPicture = () => {
   bigPicture.classList.toggle('hidden');
   document.body.classList.toggle('modal-open');
 };
 
 
-/**
- * Закрывает изображение.
- */
 const closePicture = () => {
   toggleBigPicture();
   removeComments();
@@ -34,10 +28,6 @@ const closePicture = () => {
 };
 
 
-/**
- * Открывает изображение.
- * @param {object} pictureData Изображение.
- */
 const openPicture = (pictureData) => {
   bigPictureImg.src = pictureData.url;
   bigPictureImg.alt = pictureData.description;

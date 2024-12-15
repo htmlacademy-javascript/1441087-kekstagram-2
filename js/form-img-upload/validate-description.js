@@ -4,18 +4,9 @@ const DESCRIPTION_SYMBOLS_MAX = 140;
 let errorMessage = '';
 
 
-/**
- * Возвращает сообщение об ошибке при валидации описания.
- * @returns {string} Сообщение об ошибке.
- */
 const getErrorDescription = () => errorMessage;
 
 
-/**
- * Проверяет описание на соответствие правилам.
- * @param {string} value Строка с описанием.
- * @returns {boolean} Прошла ли строка валидацию.
- */
 const validateDescription = (value) => {
   errorMessage = '';
 

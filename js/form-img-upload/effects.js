@@ -84,9 +84,6 @@ noUiSlider.create(slider, {
 });
 
 
-/**
- * Возвращает значение CSS-свойства для выбранного эффекта.
- */
 const getEffectCss = {
   none: () => 'none',
   chrome: () => `grayscale(${effectLevelInput.value})`,
@@ -97,9 +94,6 @@ const getEffectCss = {
 };
 
 
-/**
- * Устанавливает настройки слайдера для текущего эффекта.
- */
 const setSliderSettings = () => {
   slider.noUiSlider.updateOptions(sliderSettings[currentEffect]);
   effectLevelInput.value = sliderSettings[currentEffect].start;
@@ -112,17 +106,11 @@ const setSliderSettings = () => {
 };
 
 
-/**
- * Обновляет текущий эффект на изображении.
- */
 const updateEffect = () => {
   previewImg.style.filter = getEffectCss[currentEffect]();
 };
 
 
-/**
- * Сбрасывает переключатель эффектов на значение по умолчанию.
- */
 const resetEffect = () => {
   currentEffect = DEFAULT_EFFECT;
   setSliderSettings();
