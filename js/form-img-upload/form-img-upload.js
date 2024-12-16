@@ -51,6 +51,16 @@ const resetPreview = () => {
 };
 
 
+const enableImgUploadSubmit = () => {
+  imgUploadSubmit.disabled = false;
+};
+
+
+const disableImgUploadSubmit = () => {
+  imgUploadSubmit.disabled = true;
+};
+
+
 const toggleFormImgUpload = () => {
   overlay.classList.toggle('hidden');
   document.body.classList.toggle('modal-open');
@@ -69,6 +79,7 @@ const closeFormImgUpload = () => {
   resetPreview();
   resetScale();
   resetEffect();
+  enableImgUploadSubmit();
   pristine.reset();
   formImgUpload.reset();
 
@@ -124,7 +135,7 @@ const onFormImgUploadSubmit = (evt) => {
   evt.preventDefault();
 
   if (pristine.validate()) {
-    imgUploadSubmit.disabled = true;
+    disableImgUploadSubmit();
     inputHashtags.value = inputHashtags.value.trim().replaceAll(/\s+/g, ' ');
     const formData = new FormData(formImgUpload);
 
@@ -137,7 +148,7 @@ const onFormImgUploadSubmit = (evt) => {
         showAlert('error', err.message);
       })
       .finally(() => {
-        imgUploadSubmit.disabled = false;
+        enableImgUploadSubmit();
       });
   }
 };
