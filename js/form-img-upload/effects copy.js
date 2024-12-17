@@ -1,73 +1,55 @@
 const DEFAULT_EFFECT = 'none';
 
 
-const effects = {
+const sliderSettings = {
   none: {
-    sliderSettings: {
-      range: {
-        min: 0,
-        max: 0,
-      },
-      step: 0,
-      start: 0,
+    range: {
+      min: 0,
+      max: 0,
     },
-    getEffectCss: () => 'none'
+    step: 0,
+    start: 0,
   },
   chrome: {
-    sliderSettings: {
-      range: {
-        min: 0,
-        max: 1,
-      },
-      step: 0.1,
-      start: 1,
+    range: {
+      min: 0,
+      max: 1,
     },
-    getEffectCss: (value) => `grayscale(${value})`
+    step: 0.1,
+    start: 1,
   },
-  sepia: {
-    sliderSettings: {
-      range: {
-        min: 0,
-        max: 1,
-      },
-      step: 0.1,
-      start: 1,
+  sepia:{
+    range: {
+      min: 0,
+      max: 1,
     },
-    getEffectCss: (value) => `sepia(${value})`
+    step: 0.1,
+    start: 1,
   },
-  marvin: {
-    sliderSettings: {
-      range: {
-        min: 0,
-        max: 100,
-      },
-      step: 1,
-      start: 100,
+  marvin:{
+    range: {
+      min: 0,
+      max: 100,
     },
-    getEffectCss: (value) => `invert(${value}%)`
+    step: 1,
+    start: 100,
   },
-  phobos: {
-    sliderSettings: {
-      range: {
-        min: 0,
-        max: 3,
-      },
-      step: 0.1,
-      start: 3,
+  phobos:{
+    range: {
+      min: 0,
+      max: 3,
     },
-    getEffectCss: (value) => `blur(${value}px)`
+    step: 0.1,
+    start: 3,
   },
-  heat: {
-    sliderSettings: {
-      range: {
-        min: 1,
-        max: 3,
-      },
-      step: 0.1,
-      start: 3,
+  heat:{
+    range: {
+      min: 1,
+      max: 3,
     },
-    getEffectCss: (value) => `brightness(${value})`
-  }
+    step: 0.1,
+    start: 3,
+  },
 };
 
 
@@ -84,11 +66,11 @@ let currentEffect = DEFAULT_EFFECT;
 
 noUiSlider.create(slider, {
   range: {
-    min: effects[DEFAULT_EFFECT].sliderSettings.range.min,
-    max: effects[DEFAULT_EFFECT].sliderSettings.range.max,
+    min: sliderSettings[DEFAULT_EFFECT].range.min,
+    max: sliderSettings[DEFAULT_EFFECT].range.max,
   },
-  step: effects[DEFAULT_EFFECT].sliderSettings.step,
-  start: effects[DEFAULT_EFFECT].sliderSettings.range.max,
+  step: sliderSettings[DEFAULT_EFFECT].step,
+  start: sliderSettings[DEFAULT_EFFECT].range.max,
   connect: 'lower',
   format: {
     to: (value) => {
@@ -102,9 +84,31 @@ noUiSlider.create(slider, {
 });
 
 
+const effects = {
+  none: {
+    getEffectCss: () => 'none'
+  },
+  chrome: {
+    getEffectCss: () => `grayscale(${effectLevelInput.value})`
+  },
+  sepia: {
+    getEffectCss: () => `sepia(${effectLevelInput.value})`
+  },
+  marvin: {
+    getEffectCss: () => `invert(${effectLevelInput.value}%)`
+  },
+  phobos: {
+    getEffectCss: () => `blur(${effectLevelInput.value}px)`
+  },
+  heat: {
+    getEffectCss: () => `brightness(${effectLevelInput.value})`
+  }
+};
+
+
 const setSliderSettings = () => {
-  slider.noUiSlider.updateOptions(effects[currentEffect].sliderSettings);
-  effectLevelInput.value = effects[currentEffect].sliderSettings.start;
+  slider.noUiSlider.updateOptions(sliderSettings[currentEffect]);
+  effectLevelInput.value = sliderSettings[currentEffect].start;
 
   if (currentEffect === DEFAULT_EFFECT) {
     effectLevel.classList.add('hidden');
@@ -115,7 +119,7 @@ const setSliderSettings = () => {
 
 
 const updateEffect = () => {
-  previewImg.style.filter = effects[currentEffect].getEffectCss(effectLevelInput.value);
+  previewImg.style.filter = effects[currentEffect].getEffectCss();
 };
 
 
