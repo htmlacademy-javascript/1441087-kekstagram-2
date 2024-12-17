@@ -41,7 +41,7 @@ const openPicture = (pictureData) => {
 };
 
 
-const onPictureCloseClick = (evt) => {
+const onBigPictureCancelClick = (evt) => {
   evt.preventDefault();
   closePicture();
 };
@@ -55,7 +55,7 @@ function onDocumentKeydown (evt) {
 }
 
 
-bigPictureCancel.addEventListener('click', onPictureCloseClick);
+bigPictureCancel.addEventListener('click', onBigPictureCancelClick);
 
 
 export { openPicture };

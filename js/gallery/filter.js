@@ -4,6 +4,8 @@ import { showThumbnails } from './gallery.js';
 
 const RANDOM_PICTURES_COUNT = 10;
 const FILTER_TIMEOUT_DELAY = 500;
+const DEFAULT_PICTURES_FILTER = 'default';
+const ACTIVE_FILTER_CLASS = 'img-filters__button--active';
 
 
 const imgFilters = document.querySelector('.img-filters');
@@ -34,7 +36,7 @@ const showFilter = () => {
 };
 
 
-const applyFilter = (filter = 'default', pictures = []) => {
+const applyFilter = (filter = DEFAULT_PICTURES_FILTER, pictures = []) => {
   let filteredPictures = pictures.slice();
   filteredPictures = filters[filter].doSort(filteredPictures);
 
@@ -52,8 +54,8 @@ const initializeFilter = (pictures = []) => {
 
 
 const showCurrentFilter = (currentFilterButton) => {
-  imgFilterButtons.forEach((button) => button.classList.remove('img-filters__button--active'));
-  currentFilterButton.classList.add('img-filters__button--active');
+  imgFilterButtons.forEach((button) => button.classList.remove(ACTIVE_FILTER_CLASS));
+  currentFilterButton.classList.add(ACTIVE_FILTER_CLASS);
 };
 
 
