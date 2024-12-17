@@ -16,10 +16,16 @@ let picturesFromServer = [];
 const compareByComments = (pictureA, pictureB) => pictureB.comments.length - pictureA.comments.length;
 
 
-const sortPictures = {
-  default: (pictures) => pictures,
-  random: (pictures) => shuffleArray(pictures).slice(0, RANDOM_PICTURES_COUNT),
-  discussed: (pictures) => pictures.sort(compareByComments)
+const filters = {
+  default: {
+    doSort: (pictures) => pictures
+  },
+  random: {
+    doSort: (pictures) => shuffleArray(pictures).slice(0, RANDOM_PICTURES_COUNT)
+  },
+  discussed: {
+    doSort: (pictures) => pictures.sort(compareByComments)
+  }
 };
 
 
@@ -28,9 +34,9 @@ const showFilter = () => {
 };
 
 
-const applyFilter = (filterType = 'default', pictures = []) => {
+const applyFilter = (filter = 'default', pictures = []) => {
   let filteredPictures = pictures.slice();
-  filteredPictures = sortPictures[filterType](filteredPictures);
+  filteredPictures = filters[filter].doSort(filteredPictures);
 
   showThumbnails(filteredPictures);
 };
