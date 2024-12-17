@@ -102,7 +102,7 @@ const onInputImgInput = () => {
 };
 
 
-const onCancelClick = (evt) => {
+const onImgUploadCancelClick = (evt) => {
   evt.preventDefault();
   closeFormImgUpload();
 };
@@ -161,5 +161,5 @@ pristine.addValidator(inputDescription, validateDescription, getErrorDescription
 inputImg.addEventListener('input', onInputImgInput);
 inputHashtags.addEventListener('input', onInputHashtagsInput);
 inputDescription.addEventListener('input', onInputDescriptionInput);
-imgUploadCancel.addEventListener('click', onCancelClick);
+imgUploadCancel.addEventListener('click', onImgUploadCancelClick);
 formImgUpload.addEventListener('submit', onFormImgUploadSubmit);

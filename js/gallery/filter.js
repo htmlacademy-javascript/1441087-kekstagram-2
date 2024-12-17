@@ -4,6 +4,8 @@ import { showThumbnails } from './gallery.js';
 
 const RANDOM_PICTURES_COUNT = 10;
 const FILTER_TIMEOUT_DELAY = 500;
+const DEFAULT_PICTURES_FILTER = 'default';
+const ACTIVE_FILTER_CLASS = 'img-filters__button--active';
 
 
 const imgFilters = document.querySelector('.img-filters');
@@ -16,10 +18,16 @@ let picturesFromServer = [];
 const compareByComments = (pictureA, pictureB) => pictureB.comments.length - pictureA.comments.length;
 
 
-const sortPictures = {
-  default: (pictures) => pictures,
-  random: (pictures) => shuffleArray(pictures).slice(0, RANDOM_PICTURES_COUNT),
-  discussed: (pictures) => pictures.sort(compareByComments)
+const filters = {
+  default: {
+    sortPictures: (pictures) => pictures
+  },
+  random: {
+    sortPictures: (pictures) => shuffleArray(pictures).slice(0, RANDOM_PICTURES_COUNT)
+  },
+  discussed: {
+    sortPictures: (pictures) => pictures.sort(compareByComments)
+  }
 };
 
 
@@ -28,9 +36,9 @@ const showFilter = () => {
 };
 
 
-const applyFilter = (filterType = 'default', pictures = []) => {
+const applyFilter = (filter = DEFAULT_PICTURES_FILTER, pictures = []) => {
   let filteredPictures = pictures.slice();
-  filteredPictures = sortPictures[filterType](filteredPictures);
+  filteredPictures = filters[filter].sortPictures(filteredPictures);
 
   showThumbnails(filteredPictures);
 };
@@ -46,8 +54,8 @@ const initializeFilter = (pictures = []) => {
 
 
 const showCurrentFilter = (currentFilterButton) => {
-  imgFilterButtons.forEach((button) => button.classList.remove('img-filters__button--active'));
-  currentFilterButton.classList.add('img-filters__button--active');
+  imgFilterButtons.forEach((button) => button.classList.remove(ACTIVE_FILTER_CLASS));
+  currentFilterButton.classList.add(ACTIVE_FILTER_CLASS);
 };
 
 

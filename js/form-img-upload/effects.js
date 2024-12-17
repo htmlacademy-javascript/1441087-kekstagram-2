@@ -84,13 +84,25 @@ noUiSlider.create(slider, {
 });
 
 
-const getEffectCss = {
-  none: () => 'none',
-  chrome: () => `grayscale(${effectLevelInput.value})`,
-  sepia: () => `sepia(${effectLevelInput.value})`,
-  marvin: () => `invert(${effectLevelInput.value}%)`,
-  phobos: () => `blur(${effectLevelInput.value}px)`,
-  heat: () => `brightness(${effectLevelInput.value})`,
+const effects = {
+  none: {
+    getEffectCss: () => 'none'
+  },
+  chrome: {
+    getEffectCss: () => `grayscale(${effectLevelInput.value})`
+  },
+  sepia: {
+    getEffectCss: () => `sepia(${effectLevelInput.value})`
+  },
+  marvin: {
+    getEffectCss: () => `invert(${effectLevelInput.value}%)`
+  },
+  phobos: {
+    getEffectCss: () => `blur(${effectLevelInput.value}px)`
+  },
+  heat: {
+    getEffectCss: () => `brightness(${effectLevelInput.value})`
+  }
 };
 
 
@@ -107,7 +119,7 @@ const setSliderSettings = () => {
 
 
 const updateEffect = () => {
-  previewImg.style.filter = getEffectCss[currentEffect]();
+  previewImg.style.filter = effects[currentEffect].getEffectCss();
 };
 
 
