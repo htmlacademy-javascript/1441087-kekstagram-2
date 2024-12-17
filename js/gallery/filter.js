@@ -20,13 +20,13 @@ const compareByComments = (pictureA, pictureB) => pictureB.comments.length - pic
 
 const filters = {
   default: {
-    doSort: (pictures) => pictures
+    sortPictures: (pictures) => pictures
   },
   random: {
-    doSort: (pictures) => shuffleArray(pictures).slice(0, RANDOM_PICTURES_COUNT)
+    sortPictures: (pictures) => shuffleArray(pictures).slice(0, RANDOM_PICTURES_COUNT)
   },
   discussed: {
-    doSort: (pictures) => pictures.sort(compareByComments)
+    sortPictures: (pictures) => pictures.sort(compareByComments)
   }
 };
 
@@ -38,7 +38,7 @@ const showFilter = () => {
 
 const applyFilter = (filter = DEFAULT_PICTURES_FILTER, pictures = []) => {
   let filteredPictures = pictures.slice();
-  filteredPictures = filters[filter].doSort(filteredPictures);
+  filteredPictures = filters[filter].sortPictures(filteredPictures);
 
   showThumbnails(filteredPictures);
 };
